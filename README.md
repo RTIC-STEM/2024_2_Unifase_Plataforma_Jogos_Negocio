@@ -56,7 +56,7 @@ Integração com professores para criação de conteúdo.
 
 Feedbacks para aprimoramento constante.
 
-Requisitos Técnicos
+# Requisitos Técnicos
 
 Capacidade: Suporte para pelo menos 100 alunos simultâneos.
 
