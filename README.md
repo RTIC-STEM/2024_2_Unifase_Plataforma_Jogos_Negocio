@@ -55,7 +55,7 @@
 
 ## 👨‍💻 Equipe de Desenvolvimento  
 
-👨‍🏫 **Orientador**: José Telles  
+👨‍🏫 **Orientador**: José Teles  
 
 👩‍💻 **Desenvolvedores**:  
 - 👩‍💻 **Bárbara Hansen de Vasconcelos**  
