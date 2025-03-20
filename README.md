@@ -61,4 +61,5 @@
 - 👩‍💻 **Bárbara Hansen de Vasconcelos**  
 - 👩‍💻 **Danielle Jeanine da Silva**  
 - 👨‍💻 **Eduardo Taves Barelli**  
-- 👨‍💻 **Gabriel Nascimento de Azevedo**  
+- 👨‍💻 **Gabriel Nascimento de Azevedo**
+- 👨‍💻 **Matheus Agra Borré**
