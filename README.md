@@ -59,7 +59,7 @@
 
 👩‍💻 **Desenvolvedores**:  
 - [**Bárbara Hansen de Vasconcelos**](https://github.com/barbarahv)  
-- [**Danielle Jeanine da Silva**](https://github.com/usuario-danielle)  
-- [**Eduardo Taves Barelli**](https://github.com/usuario-eduardo)  
-- [**Gabriel Nascimento de Azevedo**](https://github.com/usuario-gabriel)  
+- [**Danielle Jeanine da Silva**](https://github.com/DanielleJeanine)  
+- [**Eduardo Taves Barelli**](https://github.com/Edwardo384)  
+- [**Gabriel Nascimento de Azevedo**](https://github.com/Azevedo-Gabriel)  
 - [**Matheus Agra Borré**](https://github.com/usuario-matheus)
