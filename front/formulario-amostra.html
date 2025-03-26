@@ -7,20 +7,19 @@
     <style>
         body {
             font-family: Arial, sans-serif;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            height: 100vh;
             background-color: #f4f4f4;
             margin: 0;
+            padding: 20px;
+            min-height: 100vh;
         }
         .container {
             background: white;
             padding: 25px;
             border-radius: 10px;
             box-shadow: 0px 0px 15px rgba(0, 0, 0, 0.1);
-            width: 350px;
+            width: 450px;
             max-width: 90%;
+            margin: 20px auto;
         }
         h2 {
             color: #333;
@@ -66,6 +65,7 @@
             padding: 15px;
             border-radius: 5px;
             border-left: 4px solid #007BFF;
+            margin-bottom: 20px;
         }
         .loading {
             text-align: center;
@@ -89,11 +89,28 @@
                 <option value="Indústria">Indústria</option>
             </select>
             
+            <label for="tamanho">Tamanho da Empresa:</label>
+            <select id="tamanho" required>
+                <option value="">Selecione o tamanho</option>
+                <option value="Pequena">Pequena</option>
+                <option value="Média">Média</option>
+                <option value="Grande">Grande</option>
+            </select>
+            
+            <label for="tipoProduto">Tipo de Produto/Serviço:</label>
+            <input type="text" id="tipoProduto" required placeholder="Ex: Software de gestão">
+            
+            <label for="precoProduto">Preço Sugerido do Produto (R$):</label>
+            <input type="number" id="precoProduto" required placeholder="Ex: 10.00" step="0.01">
+            
             <label for="capital">Capital Inicial (R$):</label>
             <input type="number" id="capital" required placeholder="Ex: 50000">
             
             <label for="funcionarios">Quantidade de Funcionários:</label>
             <input type="number" id="funcionarios" required placeholder="Ex: 10">
+            
+            <label for="salarioMedio">Salário Médio dos Funcionários (R$):</label>
+            <input type="number" id="salarioMedio" required placeholder="Ex: 3500" step="0.01">
             
             <button type="button" onclick="cadastrarEmpresa()">Cadastrar</button>
         </form>
@@ -106,13 +123,18 @@
         async function cadastrarEmpresa() {
             const nome = document.getElementById("nome").value.trim();
             const setor = document.getElementById("setor").value;
+            const tamanho = document.getElementById("tamanho").value;
+            const tipoProduto = document.getElementById("tipoProduto").value.trim();
+            const precoProduto = document.getElementById("precoProduto").value;
             const capital = document.getElementById("capital").value;
             const funcionarios = document.getElementById("funcionarios").value;
+            const salarioMedio = document.getElementById("salarioMedio").value;
+            
             const mensagem = document.getElementById("mensagem");
             const historia = document.getElementById("historia");
             
             // Validação
-            if (!nome || !setor || !capital || !funcionarios) {
+            if (!nome || !setor || !tamanho || !tipoProduto || !precoProduto || !capital || !funcionarios || !salarioMedio) {
                 mensagem.innerText = "Por favor, preencha todos os campos.";
                 mensagem.style.color = "red";
                 return;
@@ -134,24 +156,29 @@
                         messages: [
                             {
                                 "role": "system",
-                                "content": "Você é um redator profissional de perfis empresariais. Escreva uma história de 150-200 palavras em português, destacando os aspectos financeiros e humanos da empresa."
+                                "content": "Você é um redator profissional de perfis empresariais. Escreva uma história de 200-250 palavras em português, destacando os aspectos financeiros, operacionais e humanos da empresa."
                             },
                             {
                                 "role": "user",
                                 "content": `Crie um perfil completo para a empresa ${nome} do setor de ${setor}. 
                                 Dados importantes:
+                                - Tamanho: ${tamanho}
+                                - Tipo de produto/serviço: ${tipoProduto}
+                                - Preço sugerido do produto: R$ ${Number(precoProduto).toLocaleString('pt-BR', {minimumFractionDigits: 2})}
                                 - Capital inicial: R$ ${Number(capital).toLocaleString('pt-BR')}
                                 - Equipe: ${funcionarios} funcionários
+                                - Salário médio: R$ ${Number(salarioMedio).toLocaleString('pt-BR', {minimumFractionDigits: 2})}
                                 
-                                Inclua:
-                                1. Visão geral da empresa
-                                2. Estrutura de capital
-                                3. Tamanho da equipe e cultura organizacional
-                                4. Perspectivas de crescimento`
+                                Estrutura do texto:
+                                1. Visão geral da empresa (nome, setor, tamanho e produto principal)
+                                2. Estrutura financeira (capital, preço do produto, política de salários)
+                                3. Recursos humanos (tamanho da equipe, cultura organizacional)
+                                4. Posicionamento no mercado (público-alvo, concorrência)
+                                5. Perspectivas de crescimento`
                             }
                         ],
                         temperature: 0.7,
-                        max_tokens: 400
+                        max_tokens: 500
                     })
                 });
 
@@ -166,6 +193,9 @@
                     historia.innerHTML = formatarTexto(dados.choices[0].message.content);
                     mensagem.innerText = "Perfil da empresa gerado com sucesso!";
                     mensagem.style.color = "green";
+                    
+                    // Rolagem suave para a história gerada
+                    historia.scrollIntoView({ behavior: 'smooth' });
                 } else {
                     throw new Error("Resposta inesperada da API");
                 }
@@ -177,12 +207,19 @@
                 historia.innerHTML = `
                     <h4>${nome}</h4>
                     <p><strong>Setor:</strong> ${setor}</p>
+                    <p><strong>Tamanho:</strong> ${tamanho}</p>
+                    <p><strong>Produto/Serviço:</strong> ${tipoProduto}</p>
+                    <p><strong>Preço do Produto:</strong> R$ ${Number(precoProduto).toLocaleString('pt-BR', {minimumFractionDigits: 2})}</p>
                     <p><strong>Capital Inicial:</strong> R$ ${Number(capital).toLocaleString('pt-BR')}</p>
                     <p><strong>Equipe:</strong> ${funcionarios} colaboradores</p>
+                    <p><strong>Salário Médio:</strong> R$ ${Number(salarioMedio).toLocaleString('pt-BR', {minimumFractionDigits: 2})}</p>
                     <p><em>Não foi possível gerar o conteúdo completo. Recarregue a página ou tente novamente.</em></p>
                 `;
                 mensagem.innerText = `Erro: ${error.message.split('.')[0]}`;
                 mensagem.style.color = "red";
+                
+                // Rolagem suave para a mensagem de erro
+                historia.scrollIntoView({ behavior: 'smooth' });
             }
         }
 
