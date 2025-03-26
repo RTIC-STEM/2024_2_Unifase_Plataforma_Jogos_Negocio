@@ -12,29 +12,64 @@
             align-items: center;
             height: 100vh;
             background-color: #f4f4f4;
+            margin: 0;
         }
         .container {
             background: white;
-            padding: 20px;
+            padding: 25px;
             border-radius: 10px;
-            box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
-            width: 300px;
+            box-shadow: 0px 0px 15px rgba(0, 0, 0, 0.1);
+            width: 350px;
+            max-width: 90%;
         }
-        label, input, select, button {
+        h2 {
+            color: #333;
+            text-align: center;
+            margin-top: 0;
+        }
+        label {
+            font-weight: bold;
+            margin-top: 10px;
+            color: #555;
             display: block;
+        }
+        input, select {
             width: 100%;
-            margin-bottom: 10px;
+            padding: 10px;
+            margin: 5px 0 15px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            box-sizing: border-box;
         }
         button {
             background-color: #007BFF;
             color: white;
             border: none;
-            padding: 10px;
+            padding: 12px;
+            width: 100%;
             cursor: pointer;
             border-radius: 5px;
+            font-size: 16px;
+            transition: background-color 0.3s;
+            margin-top: 10px;
         }
         button:hover {
             background-color: #0056b3;
+        }
+        #mensagem {
+            margin: 15px 0;
+            text-align: center;
+            font-weight: bold;
+        }
+        #historia {
+            background-color: #f9f9f9;
+            padding: 15px;
+            border-radius: 5px;
+            border-left: 4px solid #007BFF;
+        }
+        .loading {
+            text-align: center;
+            color: #666;
         }
     </style>
 </head>
@@ -43,77 +78,118 @@
         <h2>Cadastro de Empresa</h2>
         <form id="empresaForm">
             <label for="nome">Nome da Empresa:</label>
-            <input type="text" id="nome" required>
+            <input type="text" id="nome" required placeholder="Ex: Tech Solutions">
             
             <label for="setor">Setor de Atuação:</label>
             <select id="setor" required>
-                <option value="">Selecione</option>
+                <option value="">Selecione um setor</option>
                 <option value="Tecnologia">Tecnologia</option>
                 <option value="Comércio">Comércio</option>
                 <option value="Serviços">Serviços</option>
+                <option value="Indústria">Indústria</option>
             </select>
             
-            <label for="endereco">Endereço:</label>
-            <input type="text" id="endereco" required>
+            <label for="capital">Capital Inicial (R$):</label>
+            <input type="number" id="capital" required placeholder="Ex: 50000">
+            
+            <label for="funcionarios">Quantidade de Funcionários:</label>
+            <input type="number" id="funcionarios" required placeholder="Ex: 10">
             
             <button type="button" onclick="cadastrarEmpresa()">Cadastrar</button>
         </form>
         <p id="mensagem"></p>
         <h3>História da Empresa</h3>
-        <p id="historia"></p>
+        <div id="historia"></div>
     </div>
 
     <script>
         async function cadastrarEmpresa() {
-            let nome = document.getElementById("nome").value;
-            let setor = document.getElementById("setor").value;
-            let endereco = document.getElementById("endereco").value;
-            let mensagem = document.getElementById("mensagem");
-            let historia = document.getElementById("historia");
+            const nome = document.getElementById("nome").value.trim();
+            const setor = document.getElementById("setor").value;
+            const capital = document.getElementById("capital").value;
+            const funcionarios = document.getElementById("funcionarios").value;
+            const mensagem = document.getElementById("mensagem");
+            const historia = document.getElementById("historia");
             
-            if (!nome || !setor || !endereco) {
+            // Validação
+            if (!nome || !setor || !capital || !funcionarios) {
                 mensagem.innerText = "Por favor, preencha todos os campos.";
                 mensagem.style.color = "red";
                 return;
             }
-            
-            mensagem.innerText = "Gerando história...";
+
+            mensagem.innerText = "Gerando história da empresa...";
             mensagem.style.color = "blue";
-            
+            historia.innerHTML = '<div class="loading">⏳ Criando conteúdo personalizado...</div>';
+
             try {
-                let resposta = await fetch("https://api.openai.com/v1/chat/completions", {
+                const resposta = await fetch("https://api.groq.com/openai/v1/chat/completions", {
                     method: "POST",
                     headers: {
                         "Content-Type": "application/json",
-                        "Authorization": "Bearer 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" // Substitua com sua chave
+                        "Authorization": "Bearer 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"
                     },
                     body: JSON.stringify({
-                        model: "gpt-3.5-turbo",  // Use o modelo correto para plano gratuito
+                        model: "llama3-70b-8192",
                         messages: [
-                            { "role": "system", "content": "Você é um redator profissional de histórias empresariais." },
-                            { "role": "user", "content": `Crie uma história inspiradora sobre a empresa ${nome}, que atua no setor de ${setor}, localizada em ${endereco}.` }
+                            {
+                                "role": "system",
+                                "content": "Você é um redator profissional de perfis empresariais. Escreva uma história de 150-200 palavras em português, destacando os aspectos financeiros e humanos da empresa."
+                            },
+                            {
+                                "role": "user",
+                                "content": `Crie um perfil completo para a empresa ${nome} do setor de ${setor}. 
+                                Dados importantes:
+                                - Capital inicial: R$ ${Number(capital).toLocaleString('pt-BR')}
+                                - Equipe: ${funcionarios} funcionários
+                                
+                                Inclua:
+                                1. Visão geral da empresa
+                                2. Estrutura de capital
+                                3. Tamanho da equipe e cultura organizacional
+                                4. Perspectivas de crescimento`
+                            }
                         ],
-                        max_tokens: 300
+                        temperature: 0.7,
+                        max_tokens: 400
                     })
                 });
-                
-                // Imprime a resposta da API no console
-                let dados = await resposta.json();
-                console.log(dados); // Aqui está a linha para imprimir no console a resposta da API
 
-                if (dados.choices && dados.choices[0].message.content) {
-                    historia.innerText = dados.choices[0].message.content;
-                    mensagem.innerText = "Empresa cadastrada com sucesso!";
+                const dados = await resposta.json();
+                console.log("Resposta da API:", dados);
+
+                if (!resposta.ok) {
+                    throw new Error(dados.error?.message || `Erro ${resposta.status} na API`);
+                }
+
+                if (dados.choices?.[0]?.message?.content) {
+                    historia.innerHTML = formatarTexto(dados.choices[0].message.content);
+                    mensagem.innerText = "Perfil da empresa gerado com sucesso!";
                     mensagem.style.color = "green";
                 } else {
-                    mensagem.innerText = "Erro ao gerar história.";
-                    mensagem.style.color = "red";
+                    throw new Error("Resposta inesperada da API");
                 }
+
             } catch (error) {
-                mensagem.innerText = "Erro na comunicação com o ChatGPT.";
+                console.error("Erro:", error);
+                
+                // Fallback manual
+                historia.innerHTML = `
+                    <h4>${nome}</h4>
+                    <p><strong>Setor:</strong> ${setor}</p>
+                    <p><strong>Capital Inicial:</strong> R$ ${Number(capital).toLocaleString('pt-BR')}</p>
+                    <p><strong>Equipe:</strong> ${funcionarios} colaboradores</p>
+                    <p><em>Não foi possível gerar o conteúdo completo. Recarregue a página ou tente novamente.</em></p>
+                `;
+                mensagem.innerText = `Erro: ${error.message.split('.')[0]}`;
                 mensagem.style.color = "red";
-                console.error('Erro na comunicação:', error); // Verifique o erro no console
             }
+        }
+
+        function formatarTexto(texto) {
+            return texto.replace(/\n\n/g, '<br><br>')
+                       .replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>')
+                       .replace(/\*(.*?)\*/g, '<em>$1</em>');
         }
     </script>
 </body>
