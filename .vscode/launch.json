@@ -1,0 +1,14 @@
+{
+    // Use IntelliSense to learn about possible attributes.
+    // Hover to view descriptions of existing attributes.
+    // For more information, visit: https://go.microsoft.com/fwlink/?linkid=830387
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "type": "chrome",
+            "request": "launch",
+            "name": "Open formulario-amostra.html",
+            "file": "c:\\Users\\ResTIC16\\OneDrive\\Desktop\\Projeto\\2024_2_Unifase_Plataforma_Jogos_Negocio-1\\front\\formulario-amostra.html"
+        }
+    ]
+}
