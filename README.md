@@ -62,4 +62,4 @@
 - [**Danielle Jeanine da Silva**](https://github.com/DanielleJeanine)  
 - [**Eduardo Taves Barelli**](https://github.com/Edwardo384)  
 - [**Gabriel Nascimento de Azevedo**](https://github.com/Azevedo-Gabriel)  
-- [**Matheus Agra Borré**](https://github.com/usuario-matheus)
+- [**Matheus Agra Borré**](https://github.com/zylloh1)
