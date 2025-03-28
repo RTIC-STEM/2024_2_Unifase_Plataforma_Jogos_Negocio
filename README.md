@@ -1,65 +1,69 @@
-# 🎮 2024_2_Unifase_Plataforma_Jogos_Negócio
+# Welcome to your Lovable project
 
-## 📌 Sobre o Projeto  
-**Unifase** é uma plataforma gamificada voltada para o ensino de conceitos de administração de empresas de forma interativa e prática. O objetivo é engajar estudantes por meio de **simulações empresariais, quizzes, desafios e rankings**, tornando o aprendizado mais dinâmico e acessível.  
+## Project info
 
-## ❌ Problema a Ser Resolvido  
-📉 **Desafios dos Alunos**: Dificuldade em manter um ritmo de estudos motivador.  
-📚 **Desafios dos Professores**: Buscar maneiras eficientes de engajar suas turmas.  
-⚠️ **O ensino tradicional** pode ser monótono e pouco interativo, dificultando a retenção do conhecimento.  
+**URL**: https://lovable.dev/projects/08fc77b9-c59f-411b-bf65-e74b6bc9cf13
 
-## 🎯 Valor Gerado  
-✅ **Participação ativa** e colaboração entre estudantes e professores.  
-✅ **Aprendizado mais eficiente** por meio da gamificação.  
-✅ **Interação dinâmica** para maior engajamento.  
+## How can I edit this code?
 
-## 👥 Público-Alvo  
+There are several ways of editing your application.
 
-👨‍🎓 **Estudantes**: Testam conhecimentos e expandem seu aprendizado de forma prática.  
-👩‍🏫 **Professores**: Criam desafios e avaliam o desempenho dos alunos.  
-🛠️ **Administradores**: Gerenciam acessos e monitoram relatórios da plataforma.  
+**Use Lovable**
 
-## 🚀 Funcionalidades Principais  
+Simply visit the [Lovable Project](https://lovable.dev/projects/08fc77b9-c59f-411b-bf65-e74b6bc9cf13) and start prompting.
 
-### 📌 Para Alunos  
-📊 **Gestão Empresarial**: Controle de áreas como financeiro, marketing, produção, RH e vendas.  
-🌍 **Visualização de Cenários**: Simulação de eventos que impactam a empresa.  
-📑 **Feedback das Decisões**: Relatórios sobre impactos das escolhas feitas no jogo.  
+Changes made via Lovable will be committed automatically to this repo.
 
-### 📌 Para Professores  
-🏢 **Criação de Empresas e Cenários**: Definição de parâmetros iniciais do jogo e desafios.  
-📊 **Monitoramento do Jogo**: Análise do desempenho dos alunos.  
-🔄 **Controle das Rodadas**: Gerenciamento do avanço do jogo.  
-📈 **Relatórios Finais**: Métricas para avaliação do desempenho dos estudantes.  
+**Use your preferred IDE**
 
-## 🏆 Diferenciais do Projeto  
-🌟 **Comunidade de aprendizado colaborativa**.  
-📚 **Interatividade na revisão de materiais**.  
-📊 **Acompanhamento individualizado do progresso**.  
-🎯 **Trilhas de aprendizado adaptáveis**.  
-🏅 **Sistema de ranking competitivo**.  
-👨‍🏫 **Integração com professores para criação de conteúdo**.  
-💡 **Feedbacks para aprimoramento constante**.  
+If you want to work locally using your own IDE, you can clone this repo and push changes. Pushed changes will also be reflected in Lovable.
 
-## 🔧 Requisitos Técnicos  
-🖥️ **Capacidade**: Suporte para pelo menos **100 alunos simultâneos**.  
-🗄️ **Banco de Dados**: Armazena progresso dos alunos, professores e dados empresariais.  
-🎨 **Interface Gráfica**: Intuitiva e acessível.  
-🔐 **Segurança**: Proteção dos dados dos usuários.  
-🤖 **Inovação**: Integração com **IA** para melhor performance.  
+The only requirement is having Node.js & npm installed - [install with nvm](https://github.com/nvm-sh/nvm#installing-and-updating)
 
-## 📈 Benefícios e Resultados Esperados  
-🎮 **Aprendizado mais interativo e imersivo**.  
-🏆 **Sistema de pontuação justo e transparente**.  
-🔎 **Feedback contínuo para melhor compreensão dos conceitos administrativos**.  
+Follow these steps:
 
-## 👨‍💻 Equipe de Desenvolvimento  
+```sh
+# Step 1: Clone the repository using the project's Git URL.
+git clone <YOUR_GIT_URL>
 
-👨‍🏫 **Orientador**: José Teles  
+# Step 2: Navigate to the project directory.
+cd <YOUR_PROJECT_NAME>
 
-👩‍💻 **Desenvolvedores**:  
-- [**Bárbara Hansen de Vasconcelos**](https://github.com/barbarahv)  
-- [**Danielle Jeanine da Silva**](https://github.com/DanielleJeanine)  
-- [**Eduardo Taves Barelli**](https://github.com/Edwardo384)  
-- [**Gabriel Nascimento de Azevedo**](https://github.com/Azevedo-Gabriel)  
-- [**Matheus Agra Borré**](https://github.com/zylloh1)
+# Step 3: Install the necessary dependencies.
+npm i
+
+# Step 4: Start the development server with auto-reloading and an instant preview.
+npm run dev
+```
+
+**Edit a file directly in GitHub**
+
+- Navigate to the desired file(s).
+- Click the "Edit" button (pencil icon) at the top right of the file view.
+- Make your changes and commit the changes.
+
+**Use GitHub Codespaces**
+
+- Navigate to the main page of your repository.
+- Click on the "Code" button (green button) near the top right.
+- Select the "Codespaces" tab.
+- Click on "New codespace" to launch a new Codespace environment.
+- Edit files directly within the Codespace and commit and push your changes once you're done.
+
+## What technologies are used for this project?
+
+This project is built with .
+
+- Vite
+- TypeScript
+- React
+- shadcn-ui
+- Tailwind CSS
+
+## How can I deploy this project?
+
+Simply open [Lovable](https://lovable.dev/projects/08fc77b9-c59f-411b-bf65-e74b6bc9cf13) and click on Share -> Publish.
+
+## I want to use a custom domain - is that possible?
+
+We don't support custom domains (yet). If you want to deploy your project under your own domain then we recommend using Netlify. Visit our docs for more details: [Custom domains](https://docs.lovable.dev/tips-tricks/custom-domain/)
