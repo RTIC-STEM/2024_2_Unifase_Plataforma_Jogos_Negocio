@@ -329,7 +329,7 @@ button[type="button"] {
     100% { opacity: 0.6; }
 }
 
-/* Modo Escuro (Alto Contraste Aprimorado) */
+
 /* Modo Escuro Aprimorado */
 body.dark-mode {
     background-color: #121212;

@@ -513,7 +513,7 @@ body.dark-mode #botaoEnviar:hover {
 
 
 
-
+/*cadeados*/
 .com-cadeado {
     position: relative;
     margin-bottom: 15px;
@@ -535,6 +535,7 @@ body.dark-mode #botaoEnviar:hover {
     pointer-events: none;
 }
 
+/*cadeados1*/ 
 
 .com-cadeado1 {
     position: relative;
