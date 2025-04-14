@@ -210,46 +210,53 @@
 
         // Função para enviar dados para o backend - adicionada sem alterar o restante
         async function enviarParaBackend() {
-            const mensagem = document.getElementById("mensagem");
-            mensagem.innerText = "Enviando dados para o backend...";
-            mensagem.style.color = "blue";
-            
-            const dados = {
-                nome: document.getElementById("nome").value.trim(),
-                setor: document.getElementById("setor").value,
-                tamanho: document.getElementById("tamanho").value,
-                tipoProduto: document.getElementById("tipoProduto").value.trim(),
-                precoProduto: document.getElementById("precoProduto").value,
-                capital: document.getElementById("capital").value,
-                funcionarios: document.getElementById("funcionarios").value,
-                salarioMedio: document.getElementById("salarioMedio").value,
-                historia: historiaGerada
-            };
+    const mensagem = document.getElementById("mensagem");
+    mensagem.innerText = "Enviando dados para o backend...";
+    mensagem.style.color = "blue";
+    
+    const dados = {
+        nomeEmpresa: document.getElementById("nome").value.trim(),
+        setor: document.getElementById("setor").value,
+        tamanho: document.getElementById("tamanho").value,
+        tipoProdutoServiço: document.getElementById("tipoProduto").value.trim(),
+        valorProduto: parseFloat(document.getElementById("precoProduto").value),
+        capitalInicial: parseFloat(document.getElementById("capital").value),
+        numeroFuncionarios: parseInt(document.getElementById("funcionarios").value),
+        salarioFuncionario: parseFloat(document.getElementById("salarioMedio").value),
+        historia: historiaGerada
+    };
 
-            try {
-                // Substitua esta URL pela do seu endpoint real assim que eu saber***
-                const resposta = await fetch("https://seu-backend.com/api/empresas", { 
-                    method: "POST",
-                    headers: { 
-                        "Content-Type": "application/json"
-                    },
-                    body: JSON.stringify(dados)
-                });
+    try {
+        // URL do seu backend Spring Boot (ajuste conforme necessário)
+        const resposta = await fetch("http://localhost:8080/empresas-em-gestao", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+                // Adicione headers de autenticação se necessário
+            },
+            body: JSON.stringify(dados)
+        });
 
-                const resultado = await resposta.json();
-
-                if (resposta.ok) {
-                    mensagem.innerText = "Dados enviados com sucesso para o backend!";
-                    mensagem.style.color = "green";
-                } else {
-                    throw new Error(resultado.message || "Erro ao enviar para o backend");
-                }
-            } catch (error) {
-                console.error("Erro no envio para o backend:", error);
-                mensagem.innerText = `Erro: ${error.message}`;
-                mensagem.style.color = "red";
-            }
+        if (!resposta.ok) {
+            const erro = await resposta.json();
+            throw new Error(erro.message || "Erro ao cadastrar empresa");
         }
+
+        const empresaCadastrada = await resposta.json();
+        
+        mensagem.innerText = `Empresa cadastrada com sucesso! ID: ${empresaCadastrada.id}`;
+        mensagem.style.color = "green";
+        
+        // Mostrar o ID gerado na tela
+        const historiaDiv = document.getElementById("historia");
+        historiaDiv.innerHTML = `<p><strong>ID da Empresa:</strong> ${empresaCadastrada.id}</p>` + historiaDiv.innerHTML;
+        
+    } catch (error) {
+        console.error("Erro no envio para o backend:", error);
+        mensagem.innerText = `Erro: ${error.message}`;
+        mensagem.style.color = "red";
+    }
+}
 
 // Acessibilidade - Modo Claro Padrão
 // Acessibilidade - Controle de Fonte
