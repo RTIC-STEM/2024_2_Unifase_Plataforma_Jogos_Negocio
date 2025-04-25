@@ -1,0 +1,349 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Formulário para cadastro de empresas com geração automática de perfil">
+    <meta name="theme-color" content="#4285f4">
+    <meta name="color-scheme" content="light dark">
+    <title>Cadastro de Empresa</title>
+    <link rel="stylesheet" href="../css/formulario-professor.css">
+</head>
+<body>
+    <div class="accessibility-bar">
+        <button onclick="aumentarFonte()" aria-label="Aumentar tamanho da fonte">A+</button>
+        <button onclick="diminuirFonte()" aria-label="Diminuir tamanho da fonte">A-</button>
+        <button onclick="modoAltoContraste()" aria-label="Ativar modo escuro">🌙 Modo Escuro</button>
+        <button onclick="modoNormal()" aria-label="Desativar modo escuro">☀️ Modo Claro</button>
+    </div>
+    <div class="container">
+        <h2>Formulário Do Professor</h2>
+        <form id="empresaForm">
+            
+            <!-- Seção 1: Identificação -->
+            <div class="form-section">
+                <h3 class="section-title">Identificação da Empresa</h3>
+                
+                <label for="nome">Nome da Empresa:</label>
+                <input type="text" id="nome" required placeholder="Ex: Tech Solutions">
+                
+                <label for="setor">Setor de Atuação:</label>
+                <select id="setor" required>
+                    <option value="">Selecione um setor</option>
+                    <option value="Tecnologia">Tecnologia</option>
+                    <option value="Comércio">Comércio</option>
+                    <option value="Serviços">Serviços</option>
+                    <option value="Indústria">Indústria</option>
+                </select>
+                
+                <label for="tamanho">Tamanho da Empresa:</label>
+                <select id="tamanho" required>
+                    <option value="">Selecione o tamanho</option>
+                    <option value="Pequena">Pequena</option>
+                    <option value="Média">Média</option>
+                    <option value="Grande">Grande</option>
+                </select>
+            </div>
+            
+            <!-- Seção 2: Produtos/Serviços -->
+            <div class="form-section">
+                <h3 class="section-title">Produtos e Serviços</h3>
+                
+                <label for="tipoProduto">Tipo de Produto/Serviço:</label>
+                <input type="text" id="tipoProduto" required placeholder="Ex: Software de gestão">
+                
+                <label for="precoProduto">Preço Sugerido do Produto (R$):</label>
+                <input type="number" id="precoProduto" required placeholder="Ex: 10.00" step="0.01">
+            </div>
+            
+            <!-- Seção 3: Dados Financeiros -->
+            <div class="form-section">
+                <h3 class="section-title">Dados Financeiros</h3>
+                
+                <label for="capital">Capital Inicial (R$):</label>
+                <input type="number" id="capital" required placeholder="Ex: 50000">
+            </div>
+            
+            <!-- Seção 4: Recursos Humanos -->
+            <div class="form-section">
+                <h3 class="section-title">Recursos Humanos</h3>
+                
+                <label for="funcionarios">Quantidade de Funcionários:</label>
+                <input type="number" id="funcionarios" required placeholder="Ex: 10">
+                
+                <label for="salarioMedio">Salário Médio dos Funcionários (R$):</label>
+                <input type="number" id="salarioMedio" required placeholder="Ex: 3500" step="0.01">
+            </div>
+            
+            <button type="button" onclick="cadastrarEmpresa()">📋  Gerar Perfil da Empresa</button>
+            
+        </form>
+        <p id="mensagem"></p>
+        <h3>História da Empresa</h3>
+        <div id="historia"></div>
+        
+        <!-- Botão para enviar para o backend - adicionado sem alterar o restante -->
+        <button id="botaoEnviar" type="button" style="display: none; margin-top: 20px;" onclick="enviarParaBackend()">
+            Enviar para o Backend
+        </button>
+    </div>
+
+    <script>
+        // Variável para armazenar a história gerada
+        let historiaGerada = '';
+        
+        async function cadastrarEmpresa() {
+            const nome = document.getElementById("nome").value.trim();
+            const setor = document.getElementById("setor").value;
+            const tamanho = document.getElementById("tamanho").value;
+            const tipoProduto = document.getElementById("tipoProduto").value.trim();
+            const precoProduto = document.getElementById("precoProduto").value;
+            const capital = document.getElementById("capital").value;
+            const funcionarios = document.getElementById("funcionarios").value;
+            const salarioMedio = document.getElementById("salarioMedio").value;
+            
+            const mensagem = document.getElementById("mensagem");
+            const historia = document.getElementById("historia");
+            
+            // Validação
+            if (!nome || !setor || !tamanho || !tipoProduto || !precoProduto || !capital || !funcionarios || !salarioMedio) {
+                mensagem.innerText = "Por favor, preencha todos os campos.";
+                mensagem.style.color = "red";
+                return;
+            }
+
+            mensagem.innerText = "Gerando história da empresa...";
+            mensagem.style.color = "blue";
+            historia.innerHTML = '<div class="loading">⏳ Criando conteúdo personalizado...</div>';
+
+            try {
+                const resposta = await fetch("https://api.groq.com/openai/v1/chat/completions", {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json",
+                        "Authorization": "Bearer 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"
+                    },
+                    body: JSON.stringify({
+                        model: "llama3-70b-8192",
+                        messages: [
+                            {
+                                "role": "system",
+                                "content": "Você é um redator profissional de perfis empresariais. Escreva uma história de 200-250 palavras em português, destacando os aspectos financeiros, operacionais e humanos da empresa."
+                            },
+                            {
+                                "role": "user",
+                                "content": `Crie um perfil completo para a empresa ${nome} do setor de ${setor}. 
+                                Dados importantes:
+                                - Tamanho: ${tamanho}
+                                - Tipo de produto/serviço: ${tipoProduto}
+                                - Preço sugerido do produto: R$ ${Number(precoProduto).toLocaleString('pt-BR', {minimumFractionDigits: 2})}
+                                - Capital inicial: R$ ${Number(capital).toLocaleString('pt-BR')}
+                                - Equipe: ${funcionarios} funcionários
+                                - Salário médio: R$ ${Number(salarioMedio).toLocaleString('pt-BR', {minimumFractionDigits: 2})}
+                                
+                                Estrutura do texto:
+                                1. Visão geral da empresa (nome, setor, tamanho e produto principal)
+                                2. Estrutura financeira (capital, preço do produto, política de salários)
+                                3. Recursos humanos (tamanho da equipe, cultura organizacional)
+                                4. Posicionamento no mercado (público-alvo, concorrência)
+                                5. Perspectivas de crescimento`
+                            }
+                        ],
+                        temperature: 0.7,
+                        max_tokens: 500
+                    })
+                });
+
+                const dados = await resposta.json();
+                console.log("Resposta da API:", dados);
+
+                if (!resposta.ok) {
+                    throw new Error(dados.error?.message || `Erro ${resposta.status} na API`);
+                }
+
+                if (dados.choices?.[0]?.message?.content) {
+                    historiaGerada = dados.choices[0].message.content;
+                    historia.innerHTML = formatarTexto(historiaGerada);
+                    mensagem.innerText = "Perfil da empresa gerado com sucesso!";
+                    mensagem.style.color = "green";
+                    
+                    // Mostrar o botão de envio
+                    document.getElementById("botaoEnviar").style.display = "block";
+                    
+                    // Rolagem suave para a história gerada
+                    historia.scrollIntoView({ behavior: 'smooth' });
+                } else {
+                    throw new Error("Resposta inesperada da API");
+                }
+
+            } catch (error) {
+                console.error("Erro:", error);
+                
+                // Fallback manual
+                historiaGerada = `
+                    <h4>${nome}</h4>
+                    <p><strong>Setor:</strong> ${setor}</p>
+                    <p><strong>Tamanho:</strong> ${tamanho}</p>
+                    <p><strong>Produto/Serviço:</strong> ${tipoProduto}</p>
+                    <p><strong>Preço do Produto:</strong> R$ ${Number(precoProduto).toLocaleString('pt-BR', {minimumFractionDigits: 2})}</p>
+                    <p><strong>Capital Inicial:</strong> R$ ${Number(capital).toLocaleString('pt-BR')}</p>
+                    <p><strong>Equipe:</strong> ${funcionarios} colaboradores</p>
+                    <p><strong>Salário Médio:</strong> R$ ${Number(salarioMedio).toLocaleString('pt-BR', {minimumFractionDigits: 2})}</p>
+                `;
+                historia.innerHTML = historiaGerada + '<p><em>Não foi possível gerar o conteúdo completo. Recarregue a página ou tente novamente.</em></p>';
+                mensagem.innerText = `Erro: ${error.message.split('.')[0]}`;
+                mensagem.style.color = "red";
+                
+                // Mostrar o botão de envio mesmo em caso de erro
+                document.getElementById("botaoEnviar").style.display = "block";
+                
+                // Rolagem suave para a mensagem de erro
+                historia.scrollIntoView({ behavior: 'smooth' });
+            }
+        }
+
+        function formatarTexto(texto) {
+            return texto.replace(/\n\n/g, '<br><br>')
+                       .replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>')
+                       .replace(/\*(.*?)\*/g, '<em>$1</em>');
+        }
+
+        // Função para enviar dados para o backend - adicionada sem alterar o restante
+    async function enviarParaBackend() {
+        const mensagem = document.getElementById("mensagem");
+        mensagem.innerText = "Enviando dados para o backend...";
+        mensagem.style.color = "blue";
+        
+        // Pegando os dados dos inputs do formulário
+        const dados = {
+            nomeEmpresa: document.getElementById("nome").value.trim(),
+            setor: document.getElementById("setor").value.trim(),
+            tamanho: document.getElementById("tamanho").value.trim(),
+            tipoProdutoServico: document.getElementById("tipoProduto").value.trim(),
+            valorProduto: parseFloat(document.getElementById("precoProduto").value),
+            capitalInicial: parseFloat(document.getElementById("capital").value),
+            numeroFuncionarios: parseInt(document.getElementById("funcionarios").value),
+            salarioFuncionario: parseFloat(document.getElementById("salarioMedio").value),
+            historia: document.getElementById("historia").value.trim() // Adicionando a história
+        };
+
+        try {
+            const resposta = await fetch("http://localhost:8080/empresas-em-gestao", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                    // Adicione headers de autenticação se necessário
+                },
+                body: JSON.stringify(dados)
+            });
+
+            if (!resposta.ok) {
+                const erro = await resposta.json();
+                throw new Error(erro.message || "Erro ao cadastrar empresa");
+            }
+
+            // Sucesso
+            mensagem.innerText = "Dados enviados com sucesso!";
+            mensagem.style.color = "green";
+        } catch (erro) {
+            // Erro
+            console.error("Erro ao enviar para o backend:", erro);
+            mensagem.innerText = `Erro: ${erro.message}`;
+            mensagem.style.color = "red";
+        }
+    }
+
+
+
+
+
+
+// Acessibilidade - Modo Claro Padrão
+// Acessibilidade - Controle de Fonte
+// Acessibilidade - Controle de Fonte
+let tamanhoFonte = 100; // Valor padrão
+
+function alterarFonte(tamanho) {
+    tamanhoFonte = tamanho;
+    document.documentElement.style.fontSize = tamanho + "%";
+    
+    // Só salva se for diferente do padrão
+    if (tamanho !== 100) {
+        localStorage.setItem('tamanhoFonte', tamanho);
+    } else {
+        localStorage.removeItem('tamanhoFonte');
+    }
+}
+
+function aumentarFonte() {
+    if (tamanhoFonte < 150) {
+        alterarFonte(tamanhoFonte + 10);
+    }
+}
+
+function diminuirFonte() {
+    if (tamanhoFonte > 70) {
+        alterarFonte(tamanhoFonte - 10);
+    }
+}
+
+function resetarFonte() {
+    alterarFonte(100); // Volta ao padrão
+}
+
+// Carregar preferências ao iniciar
+document.addEventListener('DOMContentLoaded', function() {
+    // Começa sempre com o tamanho padrão
+    resetarFonte();
+    
+    // Depois de 50ms, verifica se há preferência salva
+    setTimeout(() => {
+        const tamanhoSalvo = localStorage.getItem('tamanhoFonte');
+        if (tamanhoSalvo) {
+            tamanhoFonte = parseInt(tamanhoSalvo);
+            alterarFonte(tamanhoFonte);
+        }
+    }, 50);
+    
+    // Restante do seu código de carregamento...
+});
+
+// Funções do Modo Escuro
+function modoAltoContraste() {
+    document.body.classList.add('dark-mode');
+    localStorage.setItem('modoEscuro', 'ativado');
+    
+    // Feedback visual
+    const mensagem = document.getElementById("mensagem");
+    mensagem.innerText = "Modo escuro ativado";
+    mensagem.style.color = "#69f0ae";
+    setTimeout(() => mensagem.innerText = "", 2000);
+}
+
+function modoNormal() {
+    document.body.classList.remove('dark-mode');
+    localStorage.removeItem('modoEscuro');
+    
+    // Feedback visual
+    const mensagem = document.getElementById("mensagem");
+    mensagem.innerText = "Modo claro ativado";
+    mensagem.style.color = "#1971c2";
+    setTimeout(() => mensagem.innerText = "", 2000);
+}
+
+// Carregar preferências
+document.addEventListener('DOMContentLoaded', function() {
+    // Garante que começa no modo claro
+    document.body.classList.remove('dark-mode');
+    
+    // Só aplica o modo escuro se estiver ativado E após um pequeno delay
+    setTimeout(() => {
+        if (localStorage.getItem('modoEscuro') === 'ativado') {
+            modoAltoContraste();
+        }
+    }, 50);
+});
+
+    </script>
+</body>
+</html>

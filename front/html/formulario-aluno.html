@@ -1,0 +1,263 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Formulário para cadastro de empresas com geração automática de perfil">
+    <meta name="theme-color" content="#4285f4">
+    <meta name="color-scheme" content="light dark">
+    <title>Edição da Empresa</title>
+    <link rel="stylesheet" href="../css/formulario-aluno.css">
+</head>
+<body>
+    <div class="accessibility-bar">
+        <button onclick="aumentarFonte()" aria-label="Aumentar tamanho da fonte">A+</button>
+        <button onclick="diminuirFonte()" aria-label="Diminuir tamanho da fonte">A-</button>
+        <button onclick="modoAltoContraste()" aria-label="Ativar modo escuro">🌙 Modo Escuro</button>
+        <button onclick="modoNormal()" aria-label="Desativar modo escuro">☀️ Modo Claro</button>
+    </div>
+    <div class="container">
+        <div id="quadroHistoria" class="quadro-historia">
+            Carregando história da empresa...
+        </div>
+        
+        <h2>Formulário Do Aluno</h2>
+        <form id="empresaForm">
+            
+            <!-- Seção 1: Identificação -->
+            <div class="form-section">
+                <h3 class="section-title">Identificação da Empresa</h3>
+                
+                <label for="nome">Nome da Empresa:</label>
+                <input type="text" id="nome" required placeholder="Ex: Tech Solutions">
+                
+                <div class="com-cadeado">
+                    <label for="setor">Setor de Atuação (definido pelo professor):</label>
+                    <select id="setor" required disabled>
+                        <option value="Tecnologia" selected>Tecnologia</option>
+                        <option value="Comércio">Comércio</option>
+                        <option value="Serviços">Serviços</option>
+                        <option value="Indústria">Indústria</option>
+                    </select>
+                </div>
+        
+                <div class="com-cadeado">
+                    <label for="tamanho">Tamanho da Empresa (definido pelo professor):</label>
+                    <select id="tamanho" required disabled>
+                        <option value="Média" selected>Média</option>
+                        <option value="Pequena">Pequena</option>
+                        <option value="Grande">Grande</option>
+                    </select>
+                </div>
+            </div>
+            
+            <!-- Seção 2: Produtos/Serviços -->
+            <div class="form-section">
+                <h3 class="section-title">Produtos e Serviços</h3>
+                
+                <div class="com-cadeado">
+                    <label for="tipoProduto">Tipo de Produto/Serviço (definido pelo professor):</label>
+                    <input type="text" id="tipoProduto" required placeholder="Ex: Software de gestão" disabled>
+                </div>
+        
+                <div class="com-cadeado1">
+                    <label for="precoProduto">Preço Sugerido do Produto (R$) (definido pelo professor):</label>
+                    <input type="number" id="precoProduto" required placeholder="Ex: 10.00" step="0.01" disabled>
+                </div>
+            </div>
+            
+            <!-- Seção 3: Dados Financeiros -->
+            <div class="form-section">
+                <h3 class="section-title">Dados Financeiros</h3>
+                
+                <div class="com-cadeado">
+                    <label for="capital">Capital Inicial (R$) (definido pelo professor):</label>
+                    <input type="number" id="capital" required placeholder="Ex: 50000" disabled>
+                </div>
+            </div>
+            
+            <!-- Seção 4: Recursos Humanos -->
+            <div class="form-section">
+                <h3 class="section-title">Recursos Humanos</h3>
+                
+                <div class="com-cadeado1">
+                    <label for="funcionarios">Quantidade de Funcionários (definido pelo professor):</label>
+                    <input type="number" id="funcionarios" required placeholder="Ex: 10" disabled>
+                </div>
+                
+                <label for="salarioMedio">Salário Médio dos Funcionários (R$):</label>
+                <input type="number" id="salarioMedio" required placeholder="Ex: 3500" step="0.01">
+            </div>
+            
+            <button type="button" onclick="cadastrarEmpresa()">📋 Adicionar Modificações</button>
+        </form>
+     
+    </div>
+ <script>
+        function formatarTexto(texto) {
+            return texto.replace(/\n\n/g, '<br><br>')
+                       .replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>')
+                       .replace(/\*(.*?)\*/g, '<em>$1</em>');
+        }
+
+        // Função para enviar dados para o backend - adicionada sem alterar o restante
+       
+    async function cadastrarEmpresa() {
+        const mensagem = document.getElementById("mensagem") || criarMensagem();
+
+        // Gerar história fictícia da empresa
+        const nome = document.getElementById("nome").value.trim();
+        const historiaGerada = `A empresa ${nome} foi criada com o objetivo de inovar o setor de tecnologia e impactar o mercado com soluções digitais modernas.`;
+
+        const dados = {
+            nome,
+            setor: document.getElementById("setor").value,
+            tamanho: document.getElementById("tamanho").value,
+            tipoProduto: document.getElementById("tipoProduto").value.trim(),
+            precoProduto: document.getElementById("precoProduto").value,
+            capital: document.getElementById("capital").value,
+            funcionarios: document.getElementById("funcionarios").value,
+            salarioMedio: document.getElementById("salarioMedio").value,
+            historia: historiaGerada
+        };
+
+        mensagem.innerText = "Enviando dados para o backend...";
+        mensagem.style.color = "blue";
+
+        try {
+            const resposta = await fetch("https://seu-backend.com/api/empresas", { /*adicinar caminho oficial quando tiver*/
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify(dados)
+            });
+
+            const resultado = await resposta.json();
+
+            if (resposta.ok) {
+                mensagem.innerText = "Dados enviados com sucesso para o backend!";
+                mensagem.style.color = "green";
+            } else {
+                throw new Error(resultado.message || "Erro ao enviar para o backend");
+            }
+        } catch (error) {
+            console.error("Erro no envio para o backend:", error);
+            mensagem.innerText = `Erro: ${error.message}`;
+            mensagem.style.color = "red";
+        }
+    }
+
+    function criarMensagem() {
+        const div = document.createElement("div");
+        div.id = "mensagem";
+        div.style.marginTop = "20px";
+        document.querySelector(".container").appendChild(div);
+        return div;
+    }
+
+        // Acessibilidade - Modo Claro Padrão
+        // Acessibilidade - Controle de Fonte
+        // Acessibilidade - Controle de Fonte
+        let tamanhoFonte = 100; // Valor padrão
+
+        function alterarFonte(tamanho) {
+            tamanhoFonte = tamanho;
+            document.documentElement.style.fontSize = tamanho + "%";
+            
+            // Só salva se for diferente do padrão
+            if (tamanho !== 100) {
+                localStorage.setItem('tamanhoFonte', tamanho);
+            } else {
+                localStorage.removeItem('tamanhoFonte');
+            }
+        }
+
+        function aumentarFonte() {
+            if (tamanhoFonte < 150) {
+                alterarFonte(tamanhoFonte + 10);
+            }
+        }
+
+        function diminuirFonte() {
+            if (tamanhoFonte > 70) {
+                alterarFonte(tamanhoFonte - 10);
+            }
+        }
+
+        function resetarFonte() {
+            alterarFonte(100); // Volta ao padrão
+        }
+
+        // Carregar preferências ao iniciar
+        document.addEventListener('DOMContentLoaded', function() {
+            // Começa sempre com o tamanho padrão
+            resetarFonte();
+            
+            // Depois de 50ms, verifica se há preferência salva
+            setTimeout(() => {
+                const tamanhoSalvo = localStorage.getItem('tamanhoFonte');
+                if (tamanhoSalvo) {
+                    tamanhoFonte = parseInt(tamanhoSalvo);
+                    alterarFonte(tamanhoFonte);
+                }
+            }, 50);
+            
+            // Restante do seu código de carregamento...
+        });
+
+        // Funções do Modo Escuro
+        function modoAltoContraste() {
+            document.body.classList.add('dark-mode');
+            localStorage.setItem('modoEscuro', 'ativado');
+            
+            // Feedback visual
+            const mensagem = document.getElementById("mensagem");
+            mensagem.innerText = "Modo escuro ativado";
+            mensagem.style.color = "#69f0ae";
+            setTimeout(() => mensagem.innerText = "", 2000);
+        }
+
+        function modoNormal() {
+            document.body.classList.remove('dark-mode');
+            localStorage.removeItem('modoEscuro');
+            
+            // Feedback visual
+            const mensagem = document.getElementById("mensagem");
+            mensagem.innerText = "Modo claro ativado";
+            mensagem.style.color = "#1971c2";
+            setTimeout(() => mensagem.innerText = "", 2000);
+        }
+
+        // Carregar preferências
+        document.addEventListener('DOMContentLoaded', function() {
+            // Garante que começa no modo claro
+            document.body.classList.remove('dark-mode');
+            
+            // Só aplica o modo escuro se estiver ativado E após um pequeno delay
+            setTimeout(() => {
+                if (localStorage.getItem('modoEscuro') === 'ativado') {
+                    modoAltoContraste();
+                }
+            }, 50);
+            carregarHistoriaEmpresa();
+        });
+
+        async function carregarHistoriaEmpresa() {
+    const quadro = document.getElementById("quadroHistoria");
+
+    try {
+        const resposta = await fetch("https://seu-backend.com/api/empresa/historia"); // coloque a rota correta aqui <----
+        if (!resposta.ok) throw new Error("Erro ao buscar a história da empresa.");
+
+        const dados = await resposta.json();
+        quadro.innerText = dados.historia || "História da empresa não disponível.";
+    } catch (error) {
+        console.error("Erro ao carregar a história:", error);
+        quadro.innerText = "Erro ao carregar a história da empresa.";
+    }
+}
+
+    </script>
+</body>
+</html>
