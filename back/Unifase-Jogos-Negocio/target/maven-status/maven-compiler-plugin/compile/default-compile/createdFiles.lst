@@ -1,0 +1,12 @@
+org\serratec\unifase\Unifase_Jogos_Negocio\dto\empresaEmGestao\EmpresaEmGestaoReqDTO.class
+org\serratec\unifase\Unifase_Jogos_Negocio\entity\EmpresaEmGestao.class
+org\serratec\unifase\Unifase_Jogos_Negocio\dto\empresaModelo\EmpresaModeloResDTO.class
+org\serratec\unifase\Unifase_Jogos_Negocio\entity\EmpresaModelo.class
+org\serratec\unifase\Unifase_Jogos_Negocio\UnifaseJogosNegocioApplication.class
+org\serratec\unifase\Unifase_Jogos_Negocio\controller\EmpresaModeloController.class
+org\serratec\unifase\Unifase_Jogos_Negocio\repository\EmpresaModeloRepository.class
+org\serratec\unifase\Unifase_Jogos_Negocio\config\SwaggerConfig.class
+org\serratec\unifase\Unifase_Jogos_Negocio\repository\EmpresaEmGestaoRepository.class
+org\serratec\unifase\Unifase_Jogos_Negocio\service\EmpresaModeloService.class
+org\serratec\unifase\Unifase_Jogos_Negocio\dto\empresaModelo\EmpresaModeloReqDTO.class
+org\serratec\unifase\Unifase_Jogos_Negocio\exception\NotFoundException.class
