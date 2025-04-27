@@ -1,0 +1,1 @@
+// preciso arrumar a rota para o back  e o bloqueio pelo CORS

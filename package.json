@@ -1,0 +1,24 @@
+{
+  "name": "2024_2_unifase_plataforma_jogos_negocio-1",
+  "version": "1.0.0",
+  "description": "**Unifase** é uma plataforma gamificada voltada para o ensino de conceitos de administração de empresas de forma interativa e prática. O objetivo é engajar estudantes por meio de **simulações empresariais, quizzes, desafios e rankings**, tornando o aprendizado mais dinâmico e acessível.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node server.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/RTIC-STEM/2024_2_Unifase_Plataforma_Jogos_Negocio.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/RTIC-STEM/2024_2_Unifase_Plataforma_Jogos_Negocio/issues"
+  },
+  "homepage": "https://github.com/RTIC-STEM/2024_2_Unifase_Plataforma_Jogos_Negocio#readme",
+  "devDependencies": {
+    "http-proxy-middleware": "^3.0.5"
+  }
+}
