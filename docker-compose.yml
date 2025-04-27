@@ -24,5 +24,15 @@ services:
       SPRING_DATASOURCE_USERNAME: postgres
       SPRING_DATASOURCE_PASSWORD: 12345
 
+
+  frontend:
+      build:
+        context: ./front  # Caminho relativo para o diretório onde seu frontend está
+      container_name: frontend_unifase
+      ports:
+        - "80:80"  # Porta 80 para acesso via navegador
+      depends_on:
+        - backend  # O frontend depende do backend
+
 volumes:
   pgdata:
