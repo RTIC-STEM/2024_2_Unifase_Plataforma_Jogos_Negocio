@@ -27,7 +27,7 @@ services:
 
   frontend:
       build:
-        context: ./front  # Caminho relativo para o diretório onde seu frontend está
+        context: ./front
       container_name: frontend_unifase
       ports:
         - "80:80"  # Porta 80 para acesso via navegador
