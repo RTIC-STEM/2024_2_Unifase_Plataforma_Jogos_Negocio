@@ -234,7 +234,7 @@
         console.log("Dados que serão enviados para o backend:", empresaData); // Aqui você faz o log dos dados
         
         const response = await fetch("/empresa-modelo", {
-        method: 'GET', // ou 'POST', dependendo do seu caso
+        method: 'POST', // ou 'GET'
         })
         .then(response => {
         console.log(response); // Não conseguirá acessar o conteúdo da resposta, só o status
