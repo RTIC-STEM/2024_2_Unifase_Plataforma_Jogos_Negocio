@@ -1,0 +1,580 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Unifase - Dashboard</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link rel="stylesheet" href="../css/dashboard.css">
+</head>
+<body class="bg-gray-50 dark:bg-gray-900 font-sans transition-colors duration-300">
+
+    <div class="flex h-screen">
+        <!-- Menu Lateral -->
+        <div id="sideMenu" class="flex flex-col h-screen w-64 bg-white dark:bg-gray-800 border-r border-gray-200 dark:border-gray-700 transition-all duration-300 ease-in-out transform -translate-x-full md:translate-x-0 fixed md:relative z-40">
+            <div class="p-4 flex items-center justify-between">
+                <div class="text-xl font-bold text-gray-800 dark:text-white">Unifase</div>
+                <button id="toggleSidebar" class="text-gray-500 dark:text-gray-400">
+                    <i class="fas fa-chevron-left"></i>
+                </button>
+            </div>
+            <div class="border-t border-gray-200 dark:border-gray-700 my-2"></div>
+            <nav class="flex-1 overflow-y-auto p-2 space-y-1">
+                <a href="/dashboard" class="menu-item active">
+                    <i class="fas fa-home mr-3"></i>
+                    <span>Dashboard</span>
+                </a>
+                <a href="/financial" class="menu-item">
+                    <i class="fas fa-chart-bar mr-3"></i>
+                    <span>Financeiro</span>
+                </a>
+                <a href="/marketing" class="menu-item">
+                    <i class="fas fa-box-open mr-3"></i>
+                    <span>Marketing</span>
+                </a>
+                <a href="/human-resources" class="menu-item">
+                    <i class="fas fa-users mr-3"></i>
+                    <span>Recursos Humanos</span>
+                </a>
+                <a href="/production" class="menu-item">
+                    <i class="fas fa-industry mr-3"></i>
+                    <span>Produção</span>
+                </a>
+                <a href="/strategic-decisions" class="menu-item">
+                    <i class="fas fa-brain mr-3"></i>
+                    <span>Tomar Decisões</span>
+                </a>
+                <a href="/round-results" class="menu-item">
+                    <i class="fas fa-award mr-3"></i>
+                    <span>Resultados da Rodada</span>
+                </a>
+            </nav>
+            <div class="border-t border-gray-200 dark:border-gray-700 p-2 space-y-1">
+                <a href="/notifications" class="menu-item">
+                    <i class="fas fa-bell mr-3"></i>
+                    <span>Notificações</span>
+                </a>
+                <button id="settingsButton" class="menu-item w-full text-left">
+                    <i class="fas fa-cog mr-3"></i>
+                    <span>Configurações</span>
+                </button>
+                <button id="logoutButton" class="menu-item w-full text-left">
+                    <i class="fas fa-sign-out-alt mr-3"></i>
+                    <span>Sair</span>
+                </button>
+            </div>
+        </div>
+
+        <!-- Conteúdo Principal -->
+        <div class="flex-1 flex flex-col overflow-hidden">
+            <!-- DashboardHeader -->
+            <header class="sticky top-0 z-30 flex h-16 items-center gap-4 border-b bg-white dark:bg-gray-800 px-6 dark:border-gray-700">
+                <div class="flex flex-1 items-center justify-between">
+                    <div>
+                        <h1 class="text-lg font-semibold dark:text-white">Unifase</h1>
+                        <p class="text-xs text-gray-500 dark:text-gray-400 capitalize" id="currentDate"></p>
+                    </div>
+                    <div class="flex items-center gap-4">
+                        <button class="relative text-blue-500 hover:text-blue-400" title="Portal de Notícias">
+                            <i class="fas fa-newspaper text-xl"></i>
+                            <span class="absolute top-0 right-0 h-2.5 w-2.5 rounded-full bg-blue-500 animate-pulse"></span>
+                        </button>
+                        <button class="relative text-gray-500 dark:text-gray-400" title="Notificações">
+                            <i class="fas fa-bell"></i>
+                            <span class="absolute top-1 right-1 h-2 w-2 rounded-full bg-blue-500"></span>
+                        </button>
+                        <div class="flex items-center gap-2">
+                            <span class="text-sm font-medium hidden md:inline-block dark:text-white">CEO</span>
+                            <div class="w-8 h-8 rounded-full bg-gray-300 flex items-center justify-center overflow-hidden">
+                                <img src="https://i.pravatar.cc/100" alt="Avatar" class="w-full h-full object-cover">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </header>
+            
+            <!-- Conteúdo -->
+            <main class="flex-1 overflow-auto p-4 md:p-6">
+                <div class="grid gap-6 mb-6">
+                    <div class="flex items-center justify-between">
+                        <div>
+                            <h2 class="text-2xl font-bold tracking-tight dark:text-white">Visão Geral</h2>
+                            <p class="text-gray-500 dark:text-gray-400">Trimestre 3, Rodada 2</p>
+                        </div>
+                        <div>
+                            <span class="bg-green-100 text-green-800 text-xs font-medium px-2.5 py-0.5 rounded dark:bg-green-900 dark:text-green-300">Em andamento</span>
+                        </div>
+                    </div>
+                    <div class="border-t border-gray-200 dark:border-gray-700"></div>
+                    <!-- Metric Cards -->
+                    <div class="grid gap-4 grid-cols-1 sm:grid-cols-2 lg:grid-cols-4">
+                        <div class="metric-card bg-white dark:bg-gray-800 rounded-lg p-4 shadow-sm border border-gray-200 dark:border-gray-700">
+                            <div class="flex items-start justify-between">
+                                <div>
+                                    <p class="text-sm font-medium text-gray-500 dark:text-gray-400">Lucro Líquido</p>
+                                    <h3 class="mt-2 text-2xl font-bold dark:text-white">R$ 127.943,45</h3>
+                                    <div class="mt-1 text-sm font-medium flex items-center text-green-600 dark:text-green-400">
+                                        <i class="fas fa-arrow-up mr-1"></i>
+                                        +15.2%
+                                    </div>
+                                </div>
+                                <div class="p-2 rounded-full bg-green-100 dark:bg-green-900/30">
+                                    <i class="fas fa-chart-line text-green-600 dark:text-green-400"></i>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- Outros cards métricos aqui -->
+                    </div>
+                </div>
+                <!-- Gráficos e seções -->
+                <div class="grid gap-6 grid-cols-1 lg:grid-cols-3">
+                    <div class="bg-white dark:bg-gray-800 rounded-lg shadow-sm border border-gray-200 dark:border-gray-700 lg:col-span-2">
+                        <div class="p-4 border-b border-gray-200 dark:border-gray-700">
+                            <h3 class="font-bold dark:text-white">Desempenho Financeiro</h3>
+                            <p class="text-sm text-gray-500 dark:text-gray-400">Últimos 4 trimestres</p>
+                        </div>
+                        <div class="p-4">
+                            <canvas id="financialChart" height="300"></canvas>
+                        </div>
+                    </div>
+                    <div class="bg-white dark:bg-gray-800 rounded-lg shadow-sm border border-gray-200 dark:border-gray-700">
+                        <div class="p-4 border-b border-gray-200 dark:border-gray-700">
+                            <h3 class="font-bold dark:text-white">Distribuição de Custos</h3>
+                            <p class="text-sm text-gray-500 dark:text-gray-400">Trimestre atual</p>
+                        </div>
+                        <div class="p-4">
+                            <canvas id="expensesChart" height="300"></canvas>
+                        </div>
+                    </div>
+                </div>
+            </main>
+        </div>
+    </div>
+
+    <!-- Modal de Configurações -->
+    <div id="settingsModal" class="fixed inset-0 bg-black bg-opacity-50 z-50 hidden items-center justify-center">
+        <div class="bg-white dark:bg-gray-800 rounded-lg p-6 w-full max-w-md">
+            <div class="flex justify-between items-center mb-4">
+                <h3 class="text-lg font-bold dark:text-white">Configurações</h3>
+                <button id="closeSettings" class="text-gray-500 dark:text-gray-400">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            <div class="space-y-4">
+                <div>
+                    <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Tema</label>
+                    <select class="w-full p-2 border border-gray-300 dark:border-gray-600 rounded bg-white dark:bg-gray-700 dark:text-white">
+                        <option value="light">Claro</option>
+                        <option value="dark">Escuro</option>
+                        <option value="system">Seguir sistema</option>
+                    </select>
+                </div>
+                <div>
+                    <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Idioma</label>
+                    <select class="w-full p-2 border border-gray-300 dark:border-gray-600 rounded bg-white dark:bg-gray-700 dark:text-white">
+                        <option value="pt">Português</option>
+                        <option value="en">Inglês</option>
+                        <option value="es">Espanhol</option>
+                    </select>
+                </div>
+                <div class="pt-4 border-t border-gray-200 dark:border-gray-700">
+                    <button class="w-full bg-blue-500 hover:bg-blue-600 text-white py-2 px-4 rounded">
+                        Salvar Configurações
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="menu-script.js"></script>
+</body>
+</html>
+
+    <script>
+    document.addEventListener('DOMContentLoaded', function() {
+        // Configuração inicial
+        setupCurrentDate();
+        setupSideMenu();
+        setupCharts();
+        setupDarkModeToggle();
+        setupNotifications();
+        
+        // Verifica o modo escuro do sistema
+        if (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {
+            document.body.classList.add('dark');
+        }
+    });
+    
+    function setupCurrentDate() {
+        const options = { 
+            weekday: 'long', 
+            year: 'numeric', 
+            month: 'long', 
+            day: 'numeric',
+            timeZone: 'America/Sao_Paulo'
+        };
+        const today = new Date().toLocaleDateString('pt-BR', options);
+        document.getElementById('currentDate').textContent = today;
+    }
+    
+    function setupSideMenu() {
+        const sideMenu = document.getElementById('sideMenu');
+        const toggleSidebar = document.getElementById('toggleSidebar');
+        const mobileMenuToggle = document.getElementById('mobileMenuToggle');
+        
+        // Toggle sidebar em desktop
+        toggleSidebar.addEventListener('click', function() {
+            sideMenu.classList.toggle('w-16');
+            sideMenu.classList.toggle('w-64');
+            
+            // Alterna ícone
+            const icon = this.querySelector('i');
+            if (sideMenu.classList.contains('w-16')) {
+                icon.classList.replace('fa-chevron-left', 'fa-bars');
+            } else {
+                icon.classList.replace('fa-bars', 'fa-chevron-left');
+            }
+            
+            // Salva estado no localStorage
+            localStorage.setItem('sidebarCollapsed', sideMenu.classList.contains('w-16'));
+        });
+        
+        // Toggle sidebar em mobile
+        mobileMenuToggle.addEventListener('click', function() {
+            sideMenu.classList.toggle('-translate-x-full');
+        });
+        
+        // Verifica estado salvo
+        if (localStorage.getItem('sidebarCollapsed') === 'true') {
+            sideMenu.classList.add('w-16');
+            sideMenu.classList.remove('w-64');
+            toggleSidebar.querySelector('i').classList.replace('fa-chevron-left', 'fa-bars');
+        }
+        
+        // Fecha menu ao clicar em um item (mobile)
+        const menuItems = sideMenu.querySelectorAll('nav button');
+        menuItems.forEach(item => {
+            item.addEventListener('click', function() {
+                if (window.innerWidth < 768) {
+                    sideMenu.classList.add('-translate-x-full');
+                }
+            });
+        });
+    }
+    
+    function setupCharts() {
+        // Gráfico financeiro (linha)
+        const financialCtx = document.getElementById('financialChart').getContext('2d');
+        new Chart(financialCtx, {
+            type: 'line',
+            data: {
+                labels: ['Rodada 1', 'Rodada 2', 'Rodada 3', 'Rodada 4', 'Rodada 5', 'Rodada 6', 'Rodada 7'],
+                datasets: [
+                    {
+                        label: 'Receita',
+                        data: [4000, 5000, 6000, 8000, 10000, 9500, 11000],
+                        borderColor: '#4338ca',
+                        backgroundColor: 'rgba(67, 56, 202, 0.1)',
+                        tension: 0.3,
+                        fill: true
+                    },
+                    {
+                        label: 'Custos',
+                        data: [2400, 2800, 3200, 4000, 4800, 5000, 5200],
+                        borderColor: '#ef4444',
+                        backgroundColor: 'rgba(239, 68, 68, 0.1)',
+                        tension: 0.3,
+                        fill: true
+                    },
+                    {
+                        label: 'Lucro',
+                        data: [1600, 2200, 2800, 4000, 5200, 4500, 5800],
+                        borderColor: '#10b981',
+                        backgroundColor: 'rgba(16, 185, 129, 0.1)',
+                        tension: 0.3,
+                        fill: true
+                    }
+                ]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: {
+                    legend: {
+                        position: 'top',
+                        labels: {
+                            color: getComputedStyle(document.body).getPropertyValue('--tw-text-opacity') === '1' ? 
+                                '#1f2937' : '#f3f4f6'
+                        }
+                    },
+                    tooltip: {
+                        callbacks: {
+                            label: function(context) {
+                                return `${context.dataset.label}: R$ ${context.raw.toLocaleString('pt-BR')}`;
+                            }
+                        }
+                    }
+                },
+                scales: {
+                    x: {
+                        grid: {
+                            color: 'rgba(0, 0, 0, 0.1)'
+                        },
+                        ticks: {
+                            color: getComputedStyle(document.body).getPropertyValue('--tw-text-opacity') === '1' ? 
+                                '#6b7280' : '#9ca3af'
+                        }
+                    },
+                    y: {
+                        grid: {
+                            color: 'rgba(0, 0, 0, 0.1)'
+                        },
+                        ticks: {
+                            color: getComputedStyle(document.body).getPropertyValue('--tw-text-opacity') === '1' ? 
+                                '#6b7280' : '#9ca3af',
+                            callback: function(value) {
+                                return 'R$ ' + value.toLocaleString('pt-BR');
+                            }
+                        }
+                    }
+                }
+            }
+        });
+        
+        // Gráfico de distribuição de custos (pizza)
+        const expensesCtx = document.getElementById('expensesChart').getContext('2d');
+        new Chart(expensesCtx, {
+            type: 'pie',
+            data: {
+                labels: ['Matéria-prima', 'Mão de obra', 'Marketing', 'P&D', 'Administrativo'],
+                datasets: [{
+                    data: [40, 30, 15, 10, 5],
+                    backgroundColor: [
+                        '#0088FE',
+                        '#00C49F',
+                        '#FFBB28',
+                        '#FF8042',
+                        '#8884d8'
+                    ],
+                    borderWidth: 1
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: {
+                    legend: {
+                        position: 'right',
+                        labels: {
+                            color: getComputedStyle(document.body).getPropertyValue('--tw-text-opacity') === '1' ? 
+                                '#1f2937' : '#f3f4f6'
+                        }
+                    },
+                    tooltip: {
+                        callbacks: {
+                            label: function(context) {
+                                return `${context.label}: ${context.raw}%`;
+                            }
+                        }
+                    }
+                }
+            }
+        });
+    }
+    
+    function setupDarkModeToggle() {
+        const darkModeToggle = document.createElement('button');
+        darkModeToggle.id = 'darkModeToggle';
+        darkModeToggle.className = 'p-2 rounded-full ml-4';
+        darkModeToggle.innerHTML = '<i class="fas fa-moon"></i>';
+        darkModeToggle.title = 'Alternar modo escuro';
+        
+        document.querySelector('header > div > div:last-child').prepend(darkModeToggle);
+        
+        darkModeToggle.addEventListener('click', function() {
+            document.body.classList.toggle('dark');
+            const icon = this.querySelector('i');
+            if (document.body.classList.contains('dark')) {
+                icon.classList.replace('fa-moon', 'fa-sun');
+            } else {
+                icon.classList.replace('fa-sun', 'fa-moon');
+            }
+            
+            // Atualiza gráficos quando o modo escuro é alterado
+            Chart.getChart('financialChart').update();
+            Chart.getChart('expensesChart').update();
+        });
+        
+        // Verifica se o modo escuro está ativado
+        if (document.body.classList.contains('dark')) {
+            darkModeToggle.innerHTML = '<i class="fas fa-sun"></i>';
+        }
+    }
+    
+    function setupNotifications() {
+        const notifications = [
+            {
+                id: 1,
+                type: "warning",
+                message: "Estoque do produto A está abaixo do limite mínimo.",
+                time: "Há 2 horas"
+            },
+            {
+                id: 2,
+                type: "info",
+                message: "Nova rodada de decisões disponível.",
+                time: "Há 5 horas"
+            },
+            {
+                id: 3,
+                type: "success",
+                message: "Relatório financeiro do trimestre disponível.",
+                time: "Há 1 dia"
+            }
+        ];
+        
+        // Esta função seria chamada quando o componente de notificações fosse renderizado
+        // No exemplo, estamos apenas simulando os dados
+    }
+
+    document.addEventListener('DOMContentLoaded', function() {
+    // Elementos do DOM
+    const sideMenu = document.getElementById('sideMenu');
+    const toggleSidebar = document.getElementById('toggleSidebar');
+    const mobileMenuToggle = document.getElementById('mobileMenuToggle');
+    const settingsButton = document.getElementById('settingsButton');
+    const logoutButton = document.getElementById('logoutButton');
+    const settingsModal = document.getElementById('settingsModal');
+    const closeSettings = document.getElementById('closeSettings');
+    
+    // Estado do menu
+    let isCollapsed = localStorage.getItem('sidebarCollapsed') === 'true';
+    let isMobile = window.innerWidth < 768;
+    
+    // Inicialização
+    initMenu();
+    setupEventListeners();
+    highlightCurrentMenuItem();
+    
+    // Verifica o modo escuro do sistema
+    if (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {
+        document.body.classList.add('dark');
+    }
+    
+    // Atualiza quando a janela é redimensionada
+    window.addEventListener('resize', function() {
+        const newIsMobile = window.innerWidth < 768;
+        if (newIsMobile !== isMobile) {
+            isMobile = newIsMobile;
+            updateMenuState();
+        }
+    });
+    
+    function initMenu() {
+        // Verifica estado salvo
+        if (isCollapsed) {
+            sideMenu.classList.add('w-16');
+            sideMenu.classList.remove('w-64');
+            const icon = toggleSidebar.querySelector('i');
+            icon.classList.replace('fa-chevron-left', 'fa-bars');
+            
+            // Esconde textos dos itens quando colapsado
+            document.querySelectorAll('.menu-item span').forEach(span => {
+                span.classList.add('hidden');
+            });
+        }
+        
+        // Atualiza estado inicial
+        updateMenuState();
+    }
+    
+    function updateMenuState() {
+        if (isMobile) {
+            sideMenu.classList.add('-translate-x-full');
+        } else {
+            sideMenu.classList.remove('-translate-x-full');
+        }
+    }
+    
+    function setupEventListeners() {
+        // Toggle sidebar em desktop
+        toggleSidebar.addEventListener('click', function() {
+            isCollapsed = !isCollapsed;
+            sideMenu.classList.toggle('w-16');
+            sideMenu.classList.toggle('w-64');
+            
+            // Alterna ícone
+            const icon = this.querySelector('i');
+            if (isCollapsed) {
+                icon.classList.replace('fa-chevron-left', 'fa-bars');
+            } else {
+                icon.classList.replace('fa-bars', 'fa-chevron-left');
+            }
+            
+            // Mostra/esconde textos dos itens
+            document.querySelectorAll('.menu-item span').forEach(span => {
+                span.classList.toggle('hidden');
+            });
+            
+            // Salva estado no localStorage
+            localStorage.setItem('sidebarCollapsed', isCollapsed);
+        });
+        
+        // Toggle sidebar em mobile
+        mobileMenuToggle.addEventListener('click', function() {
+            sideMenu.classList.toggle('-translate-x-full');
+        });
+        
+        // Configurações
+        settingsButton.addEventListener('click', function() {
+            settingsModal.classList.remove('hidden');
+            settingsModal.classList.add('flex');
+        });
+        
+        closeSettings.addEventListener('click', function() {
+            settingsModal.classList.add('hidden');
+            settingsModal.classList.remove('flex');
+        });
+        
+        // Logout
+        logoutButton.addEventListener('click', function() {
+            if (confirm('Tem certeza que deseja sair?')) {
+                window.location.href = '/';
+            }
+        });
+        
+        // Fecha menu ao clicar em um item (mobile)
+        const menuItems = sideMenu.querySelectorAll('.menu-item');
+        menuItems.forEach(item => {
+            item.addEventListener('click', function() {
+                if (isMobile) {
+                    sideMenu.classList.add('-translate-x-full');
+                }
+                
+                // Atualiza item ativo
+                menuItems.forEach(i => i.classList.remove('active'));
+                this.classList.add('active');
+            });
+        });
+    }
+    
+    function highlightCurrentMenuItem() {
+        const path = window.location.pathname;
+        const menuItems = sideMenu.querySelectorAll('.menu-item');
+        
+        menuItems.forEach(item => {
+            const href = item.getAttribute('href');
+            if (href && path.startsWith(href)) {
+                item.classList.add('active');
+            } else {
+                item.classList.remove('active');
+            }
+        });
+    }
+});
+</script>
+</body>
+</html>

@@ -4,7 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Simulação Empresarial</title>
-  <link rel="stylesheet" href="index.css">
+  <link rel="stylesheet" href="../css/index.css">
 </head>
 <body>
   <div class="background-pattern">
@@ -41,7 +41,8 @@
           </div>
 
           <div class="login">
-            <form class="login-form">
+            <!-- Adicionado o ID no formulário -->
+            <form class="login-form" id="loginForm">
               <h2>Login</h2>
               <input type="email" placeholder="E-mail" required>
               <input type="password" placeholder="Senha" required>
@@ -58,5 +59,16 @@
   </div>
 
   <script src="script.js"></script>
+  <script>
+    // Captura o evento de envio do formulário de login
+    document.getElementById("loginForm").addEventListener("submit", function(event) {
+      event.preventDefault(); // Impede o envio padrão do formulário
+
+      // Aqui você pode adicionar validações, se necessário
+
+      // Redireciona para o dashboard após o login
+      window.location.href = "dashboard.html";
+    });
+  </script>
 </body>
 </html>
