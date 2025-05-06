@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Decisões Estratégicas</title>
+  <link rel="stylesheet" href="../css/strategicDecisions.css">
+</head>
+<body>
+  <div class="flex h-screen bg-gray-50 dark:bg-business-navy">
+    <div class="flex-1 flex flex-col overflow-hidden">
+      <div class="header">
+        <h1 class="text-2xl font-bold">Decisões Estratégicas</h1>
+        <p>Tome decisões estratégicas para impulsionar o crescimento da sua empresa</p>
+      </div>
+
+      <div class="tabs">
+        <div class="tabs-list">
+          <div class="tabs-trigger active" id="financialTab" onclick="changeTab('financial')">
+            Financeiro
+          </div>
+          <div class="tabs-trigger" id="marketingTab" onclick="changeTab('marketing')">
+            Marketing
+          </div>
+          <div class="tabs-trigger" id="hrTab" onclick="changeTab('hr')">
+            Recursos Humanos
+          </div>
+          <div class="tabs-trigger" id="productionTab" onclick="changeTab('production')">
+            Produção
+          </div>
+        </div>
+
+        <div class="tabs-content" id="financialContent">
+          <div class="card">
+            <div class="card-header">
+              <div class="card-title">Opções Financeiras</div>
+              <div class="card-description">Tome decisões financeiras para sua empresa</div>
+            </div>
+            <div class="card-content">
+              <!-- FinancialOptions Component -->
+              <button onclick="handleSubmitSuccess('Decisão financeira salva com sucesso!')">Salvar</button>
+              <button onclick="handleSubmitError('Erro ao salvar decisão financeira!')">Erro</button>
+            </div>
+          </div>
+        </div>
+
+        <div class="tabs-content" id="marketingContent" style="display: none;">
+          <div class="card">
+            <div class="card-header">
+              <div class="card-title">Decisões de Marketing</div>
+              <div class="card-description">Defina suas estratégias de marketing e publicidade</div>
+            </div>
+            <div class="card-content">
+              <!-- MarketingDecisions Component -->
+              <button onclick="handleSubmitSuccess('Decisão de marketing salva com sucesso!')">Salvar</button>
+              <button onclick="handleSubmitError('Erro ao salvar decisão de marketing!')">Erro</button>
+            </div>
+          </div>
+        </div>
+
+        <div class="tabs-content" id="hrContent" style="display: none;">
+          <div class="card">
+            <div class="card-header">
+              <div class="card-title">Decisões de Recursos Humanos</div>
+              <div class="card-description">Gerencie contratações, treinamentos e política de horas extras</div>
+            </div>
+            <div class="card-content">
+              <!-- HRDecisions Component -->
+              <button onclick="handleSubmitSuccess('Decisão de recursos humanos salva com sucesso!')">Salvar</button>
+              <button onclick="handleSubmitError('Erro ao salvar decisão de recursos humanos!')">Erro</button>
+            </div>
+          </div>
+        </div>
+
+        <div class="tabs-content" id="productionContent" style="display: none;">
+          <div class="card">
+            <div class="card-header">
+              <div class="card-title">Decisões de Produção</div>
+              <div class="card-description">Configure produção, qualidade e pesquisa & desenvolvimento</div>
+            </div>
+            <div class="card-content">
+              <!-- ProductionDecisions Component -->
+              <button onclick="handleSubmitSuccess('Decisão de produção salva com sucesso!')">Salvar</button>
+              <button onclick="handleSubmitError('Erro ao salvar decisão de produção!')">Erro</button>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <div id="toast" class="toast"></div>
+    </div>
+  </div>
+
+  <script>
+    let activeTab = "financial";
+
+    function changeTab(tab) {
+      // Hide all tab content
+      document.querySelectorAll('.tabs-content').forEach(content => {
+        content.style.display = 'none';
+      });
+
+      // Remove 'active' class from all tabs
+      document.querySelectorAll('.tabs-trigger').forEach(tabTrigger => {
+        tabTrigger.classList.remove('active');
+      });
+
+      // Show the selected tab content
+      document.getElementById(`${tab}Content`).style.display = 'block';
+
+      // Add 'active' class to the selected tab
+      document.getElementById(`${tab}Tab`).classList.add('active');
+    }
+
+    function handleSubmitSuccess(message) {
+      const toast = document.getElementById('toast');
+      toast.textContent = message;
+      toast.classList.remove('error');
+      toast.classList.add('show');
+      setTimeout(() => toast.classList.remove('show'), 3000);
+    }
+
+    function handleSubmitError(message) {
+      const toast = document.getElementById('toast');
+      toast.textContent = message;
+      toast.classList.add('error');
+      toast.classList.add('show');
+      setTimeout(() => toast.classList.remove('show'), 3000);
+    }
+
+    // Initialize the financial tab
+    changeTab(activeTab);
+  </script>
+</body>
+</html>

@@ -1,0 +1,98 @@
+/* General Styling */
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #f7f7f7;
+  }
+  
+  h1 {
+    font-size: 2rem;
+    font-weight: bold;
+  }
+  
+  .flex {
+    display: flex;
+  }
+  
+  .flex-1 {
+    flex: 1;
+  }
+  
+  .bg-gray-100 {
+    background-color: #f7f7f7;
+  }
+  
+  .dark .bg-background {
+    background-color: #1e1e1e;
+  }
+  
+  .space-x-4 {
+    display: flex;
+    gap: 1rem;
+  }
+  
+  .mb-6 {
+    margin-bottom: 1.5rem;
+  }
+  
+  .max-w-7xl {
+    max-width: 80rem;
+  }
+  
+  .mx-auto {
+    margin-left: auto;
+    margin-right: auto;
+  }
+  
+  .grid {
+    display: grid;
+  }
+  
+  .grid-cols-1 {
+    grid-template-columns: 1fr;
+  }
+  
+  .gap-6 {
+    gap: 1.5rem;
+  }
+  
+  .space-y-6 {
+    margin-top: 1.5rem;
+  }
+  
+  .btn-outline {
+    background-color: transparent;
+    border: 2px solid #4CAF50;
+    color: #4CAF50;
+    padding: 10px 20px;
+    font-size: 1rem;
+    cursor: pointer;
+  }
+  
+  #applyToAllBtn {
+    background-color: #4CAF50;
+    color: white;
+    padding: 10px 20px;
+    font-size: 1rem;
+    cursor: pointer;
+  }
+  
+  #applyToAllBtn:hover, .btn-outline:hover {
+    background-color: #45a049;
+  }
+  
+  #scenarioParameters, #randomEvents {
+    padding: 1rem;
+    background-color: #fff;
+    border-radius: 8px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+  }
+  
+  .error-message {
+    padding: 1rem;
+    background-color: #f8d7da;
+    color: #721c24;
+    border-radius: 5px;
+  }
+  

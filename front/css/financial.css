@@ -1,0 +1,118 @@
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f9fafb;
+    margin: 0;
+  }
+  
+  .page-transition.fade {
+    animation: fadeIn 0.5s ease-in-out;
+  }
+  
+  @keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+  }
+  
+  .flex-container {
+    display: flex;
+    height: 100vh;
+  }
+  
+  .side-menu {
+    width: 250px;
+    background-color: #1f2937;
+    color: white;
+    padding: 1rem;
+  }
+  
+  .main-container {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+  }
+  
+  .dashboard-header {
+    background-color: #f3f4f6;
+    padding: 1rem;
+    border-bottom: 1px solid #e5e7eb;
+  }
+  
+  .main-content {
+    flex: 1;
+    padding: 1rem;
+    overflow-y: auto;
+  }
+  
+  .header-section {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1rem;
+  }
+  
+  h2 {
+    font-size: 1.5rem;
+    margin: 0;
+  }
+  
+  .text-muted {
+    color: #6b7280;
+  }
+  
+  .btn {
+    background-color: #3b82f6;
+    color: white;
+    padding: 0.5rem 1rem;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+  }
+  
+  .separator {
+    margin: 1rem 0;
+    border: none;
+    border-top: 1px solid #e5e7eb;
+  }
+  
+  .tabs-list {
+    display: flex;
+    gap: 0.5rem;
+    margin-bottom: 1rem;
+  }
+  
+  .tab-btn {
+    background: none;
+    border: none;
+    padding: 0.5rem 1rem;
+    cursor: pointer;
+    border-bottom: 2px solid transparent;
+  }
+  
+  .tab-btn.active {
+    border-color: #3b82f6;
+    font-weight: bold;
+  }
+  
+  .tab-content {
+    display: block;
+  }
+  
+  .tab-content.hidden {
+    display: none;
+  }
+  
+  .card {
+    background: white;
+    padding: 1rem;
+    border-radius: 8px;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+  }
+  
+  .card h3 {
+    margin-top: 0;
+  }
+  
+  .card-content {
+    margin-top: 1rem;
+  }
+  

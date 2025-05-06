@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Produção - TechNovaX</title>
+    <link rel="stylesheet" href="../css/production.css">
+</head>
+<body>
+    <div class="page-transition min-h-screen bg-gray-50 dark:bg-business-navy/10">
+        <div class="flex h-screen">
+            <!-- Side Menu -->
+            <aside class="side-menu">
+                <ul>
+                    <li><button class="menu-item" data-view="producao">Produção</button></li>
+                    <!-- Add other menu items as necessary -->
+                </ul>
+            </aside>
+
+            <div class="flex-1 flex flex-col overflow-hidden">
+                <!-- Dashboard Header -->
+                <header class="dashboard-header">
+                    <h1>TechNovaX</h1>
+                </header>
+
+                <main class="flex-1 overflow-auto p-4 md:p-6">
+                    <div class="mb-6">
+                        <h2 class="text-2xl font-bold tracking-tight">Produção</h2>
+                        <p class="text-muted-foreground">Gerenciamento de produção e inventário</p>
+                    </div>
+
+                    <!-- Tabs Section -->
+                    <div class="tabs">
+                        <div class="tabs-list">
+                            <button class="tabs-trigger active" data-tab="overview">Visão Geral</button>
+                            <button class="tabs-trigger" data-tab="inventory">Inventário</button>
+                            <button class="tabs-trigger" data-tab="manufacturing">Manufatura</button>
+                        </div>
+
+                        <div class="tabs-content">
+                            <div class="tab-content active" id="overview">
+                                <div class="production-overview">
+                                    <!-- Production Overview content here -->
+                                    <p>Visão geral da produção.</p>
+                                </div>
+                            </div>
+                            <div class="tab-content" id="inventory">
+                                <div class="inventory-management">
+                                    <!-- Inventory Management content here -->
+                                    <p>Gestão de inventário.</p>
+                                </div>
+                            </div>
+                            <div class="tab-content" id="manufacturing">
+                                <div class="manufacturing-operations">
+                                    <!-- Manufacturing Operations content here -->
+                                    <p>Operações de manufatura.</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </main>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Handle tab switching
+        document.querySelectorAll('.tabs-trigger').forEach(tab => {
+            tab.addEventListener('click', () => {
+                const targetTab = tab.getAttribute('data-tab');
+
+                // Remove active class from all tabs
+                document.querySelectorAll('.tabs-trigger').forEach(trigger => trigger.classList.remove('active'));
+                tab.classList.add('active');
+
+                // Hide all tab content and show the selected one
+                document.querySelectorAll('.tab-content').forEach(content => {
+                    if (content.id === targetTab) {
+                        content.classList.add('active');
+                    } else {
+                        content.classList.remove('active');
+                    }
+                });
+            });
+        });
+
+        // Handle side menu view change
+        document.querySelectorAll('.menu-item').forEach(item => {
+            item.addEventListener('click', () => {
+                const selectedView = item.getAttribute('data-view');
+                alert(`Você selecionou a visão: ${selectedView}`);
+                // Additional logic for view change can be added here
+            });
+        });
+    </script>
+</body>
+</html>

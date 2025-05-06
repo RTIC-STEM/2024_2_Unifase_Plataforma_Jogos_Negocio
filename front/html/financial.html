@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Gestão Financeira - TechNovaX</title>
+  <link rel="stylesheet" href="../css/financial.css">
+</head>
+<body class="bg-gray-50">
+  <div class="page-transition fade min-h-screen">
+    <div class="flex-container">
+      <aside id="side-menu" class="side-menu">
+        <!-- Aqui você insere o menu lateral -->
+      </aside>
+      <div class="main-container">
+        <header class="dashboard-header">
+          <h1>TechNovaX</h1>
+        </header>
+        <main class="main-content">
+          <div class="header-section">
+            <div>
+              <h2>Gestão Financeira</h2>
+              <p class="text-muted">Análise e gerenciamento das finanças da empresa</p>
+            </div>
+            <button id="decision-btn" class="btn">
+              Tomar Decisões Financeiras →
+            </button>
+          </div>
+          <hr class="separator">
+          <div class="tabs">
+            <div class="tabs-list">
+              <button class="tab-btn active" data-tab="balance-sheet">Balanço Patrimonial</button>
+              <button class="tab-btn" data-tab="cash-flow">Fluxo de Caixa</button>
+              <button class="tab-btn" data-tab="income-statement">DRE</button>
+            </div>
+            <div class="tab-content" id="balance-sheet">
+              <div class="card">
+                <h3>Balanço Patrimonial</h3>
+                <p>Ativos vs. Passivos da empresa</p>
+                <div class="card-content">
+                  <!-- Componente Balanço Patrimonial aqui -->
+                  <p>Conteúdo do Balanço Patrimonial...</p>
+                </div>
+              </div>
+            </div>
+            <div class="tab-content hidden" id="cash-flow">
+              <div class="card">
+                <h3>Fluxo de Caixa</h3>
+                <p>Entradas e saídas financeiras por período</p>
+                <div class="card-content">
+                  <!-- Componente Fluxo de Caixa aqui -->
+                  <p>Conteúdo do Fluxo de Caixa...</p>
+                </div>
+              </div>
+            </div>
+            <div class="tab-content hidden" id="income-statement">
+              <div class="card">
+                <h3>Demonstração do Resultado do Exercício</h3>
+                <p>Receitas, custos e despesas do período anterior</p>
+                <div class="card-content">
+                  <!-- Componente DRE aqui -->
+                  <p>Conteúdo do DRE...</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </main>
+      </div>
+    </div>
+  </div>
+  <script src="financial.js"></script>
+</body>
+</html>

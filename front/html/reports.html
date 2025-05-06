@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Relatórios - TechNovaX</title>
+    <link rel="stylesheet" href="../css/reports.css">
+    <script src="https://cdn.jsdelivr.net/npm/lucide-icons"></script>
+</head>
+<body>
+    <div class="flex h-screen bg-gray-100 dark:bg-background">
+        <!-- Menu lateral -->
+        <aside class="side-menu">
+            <ul>
+                <li><button class="menu-item" data-view="reports">Relatórios</button></li>
+                <!-- Adicionar outros itens de menu conforme necessário -->
+            </ul>
+        </aside>
+
+        <div class="flex-1 p-8 overflow-auto">
+            <div class="flex items-center justify-between mb-6">
+                <h1 class="text-3xl font-bold">Relatórios</h1>
+                <div class="flex gap-2">
+                    <button class="button-outline">
+                        <svg class="icon" width="16" height="16" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M4 8L12 8M12 8L8 4M12 8L8 12" stroke="currentColor" stroke-width="2"></path></svg>
+                        Exportar PDF
+                    </button>
+                    <button class="button-outline">
+                        <svg class="icon" width="16" height="16" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M4 8L12 8M12 8L8 4M12 8L8 12" stroke="currentColor" stroke-width="2"></path></svg>
+                        Exportar Excel
+                    </button>
+                </div>
+            </div>
+
+            <div class="tabs">
+                <div class="tabs-list">
+                    <button class="tabs-trigger active" data-tab="performance">Desempenho</button>
+                    <button class="tabs-trigger" data-tab="comparison">Comparativo</button>
+                    <button class="tabs-trigger" data-tab="swot">Análise SWOT</button>
+                </div>
+
+                <!-- Desempenho -->
+                <div class="tabs-content active" id="performance">
+                    <div class="card">
+                        <div class="card-header">
+                            <h2>Relatório de Desempenho</h2>
+                        </div>
+                        <div class="card-content">
+                            <div class="chart-placeholder">
+                                <svg class="icon chart-icon" width="48" height="48" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M4 8L12 8M12 8L8 4M12 8L8 12" stroke="currentColor" stroke-width="2"></path></svg>
+                                <p>Escolha uma equipe abaixo para visualizar seu desempenho</p>
+                            </div>
+
+                            <div class="team-buttons">
+                                <button class="button">Equipe 1</button>
+                                <button class="button">Equipe 2</button>
+                                <button class="button">Equipe 3</button>
+                                <button class="button">Equipe 4</button>
+                            </div>
+
+                            <div class="customization">
+                                <h3>Customização</h3>
+                                <div class="theme-buttons">
+                                    <button class="theme-button active" style="background-color: #6B7280;"></button>
+                                    <button class="theme-button" style="background-color: #3B82F6;"></button>
+                                    <button class="theme-button" style="background-color: #10B981;"></button>
+                                    <button class="theme-button" style="background-color: #8B5CF6;"></button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="card">
+                        <div class="card-header">
+                            <h2>Feedback Customizado</h2>
+                        </div>
+                        <div class="card-content">
+                            <textarea class="textarea" placeholder="Insira seus comentários sobre o desempenho da equipe..."></textarea>
+                        </div>
+                        <div class="card-footer">
+                            <button class="button">Salvar Feedback</button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Comparativo -->
+                <div class="tabs-content" id="comparison">
+                    <div class="card">
+                        <div class="card-header">
+                            <h2>Relatório Comparativo</h2>
+                        </div>
+                        <div class="card-content">
+                            <p>Conteúdo de comparativo de desempenho da equipe.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Análise SWOT -->
+                <div class="tabs-content" id="swot">
+                    <div class="card">
+                        <div class="card-header">
+                            <h2>Análise SWOT Automática</h2>
+                        </div>
+                        <div class="card-content">
+                            <p>Conteúdo da análise SWOT.</p>
+                        </div>
+                        <div class="card-footer">
+                            <button class="button-outline">
+                                <svg class="icon" width="16" height="16" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M4 8L12 8M12 8L8 4M12 8L8 12" stroke="currentColor" stroke-width="2"></path></svg>
+                                Atualizar Análise
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Handle tab switching
+        document.querySelectorAll('.tabs-trigger').forEach(tab => {
+            tab.addEventListener('click', () => {
+                const targetTab = tab.getAttribute('data-tab');
+
+                // Remove active class from all tabs and content
+                document.querySelectorAll('.tabs-trigger').forEach(trigger => trigger.classList.remove('active'));
+                tab.classList.add('active');
+
+                document.querySelectorAll('.tabs-content').forEach(content => {
+                    if (content.id === targetTab) {
+                        content.classList.add('active');
+                    } else {
+                        content.classList.remove('active');
+                    }
+                });
+            });
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Criação de Cenários</title>
+  <link rel="stylesheet" href="../css/scenarioCreation.css">
+</head>
+<body>
+  <div class="flex h-screen bg-gray-100 dark:bg-background">
+    <!-- Side Menu -->
+    <div class="side-menu" id="sideMenu">
+      <!-- ProfessorSideMenu Content -->
+    </div>
+    
+    <div class="flex-1 p-8 overflow-auto">
+      <div class="max-w-7xl mx-auto">
+        <div class="flex justify-between items-center mb-6">
+          <h1 class="text-3xl font-bold">Criação de Cenários</h1>
+          <div class="space-x-4">
+            <button class="btn-outline" id="saveScenarioBtn">
+              Salvar Cenário
+            </button>
+            <button id="applyToAllBtn">
+              Aplicar a Todas as Empresas
+            </button>
+          </div>
+        </div>
+
+        <div class="grid grid-cols-1 gap-6">
+          <div class="space-y-6">
+            <div id="scenarioParameters">
+              <!-- ScenarioParameters Content -->
+            </div>
+            <div id="randomEvents">
+              <!-- RandomEvents Content -->
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    document.addEventListener('DOMContentLoaded', function () {
+      let economicParams = {
+        interestRate: "5.5",
+        minimumWage: "1412",
+        priceSet: "",
+      };
+
+      let selectedEventId = null;
+
+      // Toast notification system (simulated with alert)
+      const toast = (message, isError = false) => {
+        if (isError) {
+          alert(`Erro: ${message}`);
+        } else {
+          alert(message);
+        }
+      };
+
+      // Event listeners
+      const saveScenarioBtn = document.getElementById("saveScenarioBtn");
+      const applyToAllBtn = document.getElementById("applyToAllBtn");
+
+      // Save scenario handler
+      saveScenarioBtn.addEventListener("click", () => {
+        try {
+          // Simulate saving scenario (future implementation)
+          toast("Cenário salvo com sucesso.");
+        } catch (error) {
+          toast("Ocorreu um erro ao salvar o cenário.", true);
+        }
+      });
+
+      // Apply scenario to all companies handler
+      applyToAllBtn.addEventListener("click", () => {
+        try {
+          // Simulate applying scenario to all companies (future implementation)
+          toast("Cenário aplicado a todas as empresas.");
+        } catch (error) {
+          toast("Ocorreu um erro ao aplicar o cenário.", true);
+        }
+      });
+
+      // Handling economic parameter changes (future form inputs)
+      const handleParamChange = (param, value) => {
+        economicParams[param] = value;
+        console.log(economicParams);
+      };
+
+      // Simulate loading ScenarioParameters and RandomEvents components
+      const scenarioParametersDiv = document.getElementById("scenarioParameters");
+      scenarioParametersDiv.innerHTML = `
+        <div>
+          <label for="interestRate">Taxa de Juros:</label>
+          <input id="interestRate" type="text" value="${economicParams.interestRate}" onchange="handleParamChange('interestRate', this.value)" />
+        </div>
+        <div>
+          <label for="minimumWage">Salário Mínimo:</label>
+          <input id="minimumWage" type="text" value="${economicParams.minimumWage}" onchange="handleParamChange('minimumWage', this.value)" />
+        </div>
+        <div>
+          <label for="priceSet">Conjunto de Preços:</label>
+          <input id="priceSet" type="text" value="${economicParams.priceSet}" onchange="handleParamChange('priceSet', this.value)" />
+        </div>
+      `;
+
+      const randomEventsDiv = document.getElementById("randomEvents");
+      randomEventsDiv.innerHTML = `
+        <div>
+          <label for="randomEvent">Selecione um Evento Aleatório:</label>
+          <select id="randomEvent" onchange="selectedEventId = this.value">
+            <option value="1">Evento 1</option>
+            <option value="2">Evento 2</option>
+            <option value="3">Evento 3</option>
+          </select>
+        </div>
+      `;
+    });
+  </script>
+</body>
+</html>

@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Notificações</title>
+    <link rel="stylesheet" href="../css/notifications.css">
+</head>
+<body>
+    <div class="page-transition min-h-screen bg-gray-50 dark:bg-business-navy/10">
+        <div class="flex h-screen">
+            <aside class="side-menu">
+                <div class="menu-item">Dashboard</div>
+                <!-- Add other menu items here -->
+            </aside>
+
+            <div class="main-content flex-1 flex flex-col overflow-hidden">
+                <header class="dashboard-header">
+                    <h1>TechNovaX</h1>
+                </header>
+
+                <main class="flex-1 overflow-auto p-4 md:p-6">
+                    <div class="grid gap-4 md:gap-6 mb-6">
+                        <div class="flex items-center justify-between">
+                            <div class="flex items-center gap-2">
+                                <svg class="h-6 w-6 text-business-blue" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none"><path d="M12 20c4.418 0 8-3.582 8-8s-3.582-8-8-8-8 3.582-8 8 3.582 8 8 8z"></path></svg>
+                                <h2 class="text-2xl font-bold tracking-tight">Notificações</h2>
+                            </div>
+                            <div class="flex items-center gap-2">
+                                <button class="btn-outline-sm">Marcar todas como lidas</button>
+                                <button class="btn-outline-sm btn-clear-read">Limpar lidas</button>
+                            </div>
+                        </div>
+
+                        <hr class="separator" />
+
+                        <div class="alert-container">
+                            <div class="alert alert-info">
+                                <svg class="h-4 w-4 text-business-blue" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none"><path d="M12 4v16m0 0h-1m1 0h1"></path></svg>
+                                <div>
+                                    <h3 class="alert-title">Atenção</h3>
+                                    <p class="alert-description">Você tem 3 notificação(ões) não lidas.</p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="card">
+                            <div class="card-header">
+                                <h3 class="card-title">Central de Notificações</h3>
+                            </div>
+                            <div class="card-content">
+                                <div class="tabs">
+                                    <div class="tabs-list">
+                                        <button class="tabs-trigger active" data-tab="all">Todas</button>
+                                        <button class="tabs-trigger" data-tab="unread">Não lidas</button>
+                                        <button class="tabs-trigger" data-tab="read">Lidas</button>
+                                    </div>
+                                    <div class="tabs-content">
+                                        <div class="tab-content active" id="all">
+                                            <!-- All notifications will be displayed here -->
+                                        </div>
+                                        <div class="tab-content" id="unread">
+                                            <!-- Unread notifications here -->
+                                        </div>
+                                        <div class="tab-content" id="read">
+                                            <!-- Read notifications here -->
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </main>
+            </div>
+        </div>
+    </div>
+    <script src="script.js"></script>
+</body>
+</html>

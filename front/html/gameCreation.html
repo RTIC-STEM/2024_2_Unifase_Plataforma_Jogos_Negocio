@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <title>Criação de Jogo de Simulação</title>
+  <link rel="stylesheet" href="../css/gameCreation.css">
+</head>
+<body>
+  <div class="container">
+    <h1>Criação de Jogo de Simulação</h1>
+
+    <form id="gameForm">
+      <div class="card">
+        <h2>Configurações Gerais</h2>
+        <p>Configure os parâmetros gerais do jogo de simulação empresarial</p>
+        <label for="companyCount">Número de Empresas</label>
+        <input type="number" id="companyCount" min="2" max="6" value="4">
+
+        <label for="duration">Duração (meses)</label>
+        <select id="duration">
+          <option value="3">3 meses</option>
+          <option value="6">6 meses</option>
+          <option value="9">9 meses</option>
+          <option value="12">12 meses</option>
+        </select>
+      </div>
+
+      <div class="card">
+        <h2>Empresa Modelo</h2>
+        <p>Configure o modelo de empresa que será utilizado como base para as simulações</p>
+
+        <div class="tabs">
+          <button type="button" class="tab active" data-tab="profile">Perfil da Empresa</button>
+          <button type="button" class="tab" data-tab="financial">Detalhes Financeiros</button>
+        </div>
+
+        <div class="tab-content" id="profileTab">
+          <label>Nome da Empresa</label>
+          <input type="text" id="companyName" placeholder="Ex: Tech Solutions">
+
+          <label>Setor de Atuação</label>
+          <select id="sector">
+            <option value="">Selecione</option>
+            <option value="Tecnologia">Tecnologia</option>
+            <option value="Comércio">Comércio</option>
+            <option value="Serviços">Serviços</option>
+            <option value="Indústria">Indústria</option>
+          </select>
+
+          <label>Tamanho da Empresa</label>
+          <select id="companySize">
+            <option value="">Selecione</option>
+            <option value="Pequena">Pequena</option>
+            <option value="Média">Média</option>
+            <option value="Grande">Grande</option>
+          </select>
+
+          <label>Tipo de Produto/Serviço</label>
+          <input type="text" id="productType" placeholder="Ex: Software de gestão">
+        </div>
+
+        <div class="tab-content hidden" id="financialTab">
+          <label>Preço Sugerido do Produto (R$)</label>
+          <input type="number" id="suggestedPrice" step="0.01" placeholder="Ex: 10.00">
+
+          <label>Capital Inicial (R$)</label>
+          <input type="number" id="initialCapital" placeholder="Ex: 50000">
+
+          <label>Quantidade de Funcionários</label>
+          <input type="number" id="employeeCount" placeholder="Ex: 10">
+
+          <label>Salário Médio dos Funcionários (R$)</label>
+          <input type="number" id="averageSalary" step="0.01" placeholder="Ex: 3500">
+        </div>
+
+        <button type="button" id="generateHistory">Gerar História da Empresa</button>
+        <p id="historyError" class="error"></p>
+
+        <div id="companyHistory" class="card hidden">
+          <h3>História da Empresa</h3>
+          <div id="historyContent"></div>
+        </div>
+      </div>
+
+      <div class="actions">
+        <button type="submit">Criar Jogo</button>
+      </div>
+    </form>
+  </div>
+
+  <script>
+    const tabs = document.querySelectorAll('.tab');
+    const profileTab = document.getElementById('profileTab');
+    const financialTab = document.getElementById('financialTab');
+    const historyError = document.getElementById('historyError');
+    const companyHistory = document.getElementById('companyHistory');
+    const historyContent = document.getElementById('historyContent');
+
+    tabs.forEach(tab => {
+      tab.addEventListener('click', () => {
+        tabs.forEach(t => t.classList.remove('active'));
+        tab.classList.add('active');
+        if (tab.dataset.tab === 'profile') {
+          profileTab.classList.remove('hidden');
+          financialTab.classList.add('hidden');
+        } else {
+          profileTab.classList.add('hidden');
+          financialTab.classList.remove('hidden');
+        }
+      });
+    });
+
+    document.getElementById('generateHistory').addEventListener('click', () => {
+      const name = document.getElementById('companyName').value;
+      const sector = document.getElementById('sector').value;
+      const size = document.getElementById('companySize').value;
+      const productType = document.getElementById('productType').value;
+      const price = document.getElementById('suggestedPrice').value;
+      const capital = document.getElementById('initialCapital').value;
+      const employees = document.getElementById('employeeCount').value;
+      const salary = document.getElementById('averageSalary').value;
+
+      if (!name || !sector || !size || !productType || !price || !capital || !employees || !salary) {
+        historyError.textContent = "Por favor, preencha todos os campos do perfil da empresa.";
+        return;
+      }
+
+      historyError.textContent = "";
+      const historyText = `
+        <p><strong>${name}</strong> é uma empresa do setor ${sector}, classificada como ${size}, especializada em ${productType}.</p>
+        <p>Preço sugerido: R$ ${price}, Capital inicial: R$ ${capital}, Funcionários: ${employees}, Salário médio: R$ ${salary}.</p>
+        <p>Com uma visão inovadora, ${name} busca se destacar no mercado brasileiro nos próximos anos.</p>
+      `;
+
+      historyContent.innerHTML = historyText;
+      companyHistory.classList.remove('hidden');
+    });
+
+    document.getElementById('gameForm').addEventListener('submit', (e) => {
+      e.preventDefault();
+      alert('Jogo criado com sucesso!');
+    });
+  </script>
+</body>
+</html>

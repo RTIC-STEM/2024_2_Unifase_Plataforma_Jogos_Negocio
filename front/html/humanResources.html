@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Recursos Humanos</title>
+  <link rel="stylesheet" href="../css/humanResources.css">
+</head>
+<body class="min-h-screen bg-gray-50">
+  <div class="flex h-screen">
+    <nav class="side-menu">
+      <!-- SideMenu (simples) -->
+      <button class="menu-btn" data-view="rh">RH</button>
+      <button class="menu-btn" data-view="outro">Outro</button>
+    </nav>
+
+    <div class="flex-1 flex flex-col overflow-hidden">
+      <header class="dashboard-header">
+        <h1 class="company-name">TechNovaX</h1>
+      </header>
+
+      <main class="flex-1 overflow-auto p-4">
+        <div class="header mb-6">
+          <h2 class="text-2xl font-bold">Recursos Humanos</h2>
+          <p class="text-muted">Gerencie equipes, departamentos e treinamentos</p>
+        </div>
+
+        <div class="tabs">
+          <div class="tabs-list mb-4">
+            <button class="tab-btn active" data-tab="overview">Visão Geral</button>
+            <button class="tab-btn" data-tab="employees">Funcionários</button>
+            <button class="tab-btn" data-tab="departments">Departamentos</button>
+            <button class="tab-btn" data-tab="training">Treinamentos</button>
+          </div>
+
+          <div class="tab-content" id="overview">
+            <p>Conteúdo da Visão Geral</p>
+          </div>
+          <div class="tab-content hidden" id="employees">
+            <p>Conteúdo de Funcionários</p>
+          </div>
+          <div class="tab-content hidden" id="departments">
+            <p>Conteúdo de Departamentos</p>
+          </div>
+          <div class="tab-content hidden" id="training">
+            <p>Conteúdo de Treinamentos</p>
+          </div>
+        </div>
+      </main>
+    </div>
+  </div>
+
+  <script>
+    // Troca de abas
+    const tabButtons = document.querySelectorAll('.tab-btn');
+    const tabContents = document.querySelectorAll('.tab-content');
+
+    tabButtons.forEach(button => {
+      button.addEventListener('click', () => {
+        const tab = button.getAttribute('data-tab');
+
+        tabButtons.forEach(btn => btn.classList.remove('active'));
+        button.classList.add('active');
+
+        tabContents.forEach(content => {
+          content.classList.toggle('hidden', content.id !== tab);
+        });
+      });
+    });
+
+    // Troca de menu lateral (exemplo simples)
+    const menuButtons = document.querySelectorAll('.menu-btn');
+    menuButtons.forEach(button => {
+      button.addEventListener('click', () => {
+        alert(`Você clicou na view: ${button.getAttribute('data-view')}`);
+      });
+    });
+  </script>
+</body>
+</html>

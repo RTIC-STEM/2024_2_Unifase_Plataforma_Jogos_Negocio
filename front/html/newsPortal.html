@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+  <meta charset="UTF-8">
+  <title>Portal de Notícias - Mercado em Dia</title>
+  <link rel="stylesheet" href="../css/newsPortal.css">
+</head>
+<body>
+  <div class="page">
+    <aside class="side-menu">
+      <button class="menu-button active">Portal</button>
+    </aside>
+
+    <div class="main-content">
+      <header class="dashboard-header">
+        <h1 class="company-name">TechNovaX</h1>
+      </header>
+
+      <main class="content-area">
+        <div class="section-header">
+          <div class="section-title">
+            <span class="icon">📰</span>
+            <h2>Mercado em Dia</h2>
+          </div>
+          <span class="badge">Trimestre 3, Rodada 2</span>
+        </div>
+
+        <hr class="separator">
+
+        <div class="tabs">
+          <div class="tabs-list">
+            <button class="tab-button active" data-tab="news">📰 Notícias</button>
+            <button class="tab-button" data-tab="market">📈 Mercado</button>
+            <button class="tab-button" data-tab="crypto">🪙 Criptomoedas</button>
+            <button class="tab-button" data-tab="suppliers">📦 Fornecedores</button>
+          </div>
+
+          <div class="tabs-content">
+            <div class="tab-content active" id="news">
+              <p>Aqui entram as notícias do dia...</p>
+            </div>
+            <div class="tab-content" id="market">
+              <p>Aqui entram os dados do mercado...</p>
+            </div>
+            <div class="tab-content" id="crypto">
+              <p>Aqui entram os dados de criptomoedas...</p>
+            </div>
+            <div class="tab-content" id="suppliers">
+              <p>Aqui entram os fornecedores...</p>
+            </div>
+          </div>
+        </div>
+      </main>
+    </div>
+  </div>
+
+  <script>
+    // scripts.js
+
+    document.addEventListener("DOMContentLoaded", function() {
+      const tabButtons = document.querySelectorAll(".tab-button");
+      const tabContents = document.querySelectorAll(".tab-content");
+
+      tabButtons.forEach(button => {
+        button.addEventListener("click", () => {
+          // Remove active from all buttons
+          tabButtons.forEach(btn => btn.classList.remove("active"));
+          // Add active to clicked button
+          button.classList.add("active");
+
+          // Hide all contents
+          tabContents.forEach(content => content.classList.remove("active"));
+
+          // Show selected tab
+          const tabId = button.getAttribute("data-tab");
+          document.getElementById(tabId).classList.add("active");
+        });
+      });
+    });
+  </script>
+</body>
+</html>

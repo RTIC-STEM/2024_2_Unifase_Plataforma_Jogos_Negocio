@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Resultados da Rodada</title>
+  <link rel="stylesheet" href="../css/roundResults.css">
+</head>
+<body class="bg-gray-50 dark:bg-business-navy/10">
+  <div class="flex h-screen">
+    <!-- Side Menu -->
+    <div class="side-menu" id="sideMenu">
+      <!-- Side menu content goes here -->
+    </div>
+
+    <div class="flex-1 flex flex-col overflow-hidden">
+      <header class="dashboard-header">
+        <h1 class="text-3xl font-bold">TechNovaX</h1>
+      </header>
+
+      <main class="flex-1 overflow-auto p-4 md:p-6">
+        <div class="mb-6">
+          <h2 class="text-2xl font-bold tracking-tight">Resultados da Rodada</h2>
+          <p class="text-muted-foreground">Ranking das empresas e análise de desempenho</p>
+        </div>
+
+        <div class="tabs">
+          <ul class="tabs-list">
+            <li class="tab-trigger active" data-tab="ranking">Ranking</li>
+            <li class="tab-trigger" data-tab="financial">Financeiro</li>
+            <li class="tab-trigger" data-tab="market-share">Market Share</li>
+            <li class="tab-trigger" data-tab="satisfaction">Satisfação do Cliente</li>
+          </ul>
+
+          <div class="tabs-content">
+            <div class="tab-content active" id="ranking">
+              <!-- CompanyRanking Component -->
+              <div>Ranking Component</div>
+            </div>
+            <div class="tab-content" id="financial">
+              <!-- FinancialResults Component -->
+              <div>Financial Results Component</div>
+            </div>
+            <div class="tab-content" id="market-share">
+              <!-- MarketShareAnalysis Component -->
+              <div>Market Share Analysis Component</div>
+            </div>
+            <div class="tab-content" id="satisfaction">
+              <!-- CustomerSatisfaction Component -->
+              <div>Customer Satisfaction Component</div>
+            </div>
+          </div>
+        </div>
+      </main>
+    </div>
+  </div>
+
+  <script>
+    document.addEventListener("DOMContentLoaded", function() {
+      const tabs = document.querySelectorAll('.tab-trigger');
+      const tabContents = document.querySelectorAll('.tab-content');
+
+      tabs.forEach(tab => {
+        tab.addEventListener('click', function() {
+          // Remove active class from all tabs
+          tabs.forEach(t => t.classList.remove('active'));
+
+          // Add active class to clicked tab
+          tab.classList.add('active');
+
+          // Hide all tab content
+          tabContents.forEach(content => content.classList.remove('active'));
+
+          // Show the content of the clicked tab
+          const targetTab = document.getElementById(tab.getAttribute('data-tab'));
+          targetTab.classList.add('active');
+        });
+      });
+    });
+  </script>
+</body>
+</html>

@@ -1,0 +1,106 @@
+/* styles.css */
+
+body, html {
+    margin: 0;
+    padding: 0;
+    font-family: Arial, sans-serif;
+  }
+  
+  .page {
+    display: flex;
+    min-height: 100vh;
+    background-color: #f9fafb;
+  }
+  
+  .side-menu {
+    width: 200px;
+    background-color: #1f2937;
+    color: white;
+    display: flex;
+    flex-direction: column;
+    padding: 1rem;
+  }
+  
+  .menu-button {
+    background: none;
+    border: none;
+    color: white;
+    margin-bottom: 1rem;
+    padding: 0.5rem;
+    cursor: pointer;
+  }
+  
+  .menu-button.active {
+    font-weight: bold;
+    text-decoration: underline;
+  }
+  
+  .main-content {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+  }
+  
+  .dashboard-header {
+    padding: 1rem;
+    background-color: #ffffff;
+    border-bottom: 1px solid #e5e7eb;
+  }
+  
+  .company-name {
+    margin: 0;
+  }
+  
+  .content-area {
+    padding: 1rem;
+  }
+  
+  .section-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  
+  .section-title {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+  }
+  
+  .badge {
+    background-color: #14b8a6;
+    color: white;
+    padding: 0.25rem 0.5rem;
+    border-radius: 0.25rem;
+  }
+  
+  .separator {
+    margin: 1rem 0;
+  }
+  
+  .tabs-list {
+    display: flex;
+    gap: 0.5rem;
+    margin-bottom: 1rem;
+  }
+  
+  .tab-button {
+    padding: 0.5rem 1rem;
+    background-color: #e5e7eb;
+    border: none;
+    cursor: pointer;
+  }
+  
+  .tab-button.active {
+    background-color: #3b82f6;
+    color: white;
+  }
+  
+  .tab-content {
+    display: none;
+  }
+  
+  .tab-content.active {
+    display: block;
+  }
+  
