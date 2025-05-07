@@ -2,143 +2,386 @@
 <html lang="pt-BR">
 <head>
   <meta charset="UTF-8">
-  <title>Criação de Jogo de Simulação</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Business Strategy - Criação de Jogo</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/lucide/1.0.0/lucide.min.css">
   <link rel="stylesheet" href="../css/gameCreation.css">
 </head>
 <body>
-  <div class="container">
-    <h1>Criação de Jogo de Simulação</h1>
-
-    <form id="gameForm">
-      <div class="card">
-        <h2>Configurações Gerais</h2>
-        <p>Configure os parâmetros gerais do jogo de simulação empresarial</p>
-        <label for="companyCount">Número de Empresas</label>
-        <input type="number" id="companyCount" min="2" max="6" value="4">
-
-        <label for="duration">Duração (meses)</label>
-        <select id="duration">
-          <option value="3">3 meses</option>
-          <option value="6">6 meses</option>
-          <option value="9">9 meses</option>
-          <option value="12">12 meses</option>
-        </select>
-      </div>
-
-      <div class="card">
-        <h2>Empresa Modelo</h2>
-        <p>Configure o modelo de empresa que será utilizado como base para as simulações</p>
-
-        <div class="tabs">
-          <button type="button" class="tab active" data-tab="profile">Perfil da Empresa</button>
-          <button type="button" class="tab" data-tab="financial">Detalhes Financeiros</button>
+  <div id="app" class="flex">
+    <!-- Sidebar will be injected by JavaScript -->
+    <div id="main-content" class="p-8 overflow-auto">
+      <h1 class="text-3xl font-bold mb-6">Criação de Jogo de Simulação</h1>
+      
+      <form id="game-creation-form">
+        <div class="grid gap-6">
+          <div class="card">
+            <div class="card-header">
+              <div class="card-title">Configurações Gerais</div>
+              <div class="card-description">
+                Configure os parâmetros gerais do jogo de simulação empresarial
+              </div>
+            </div>
+            <div class="card-content grid gap-4">
+              <div class="grid gap-2">
+                <label for="companyCount">Número de Empresas</label>
+                <input 
+                  type="number" 
+                  id="companyCount" 
+                  min="2" 
+                  max="6" 
+                  value="4"
+                  placeholder="Número de empresas (2-6)"
+                />
+              </div>
+              
+              <div class="grid gap-2">
+                <label for="duration">Duração (meses)</label>
+                <div class="select">
+                  <div class="select-trigger">
+                    <span id="duration-value">3 meses</span>
+                    <i class="lucide lucide-chevron-down"></i>
+                  </div>
+                  <div class="select-content hidden">
+                    <div class="select-item" data-value="3">3 meses</div>
+                    <div class="select-item" data-value="6">6 meses</div>
+                    <div class="select-item" data-value="9">9 meses</div>
+                    <div class="select-item" data-value="12">12 meses</div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          
+          <div class="card">
+            <div class="card-header">
+              <div class="card-title">Empresa Modelo</div>
+              <div class="card-description">
+                Configure o modelo de empresa que será utilizado como base para as simulações
+              </div>
+            </div>
+            <div class="card-content">
+              <div class="tabs">
+                <div class="tabs-list">
+                  <div class="tabs-trigger active" data-tab="company-profile">Perfil da Empresa</div>
+                  <div class="tabs-trigger" data-tab="financial-details">Detalhes Financeiros</div>
+                </div>
+                
+                <div id="company-profile" class="tabs-content space-y-4 mt-4">
+                  <div class="grid gap-2">
+                    <label for="companyName">Nome da Empresa</label>
+                    <input 
+                      id="companyName" 
+                      placeholder="Ex: Tech Solutions" 
+                    />
+                  </div>
+                  
+                  <div class="grid gap-2">
+                    <label for="sector">Setor de Atuação</label>
+                    <div class="select">
+                      <div class="select-trigger">
+                        <span id="sector-value">Selecione um setor</span>
+                        <i class="lucide lucide-chevron-down"></i>
+                      </div>
+                      <div class="select-content hidden">
+                        <div class="select-item" data-value="Tecnologia">Tecnologia</div>
+                        <div class="select-item" data-value="Comércio">Comércio</div>
+                        <div class="select-item" data-value="Serviços">Serviços</div>
+                        <div class="select-item" data-value="Indústria">Indústria</div>
+                      </div>
+                    </div>
+                  </div>
+                  
+                  <div class="grid gap-2">
+                    <label for="companySize">Tamanho da Empresa</label>
+                    <div class="select">
+                      <div class="select-trigger">
+                        <span id="companySize-value">Selecione o tamanho</span>
+                        <i class="lucide lucide-chevron-down"></i>
+                      </div>
+                      <div class="select-content hidden">
+                        <div class="select-item" data-value="Pequena">Pequena</div>
+                        <div class="select-item" data-value="Média">Média</div>
+                        <div class="select-item" data-value="Grande">Grande</div>
+                      </div>
+                    </div>
+                  </div>
+                  
+                  <div class="grid gap-2">
+                    <label for="productType">Tipo de Produto/Serviço</label>
+                    <input 
+                      id="productType" 
+                      placeholder="Ex: Software de gestão" 
+                    />
+                  </div>
+                </div>
+                
+                <div id="financial-details" class="tabs-content space-y-4 mt-4 hidden">
+                  <div class="grid gap-2">
+                    <label for="suggestedPrice">Preço Sugerido do Produto (R$)</label>
+                    <input 
+                      id="suggestedPrice" 
+                      type="number" 
+                      step="0.01"
+                      placeholder="Ex: 10.00" 
+                    />
+                  </div>
+                  
+                  <div class="grid gap-2">
+                    <label for="initialCapital">Capital Inicial (R$)</label>
+                    <input 
+                      id="initialCapital" 
+                      type="number" 
+                      placeholder="Ex: 50000" 
+                    />
+                  </div>
+                  
+                  <div class="grid gap-2">
+                    <label for="employeeCount">Quantidade de Funcionários</label>
+                    <input 
+                      id="employeeCount" 
+                      type="number" 
+                      placeholder="Ex: 10" 
+                    />
+                  </div>
+                  
+                  <div class="grid gap-2">
+                    <label for="averageSalary">Salário Médio dos Funcionários (R$)</label>
+                    <input 
+                      id="averageSalary" 
+                      type="number" 
+                      step="0.01"
+                      placeholder="Ex: 3500" 
+                    />
+                  </div>
+                </div>
+              </div>
+              
+              <div class="mt-4">
+                <button 
+                  type="button" 
+                  id="generate-history"
+                  class="button button-outline w-full"
+                >
+                  Gerar História da Empresa
+                </button>
+              </div>
+              
+              <div id="history-error" class="alert alert-destructive hidden">
+                <i class="lucide lucide-alert-circle"></i>
+                <div id="error-message"></div>
+              </div>
+              
+              <div id="company-history-container" class="card mt-4 border-l-business-navy hidden">
+                <div class="card-header">
+                  <div class="card-title">História da Empresa</div>
+                </div>
+                <div class="card-content">
+                  <div id="company-history" class="prose max-w-none"></div>
+                </div>
+              </div>
+            </div>
+          </div>
+          
+          <div class="flex justify-end">
+            <button type="submit" class="button button-lg bg-business-navy">Criar Jogo</button>
+          </div>
         </div>
-
-        <div class="tab-content" id="profileTab">
-          <label>Nome da Empresa</label>
-          <input type="text" id="companyName" placeholder="Ex: Tech Solutions">
-
-          <label>Setor de Atuação</label>
-          <select id="sector">
-            <option value="">Selecione</option>
-            <option value="Tecnologia">Tecnologia</option>
-            <option value="Comércio">Comércio</option>
-            <option value="Serviços">Serviços</option>
-            <option value="Indústria">Indústria</option>
-          </select>
-
-          <label>Tamanho da Empresa</label>
-          <select id="companySize">
-            <option value="">Selecione</option>
-            <option value="Pequena">Pequena</option>
-            <option value="Média">Média</option>
-            <option value="Grande">Grande</option>
-          </select>
-
-          <label>Tipo de Produto/Serviço</label>
-          <input type="text" id="productType" placeholder="Ex: Software de gestão">
-        </div>
-
-        <div class="tab-content hidden" id="financialTab">
-          <label>Preço Sugerido do Produto (R$)</label>
-          <input type="number" id="suggestedPrice" step="0.01" placeholder="Ex: 10.00">
-
-          <label>Capital Inicial (R$)</label>
-          <input type="number" id="initialCapital" placeholder="Ex: 50000">
-
-          <label>Quantidade de Funcionários</label>
-          <input type="number" id="employeeCount" placeholder="Ex: 10">
-
-          <label>Salário Médio dos Funcionários (R$)</label>
-          <input type="number" id="averageSalary" step="0.01" placeholder="Ex: 3500">
-        </div>
-
-        <button type="button" id="generateHistory">Gerar História da Empresa</button>
-        <p id="historyError" class="error"></p>
-
-        <div id="companyHistory" class="card hidden">
-          <h3>História da Empresa</h3>
-          <div id="historyContent"></div>
-        </div>
-      </div>
-
-      <div class="actions">
-        <button type="submit">Criar Jogo</button>
-      </div>
-    </form>
+      </form>
+    </div>
   </div>
 
-  <script>
-    const tabs = document.querySelectorAll('.tab');
-    const profileTab = document.getElementById('profileTab');
-    const financialTab = document.getElementById('financialTab');
-    const historyError = document.getElementById('historyError');
-    const companyHistory = document.getElementById('companyHistory');
-    const historyContent = document.getElementById('historyContent');
+  <div id="toast-container"></div>
 
-    tabs.forEach(tab => {
-      tab.addEventListener('click', () => {
-        tabs.forEach(t => t.classList.remove('active'));
-        tab.classList.add('active');
-        if (tab.dataset.tab === 'profile') {
-          profileTab.classList.remove('hidden');
-          financialTab.classList.add('hidden');
-        } else {
-          profileTab.classList.add('hidden');
-          financialTab.classList.remove('hidden');
+  <script>
+    // JavaScript will be placed here
+    document.addEventListener('DOMContentLoaded', function() {
+      // Initialize sidebar
+      const sidebar = document.createElement('div');
+      sidebar.className = 'sidebar';
+      sidebar.innerHTML = `
+        <div class="sidebar-items">
+          <div class="sidebar-item active" data-view="gameCreation">
+            <i class="lucide lucide-plus"></i>
+            <span>Criação de Jogos</span>
+          </div>
+          <div class="sidebar-item" data-view="monitoringDashboard">
+            <i class="lucide lucide-layout-dashboard"></i>
+            <span>Monitoramento</span>
+          </div>
+          <div class="sidebar-item" data-view="scenarioCreation">
+            <i class="lucide lucide-file-text"></i>
+            <span>Criação de Cenários</span>
+          </div>
+          <div class="sidebar-item" data-view="reports">
+            <i class="lucide lucide-file-text"></i>
+            <span>Relatórios</span>
+          </div>
+        </div>
+        <div class="sidebar-footer">
+          <div class="sidebar-item" id="settings-button">
+            <i class="lucide lucide-settings"></i>
+            <span>Configurações</span>
+          </div>
+          <div class="sidebar-item" id="logout-button">
+            <i class="lucide lucide-log-out"></i>
+            <span>Sair</span>
+          </div>
+        </div>
+      `;
+      document.getElementById('app').insertBefore(sidebar, document.getElementById('main-content'));
+
+      // Tab functionality
+      const tabTriggers = document.querySelectorAll('.tabs-trigger');
+      tabTriggers.forEach(trigger => {
+        trigger.addEventListener('click', () => {
+          // Remove active class from all triggers
+          document.querySelectorAll('.tabs-trigger').forEach(t => t.classList.remove('active'));
+          // Add active class to clicked trigger
+          trigger.classList.add('active');
+          
+          // Hide all tab contents
+          document.querySelectorAll('.tabs-content').forEach(content => content.classList.add('hidden'));
+          // Show selected tab content
+          const tabId = trigger.getAttribute('data-tab');
+          document.getElementById(tabId).classList.remove('hidden');
+        });
+      });
+
+      // Select functionality
+      const selectTriggers = document.querySelectorAll('.select-trigger');
+      selectTriggers.forEach(trigger => {
+        trigger.addEventListener('click', (e) => {
+          e.stopPropagation();
+          const selectContent = trigger.nextElementSibling;
+          selectContent.classList.toggle('hidden');
+        });
+      });
+
+      // Select item functionality
+      document.addEventListener('click', function(e) {
+        // Close all select menus when clicking outside
+        if (!e.target.closest('.select-trigger') && !e.target.closest('.select-item')) {
+          document.querySelectorAll('.select-content').forEach(content => content.classList.add('hidden'));
+        }
+        
+        // Handle select item click
+        if (e.target.classList.contains('select-item')) {
+          const selectContent = e.target.parentElement;
+          const selectTrigger = selectContent.previousElementSibling;
+          const valueSpan = selectTrigger.querySelector('span:not(.lucide)');
+          const value = e.target.getAttribute('data-value');
+          const displayText = e.target.textContent;
+          
+          valueSpan.textContent = displayText;
+          valueSpan.id = valueSpan.id || selectTrigger.id.replace('-trigger', '-value');
+          
+          // Store the selected value
+          selectTrigger.dataset.selectedValue = value;
+          selectContent.classList.add('hidden');
         }
       });
-    });
 
-    document.getElementById('generateHistory').addEventListener('click', () => {
-      const name = document.getElementById('companyName').value;
-      const sector = document.getElementById('sector').value;
-      const size = document.getElementById('companySize').value;
-      const productType = document.getElementById('productType').value;
-      const price = document.getElementById('suggestedPrice').value;
-      const capital = document.getElementById('initialCapital').value;
-      const employees = document.getElementById('employeeCount').value;
-      const salary = document.getElementById('averageSalary').value;
+      // Generate history button
+      document.getElementById('generate-history').addEventListener('click', async function() {
+        const companyName = document.getElementById('companyName').value;
+        const sector = document.querySelector('.select-trigger[data-selected-value]')?.dataset.selectedValue || '';
+        const companySize = document.querySelector('.select-trigger[data-selected-value]')?.dataset.selectedValue || '';
+        const productType = document.getElementById('productType').value;
+        const suggestedPrice = document.getElementById('suggestedPrice').value;
+        const initialCapital = document.getElementById('initialCapital').value;
+        const employeeCount = document.getElementById('employeeCount').value;
+        const averageSalary = document.getElementById('averageSalary').value;
+        
+        const errorContainer = document.getElementById('history-error');
+        const errorMessage = document.getElementById('error-message');
+        
+        // Validation
+        if (!companyName || !sector || !companySize || !productType || !suggestedPrice || 
+            !initialCapital || !employeeCount || !averageSalary) {
+          errorMessage.textContent = "Por favor, preencha todos os campos do perfil da empresa.";
+          errorContainer.classList.remove('hidden');
+          return;
+        }
+        
+        // Show loading state
+        const button = this;
+        button.innerHTML = '<i class="lucide lucide-loader-2 animate-spin"></i> Gerando História...';
+        button.disabled = true;
+        errorContainer.classList.add('hidden');
+        
+        try {
+          // Simulate API call (in a real app, you would call your backend)
+          await new Promise(resolve => setTimeout(resolve, 2000));
+          
+          // Mock response
+          const mockHistory = `
+            <p><strong>${companyName}</strong> é uma empresa do setor de ${sector}, classificada como de porte ${companySize.toLowerCase()}.</p>
+            <p>A empresa atua no mercado oferecendo ${productType} com um preço sugerido de R$ ${parseFloat(suggestedPrice).toFixed(2)}.</p>
+            <p>Com um capital inicial de R$ ${parseInt(initialCapital).toLocaleString('pt-BR')}, a empresa conta com ${employeeCount} funcionários, que recebem em média R$ ${parseFloat(averageSalary).toFixed(2)}.</p>
+            <p>A cultura organizacional é focada em inovação e qualidade, buscando sempre atender as necessidades do mercado.</p>
+            <p>Com perspectivas de crescimento, a empresa planeja expandir suas operações nos próximos anos.</p>
+          `;
+          
+          document.getElementById('company-history').innerHTML = mockHistory;
+          document.getElementById('company-history-container').classlassList.remove('hidden');
+          
+          showToast('História gerada com sucesso!', 'O perfil da empresa foi criado com base nos dados fornecidos.');
+        } catch (error) {
+          console.error('Erro ao gerar história:', error);
+          errorMessage.textContent = 'Erro ao gerar história da empresa. Por favor, tente novamente.';
+          errorContainer.classList.remove('hidden');
+        } finally {
+          button.innerHTML = 'Gerar História da Empresa';
+          button.disabled = false;
+        }
+      });
 
-      if (!name || !sector || !size || !productType || !price || !capital || !employees || !salary) {
-        historyError.textContent = "Por favor, preencha todos os campos do perfil da empresa.";
-        return;
+      // Form submission
+      document.getElementById('game-creation-form').addEventListener('submit', function(e) {
+        e.preventDefault();
+        const companyCount = document.getElementById('companyCount').value;
+        showToast('Jogo criado com sucesso!', `Um novo jogo com ${companyCount} empresas foi configurado.`);
+      });
+
+      // Sidebar navigation
+      document.querySelectorAll('.sidebar-item[data-view]').forEach(item => {
+        item.addEventListener('click', function() {
+          document.querySelectorAll('.sidebar-item').forEach(i => i.classList.remove('active'));
+          this.classList.add('active');
+          // In a real app, you would navigate to the selected view
+        });
+      });
+
+      // Settings button
+      document.getElementById('settings-button').addEventListener('click', function() {
+        showToast('Configurações', 'Abrindo painel de configurações...');
+      });
+
+      // Logout button
+      document.getElementById('logout-button').addEventListener('click', function() {
+        showToast('Logout', 'Você foi desconectado com sucesso.');
+        // In a real app, you would redirect to login page
+      });
+
+      // Toast function
+      function showToast(title, description, variant = 'default') {
+        const toastContainer = document.getElementById('toast-container');
+        const toast = document.createElement('div');
+        toast.className = `toast ${variant === 'destructive' ? 'toast-destructive' : ''}`;
+        toast.innerHTML = `
+          <div class="toast-title">${title}</div>
+          <div class="toast-description">${description}</div>
+        `;
+        
+        toastContainer.appendChild(toast);
+        
+        // Remove toast after 5 seconds
+        setTimeout(() => {
+          toast.remove();
+        }, 5000);
       }
-
-      historyError.textContent = "";
-      const historyText = `
-        <p><strong>${name}</strong> é uma empresa do setor ${sector}, classificada como ${size}, especializada em ${productType}.</p>
-        <p>Preço sugerido: R$ ${price}, Capital inicial: R$ ${capital}, Funcionários: ${employees}, Salário médio: R$ ${salary}.</p>
-        <p>Com uma visão inovadora, ${name} busca se destacar no mercado brasileiro nos próximos anos.</p>
-      `;
-
-      historyContent.innerHTML = historyText;
-      companyHistory.classList.remove('hidden');
-    });
-
-    document.getElementById('gameForm').addEventListener('submit', (e) => {
-      e.preventDefault();
-      alert('Jogo criado com sucesso!');
     });
   </script>
 </body>
