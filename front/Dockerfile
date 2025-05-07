@@ -1,8 +1,9 @@
 # Usar a imagem base do Nginx
 FROM nginx:alpine
 
-# Copiar todos os arquivos do diretório 'front' para o diretório padrão do Nginx
-COPY ./ /usr/share/nginx/html
+# Copiar todos os arquivos da pasta 'html' para o diretório padrão do Nginx
+COPY ./html /usr/share/nginx/html
+COPY ./css /usr/share/nginx/html/css  
 
 # Expor a porta 80 (usada pelo Nginx)
 EXPOSE 80

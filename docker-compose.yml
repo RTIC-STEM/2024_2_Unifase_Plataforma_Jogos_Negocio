@@ -26,13 +26,14 @@ services:
 
 
   frontend:
-      build:
-        context: ./front
-      container_name: frontend_unifase
-      ports:
-        - "80:80"  # Porta 80 para acesso via navegador
-      depends_on:
-        - backend  # O frontend depende do backend
+    build:
+      context: ./front  # Caminho onde está o frontend
+    container_name: frontend_unifase
+    ports:
+      - "80:80"  # Porta 80 para acesso via navegador
+    depends_on:
+      - backend  # O frontend depende do backend
+    command: ["nginx", "-g", "daemon off;"]  # Rodar Nginx em primeiro plano
 
 volumes:
-  pgdata:
+  pgdata: {}
