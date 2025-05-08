@@ -23,37 +23,37 @@
             </div>
             <div class="border-t border-gray-200 dark:border-gray-700 my-2"></div>
             <nav class="flex-1 overflow-y-auto p-2 space-y-1">
-                <a href="/dashboard" class="menu-item active">
+                <a href="./dashboard.html" class="menu-item active">
                     <i class="fas fa-home mr-3"></i>
                     <span>Dashboard</span>
                 </a>
-                <a href="/financial" class="menu-item">
+                <a href="./financial.html" class="menu-item">
                     <i class="fas fa-chart-bar mr-3"></i>
                     <span>Financeiro</span>
                 </a>
-                <a href="/marketing" class="menu-item">
+                <a href="./marketing.html" class="menu-item">
                     <i class="fas fa-box-open mr-3"></i>
                     <span>Marketing</span>
                 </a>
-                <a href="/human-resources" class="menu-item">
+                <a href="./humanResources.html" class="menu-item">
                     <i class="fas fa-users mr-3"></i>
                     <span>Recursos Humanos</span>
                 </a>
-                <a href="/production" class="menu-item">
+                <a href="./production.html" class="menu-item">
                     <i class="fas fa-industry mr-3"></i>
                     <span>Produção</span>
                 </a>
-                <a href="/strategic-decisions" class="menu-item">
+                <a href="./strategicDecisions.html" class="menu-item">
                     <i class="fas fa-brain mr-3"></i>
                     <span>Tomar Decisões</span>
                 </a>
-                <a href="/round-results" class="menu-item">
+                <a href="./roundResults.html" class="menu-item">
                     <i class="fas fa-award mr-3"></i>
                     <span>Resultados da Rodada</span>
                 </a>
             </nav>
             <div class="border-t border-gray-200 dark:border-gray-700 p-2 space-y-1">
-                <a href="/notifications" class="menu-item">
+                <a href="./notifications.html" class="menu-item">
                     <i class="fas fa-bell mr-3"></i>
                     <span>Notificações</span>
                 </a>
@@ -102,7 +102,7 @@
                     <div class="flex items-center justify-between">
                         <div>
                             <h2 class="text-2xl font-bold tracking-tight dark:text-white">Visão Geral</h2>
-                            <p class="text-gray-500 dark:text-gray-400">Trimestre 3, Rodada 2</p>
+                            <p class="text-gray-500 dark:text-gray-400">Trimestre 3, Rodada 2</p>  <!-- mudar-->
                         </div>
                         <div>
                             <span class="bg-green-100 text-green-800 text-xs font-medium px-2.5 py-0.5 rounded dark:bg-green-900 dark:text-green-300">Em andamento</span>
@@ -110,49 +110,59 @@
                     </div>
                     <div class="border-t border-gray-200 dark:border-gray-700"></div>
                     <!-- Metric Cards -->
-                    <div class="grid gap-4 grid-cols-1 sm:grid-cols-2 lg:grid-cols-4">
-                        <div class="metric-card bg-white dark:bg-gray-800 rounded-lg p-4 shadow-sm border border-gray-200 dark:border-gray-700">
-                            <div class="flex items-start justify-between">
-                                <div>
-                                    <p class="text-sm font-medium text-gray-500 dark:text-gray-400">Lucro Líquido</p>
-                                    <h3 class="mt-2 text-2xl font-bold dark:text-white">R$ 127.943,45</h3>
-                                    <div class="mt-1 text-sm font-medium flex items-center text-green-600 dark:text-green-400">
-                                        <i class="fas fa-arrow-up mr-1"></i>
-                                        +15.2%
-                                    </div>
-                                </div>
-                                <div class="p-2 rounded-full bg-green-100 dark:bg-green-900/30">
-                                    <i class="fas fa-chart-line text-green-600 dark:text-green-400"></i>
-                                </div>
-                            </div>
-                        </div>
-                        <!-- Outros cards métricos aqui -->
+                <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+                    <div class="bg-white dark:bg-gray-800 p-4 rounded shadow">
+                        <p class="text-sm text-gray-500 dark:text-gray-400">Lucro Líquido</p>
+                        <h3 class="text-xl font-bold text-gray-800 dark:text-white mt-2">R$ 127.943,45</h3>
+                        <p class="text-green-600 dark:text-green-400 mt-1 flex items-center">
+                            <i class="fas fa-arrow-up mr-1"></i> +15,2%
+                        </p>
+                    </div>
+                    <div class="bg-white dark:bg-gray-800 p-4 rounded shadow">
+                        <p class="text-sm text-gray-500 dark:text-gray-400">Receita</p>
+                        <h3 class="text-xl font-bold text-gray-800 dark:text-white mt-2">R$ 846.500</h3>
+                        <p class="text-green-600 dark:text-green-400 mt-1 flex items-center">
+                            <i class="fas fa-arrow-up mr-1"></i> +8,3%
+                        </p>
+                    </div>
+                    <div class="bg-white dark:bg-gray-800 p-4 rounded shadow">
+                        <p class="text-sm text-gray-500 dark:text-gray-400">Unidades Vendidas</p>
+                        <h3 class="text-xl font-bold text-gray-800 dark:text-white mt-2">12.350</h3>
+                        <p class="text-red-600 dark:text-red-400 mt-1 flex items-center">
+                            <i class="fas fa-arrow-down mr-1"></i> -3,8%
+                        </p>
+                    </div>
+                    <div class="bg-white dark:bg-gray-800 p-4 rounded shadow">
+                        <p class="text-sm text-gray-500 dark:text-gray-400">Market Share</p>
+                        <h3 class="text-xl font-bold text-gray-800 dark:text-white mt-2">25%</h3>
+                        <p class="text-green-600 dark:text-green-400 mt-1 flex items-center">
+                            <i class="fas fa-arrow-up mr-1"></i> +8%
+                        </p>
                     </div>
                 </div>
                 <!-- Gráficos e seções -->
-                <div class="grid gap-6 grid-cols-1 lg:grid-cols-3">
-                    <div class="bg-white dark:bg-gray-800 rounded-lg shadow-sm border border-gray-200 dark:border-gray-700 lg:col-span-2">
-                        <div class="p-4 border-b border-gray-200 dark:border-gray-700">
-                            <h3 class="font-bold dark:text-white">Desempenho Financeiro</h3>
-                            <p class="text-sm text-gray-500 dark:text-gray-400">Últimos 4 trimestres</p>
-                        </div>
-                        <div class="p-4">
-                            <canvas id="financialChart" height="300"></canvas>
-                        </div>
-                    </div>
-                    <div class="bg-white dark:bg-gray-800 rounded-lg shadow-sm border border-gray-200 dark:border-gray-700">
-                        <div class="p-4 border-b border-gray-200 dark:border-gray-700">
-                            <h3 class="font-bold dark:text-white">Distribuição de Custos</h3>
-                            <p class="text-sm text-gray-500 dark:text-gray-400">Trimestre atual</p>
-                        </div>
-                        <div class="p-4">
-                            <canvas id="expensesChart" height="300"></canvas>
-                        </div>
+            <!-- Charts -->
+            <div class="grid grid-cols-1 lg:grid-cols-3 gap-4">
+                <!-- Desempenho Financeiro -->
+                <div class="bg-white dark:bg-gray-800 p-4 rounded shadow col-span-2">
+                    <h3 class="text-lg font-bold text-gray-800 dark:text-white mb-2">Desempenho Financeiro</h3>
+                    <div class="h-64">
+                        <canvas id="financialChart"></canvas>
                     </div>
                 </div>
-            </main>
+                <!-- Distribuição de Custos -->
+                <div class="bg-white dark:bg-gray-800 p-4 rounded shadow">
+                    <h3 class="text-lg font-bold text-gray-800 dark:text-white mb-2">Distribuição de Custos</h3>
+                    <div class="h-64">
+                        <canvas id="expensesChart"></canvas>
+                    </div>
+                </div>
+            </div>
         </div>
-    </div>
+    </main>
+</div>
+</div>
+
 
     <!-- Modal de Configurações -->
     <div id="settingsModal" class="fixed inset-0 bg-black bg-opacity-50 z-50 hidden items-center justify-center">
@@ -195,18 +205,81 @@
 
     <script>
     document.addEventListener('DOMContentLoaded', function() {
-        // Configuração inicial
-        setupCurrentDate();
-        setupSideMenu();
-        setupCharts();
-        setupDarkModeToggle();
-        setupNotifications();
-        
-        // Verifica o modo escuro do sistema
-        if (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {
-            document.body.classList.add('dark');
+    document.getElementById('currentDate').textContent = new Date().toLocaleDateString('pt-BR', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' });
+
+    // Gráfico Desempenho Financeiro (apenas linhas)
+    const ctx1 = document.getElementById('financialChart').getContext('2d');
+    new Chart(ctx1, {
+        type: 'line',
+        data: {
+            labels: ['Jan', 'Fev', 'Mar', 'Abr', 'Mai', 'Jun'],
+            datasets: [
+                {
+                    label: 'Receita',
+                    data: [12000, 15000, 14000, 18000, 16000, 20000],
+                    borderColor: '#36A2EB',
+                    fill: false,
+                    tension: 0.4
+                },
+                {
+                    label: 'Custos',
+                    data: [8000, 9000, 8500, 9500, 10000, 11000],
+                    borderColor: '#FF6384',
+                    fill: false,
+                    tension: 0.4
+                },
+                {
+                    label: 'Lucro',
+                    data: [4000, 6000, 5500, 8500, 6000, 9000],
+                    borderColor: '#4BC0C0',
+                    fill: false,
+                    tension: 0.4
+                }
+            ]
+        },
+        options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            plugins: {
+                title: {
+                    display: true,
+                    text: 'Desempenho Financeiro'
+                }
+            }
         }
     });
+
+    // Gráfico Distribuição de Custos
+    const ctx2 = document.getElementById('expensesChart').getContext('2d');
+    new Chart(ctx2, {
+        type: 'doughnut',
+        data: {
+            labels: ['Salários', 'Marketing', 'Operacional', 'Tecnologia'],
+            datasets: [{
+                data: [5000, 3000, 2000, 1500],
+                backgroundColor: [
+                    '#FF6384',
+                    '#36A2EB',
+                    '#FFCE56',
+                    '#4BC0C0'
+                ]
+            }]
+        },
+        options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            plugins: {
+                title: {
+                    display: true,
+                    text: 'Distribuição de Custos'
+                },
+                legend: {
+                    position: 'right'
+                }
+            }
+        }
+    });
+});
     
     function setupCurrentDate() {
         const options = { 
@@ -262,126 +335,6 @@
                     sideMenu.classList.add('-translate-x-full');
                 }
             });
-        });
-    }
-    
-    function setupCharts() {
-        // Gráfico financeiro (linha)
-        const financialCtx = document.getElementById('financialChart').getContext('2d');
-        new Chart(financialCtx, {
-            type: 'line',
-            data: {
-                labels: ['Rodada 1', 'Rodada 2', 'Rodada 3', 'Rodada 4', 'Rodada 5', 'Rodada 6', 'Rodada 7'],
-                datasets: [
-                    {
-                        label: 'Receita',
-                        data: [4000, 5000, 6000, 8000, 10000, 9500, 11000],
-                        borderColor: '#4338ca',
-                        backgroundColor: 'rgba(67, 56, 202, 0.1)',
-                        tension: 0.3,
-                        fill: true
-                    },
-                    {
-                        label: 'Custos',
-                        data: [2400, 2800, 3200, 4000, 4800, 5000, 5200],
-                        borderColor: '#ef4444',
-                        backgroundColor: 'rgba(239, 68, 68, 0.1)',
-                        tension: 0.3,
-                        fill: true
-                    },
-                    {
-                        label: 'Lucro',
-                        data: [1600, 2200, 2800, 4000, 5200, 4500, 5800],
-                        borderColor: '#10b981',
-                        backgroundColor: 'rgba(16, 185, 129, 0.1)',
-                        tension: 0.3,
-                        fill: true
-                    }
-                ]
-            },
-            options: {
-                responsive: true,
-                maintainAspectRatio: false,
-                plugins: {
-                    legend: {
-                        position: 'top',
-                        labels: {
-                            color: getComputedStyle(document.body).getPropertyValue('--tw-text-opacity') === '1' ? 
-                                '#1f2937' : '#f3f4f6'
-                        }
-                    },
-                    tooltip: {
-                        callbacks: {
-                            label: function(context) {
-                                return `${context.dataset.label}: R$ ${context.raw.toLocaleString('pt-BR')}`;
-                            }
-                        }
-                    }
-                },
-                scales: {
-                    x: {
-                        grid: {
-                            color: 'rgba(0, 0, 0, 0.1)'
-                        },
-                        ticks: {
-                            color: getComputedStyle(document.body).getPropertyValue('--tw-text-opacity') === '1' ? 
-                                '#6b7280' : '#9ca3af'
-                        }
-                    },
-                    y: {
-                        grid: {
-                            color: 'rgba(0, 0, 0, 0.1)'
-                        },
-                        ticks: {
-                            color: getComputedStyle(document.body).getPropertyValue('--tw-text-opacity') === '1' ? 
-                                '#6b7280' : '#9ca3af',
-                            callback: function(value) {
-                                return 'R$ ' + value.toLocaleString('pt-BR');
-                            }
-                        }
-                    }
-                }
-            }
-        });
-        
-        // Gráfico de distribuição de custos (pizza)
-        const expensesCtx = document.getElementById('expensesChart').getContext('2d');
-        new Chart(expensesCtx, {
-            type: 'pie',
-            data: {
-                labels: ['Matéria-prima', 'Mão de obra', 'Marketing', 'P&D', 'Administrativo'],
-                datasets: [{
-                    data: [40, 30, 15, 10, 5],
-                    backgroundColor: [
-                        '#0088FE',
-                        '#00C49F',
-                        '#FFBB28',
-                        '#FF8042',
-                        '#8884d8'
-                    ],
-                    borderWidth: 1
-                }]
-            },
-            options: {
-                responsive: true,
-                maintainAspectRatio: false,
-                plugins: {
-                    legend: {
-                        position: 'right',
-                        labels: {
-                            color: getComputedStyle(document.body).getPropertyValue('--tw-text-opacity') === '1' ? 
-                                '#1f2937' : '#f3f4f6'
-                        }
-                    },
-                    tooltip: {
-                        callbacks: {
-                            label: function(context) {
-                                return `${context.label}: ${context.raw}%`;
-                            }
-                        }
-                    }
-                }
-            }
         });
     }
     
