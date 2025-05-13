@@ -135,12 +135,32 @@
                   </div>
                   
                   <div class="grid gap-2">
-                    <label for="capital">Capital Inicial (R$):</label>
+                    <label for="recursoFinaceiro">Recurso financeiros (R$):</label>
                     <input 
                       type="number" 
-                      id="capital" 
+                      id="recursoFinaceiro" 
                       required 
                       placeholder="Ex: 50000"
+                    />
+                  </div>
+
+                    <div class="grid gap-2">
+                    <label for="quantidedeVendas">Quantidade de vendas:</label>
+                    <input 
+                      type="number" 
+                      id="quantidedeVendas" 
+                      required 
+                      placeholder="Ex: 10"
+                    />
+                  </div>
+
+                  <div class="grid gap-2">
+                    <label for="despesaAdministrativa">Despesa administrativa (R$):</label>
+                    <input 
+                      type="number" 
+                      id="despesaAdministrativa" 
+                      required 
+                      placeholder="Ex: 10"
                     />
                   </div>
                   
@@ -338,7 +358,9 @@
         const tamanho = document.getElementById("tamanho").value;
         const tipoProduto = document.getElementById("tipoProduto").value.trim();
         const precoProduto = document.getElementById("precoProduto").value;
-        const capital = document.getElementById("capital").value;
+        const recursoFinaceiro = document.getElementById("recursoFinaceiro").value;
+        const quantidedeVendas = document.getElementById("quantidedeVendas").value;
+        const despesaAdministrativa = document.getElementById("despesaAdministrativa").value;
         const funcionarios = document.getElementById("funcionarios").value;
         const salarioMedio = document.getElementById("salarioMedio").value;
         
@@ -347,7 +369,7 @@
         const historiaContent = document.getElementById("historia-content");
         
         // Validação
-        if (!nome || !setor || !tamanho || !tipoProduto || !precoProduto || !capital || !funcionarios || !salarioMedio) {
+        if (!nome || !setor || !tamanho || !tipoProduto || !precoProduto || !recursoFinaceiro || !quantidedeVendas || !despesaAdministrativa || !funcionarios || !salarioMedio) {
             mensagem.innerText = "Por favor, preencha todos os campos.";
             mensagem.style.color = "red";
             mensagem.classList.remove('hidden');
@@ -381,13 +403,15 @@
                             - Tamanho: ${tamanho}
                             - Tipo de produto/serviço: ${tipoProduto}
                             - Preço sugerido do produto: R$ ${Number(precoProduto).toLocaleString('pt-BR', {minimumFractionDigits: 2})}
-                            - Capital inicial: R$ ${Number(capital).toLocaleString('pt-BR')}
+                            - Recurso Finaceiro: R$ ${Number(recursoFinaceiro).toLocaleString('pt-BR')}
+                            - Volume de Vendas: ${quantidedeVendas} unidades/mês
+                            - Despesas Administrativas: R$ ${Number(despesaAdministrativa).toLocaleString('pt-BR', {minimumFractionDigits: 2})}
                             - Equipe: ${funcionarios} funcionários
                             - Salário médio: R$ ${Number(salarioMedio).toLocaleString('pt-BR', {minimumFractionDigits: 2})}
                             
                             Estrutura do texto:
                             1. Visão geral da empresa (nome, setor, tamanho e produto principal)
-                            2. Estrutura financeira (capital, preço do produto, política de salários)
+                            2. Estrutura financeira (capital, preço do produto, volume de vendas, despesas administrativas, política de salários)
                             3. Recursos humanos (tamanho da equipe, cultura organizacional)
                             4. Posicionamento no mercado (público-alvo, concorrência)
                             5. Perspectivas de crescimento`
@@ -430,7 +454,7 @@
                     <p><strong>Tamanho:</strong> ${tamanho}</p>
                     <p><strong>Produto/Serviço:</strong> ${tipoProduto}</p>
                     <p><strong>Preço do Produto:</strong> R$ ${Number(precoProduto).toLocaleString('pt-BR', {minimumFractionDigits: 2})}</p>
-                    <p><strong>Capital Inicial:</strong> R$ ${Number(capital).toLocaleString('pt-BR')}</p>
+                    <p><strong>Recurso Finaceiro:</strong> R$ ${Number(recursoFinaceiro).toLocaleString('pt-BR')}</p>
                     <p><strong>Equipe:</strong> ${funcionarios} colaboradores</p>
                     <p><strong>Salário Médio:</strong> R$ ${Number(salarioMedio).toLocaleString('pt-BR', {minimumFractionDigits: 2})}</p>
                 `;
@@ -465,7 +489,9 @@
             tamanho: document.getElementById("tamanho").value.trim(),
             tipoProdutoServico: document.getElementById("tipoProduto").value.trim(),
             valorProduto: parseFloat(document.getElementById("precoProduto").value),
-            capitalInicial: parseFloat(document.getElementById("capital").value),
+            recursoFinaceiro: parseFloat(document.getElementById("recursoFinaceiro").value),
+            quantidedeVendas: parseFloat(document.getElementById("quantidedeVendas").value),
+            despesaAdministrativa: parseFloat(document.getElementById("despesaAdministrativa").value),
             numeroFuncionarios: parseInt(document.getElementById("funcionarios").value),
             salarioFuncionario: parseFloat(document.getElementById("salarioMedio").value),
             historia: document.getElementById("historia").value.trim() // Adicionando a história
