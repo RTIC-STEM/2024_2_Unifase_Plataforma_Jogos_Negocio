@@ -11,10 +11,12 @@ public class EmpresaModeloResDTO {
     private String setor;
     private String tamanho;
     private String tipoProdutoServico;
+    private Integer quantidadeDeVendas;
     private BigDecimal valorProduto;
-    private BigDecimal capitalInicial;
+    private BigDecimal recursoFinanceiro;
     private Integer numeroFuncionarios;
     private BigDecimal salarioFuncionario;
+    private BigDecimal despesaAdministrativa;
     private String historia;
 
     public EmpresaModeloResDTO() {
@@ -26,10 +28,12 @@ public class EmpresaModeloResDTO {
         this.setor = empresaModelo.getSetor();
         this.tamanho = empresaModelo.getTamanho();
         this.tipoProdutoServico = empresaModelo.getTipoProdutoServico();
+        this.quantidadeDeVendas = empresaModelo.getQuantidadeDeVendas();
         this.valorProduto = empresaModelo.getValorProduto();
-        this.capitalInicial = empresaModelo.getCapitalInicial();
+        this.recursoFinanceiro = empresaModelo.getRecursoFinanceiro();
         this.numeroFuncionarios = empresaModelo.getNumeroFuncionarios();
         this.salarioFuncionario = empresaModelo.getSalarioFuncionario();
+        this.despesaAdministrativa = empresaModelo.getDespesaAdministrativa();
         this.historia = empresaModelo.getHistoria();
     }
 
@@ -73,6 +77,14 @@ public class EmpresaModeloResDTO {
         this.tipoProdutoServico = tipoProdutoServico;
     }
 
+    public Integer getQuantidadeDeVendas() {
+        return quantidadeDeVendas;
+    }
+
+    public void setQuantidadeDeVendas(Integer quantidadeDeVendas) {
+        this.quantidadeDeVendas = quantidadeDeVendas;
+    }
+
     public BigDecimal getValorProduto() {
         return valorProduto;
     }
@@ -81,12 +93,12 @@ public class EmpresaModeloResDTO {
         this.valorProduto = valorProduto;
     }
 
-    public BigDecimal getCapitalInicial() {
-        return capitalInicial;
+    public BigDecimal getRecursoFinanceiro() {
+        return recursoFinanceiro;
     }
 
-    public void setCapitalInicial(BigDecimal capitalInicial) {
-        this.capitalInicial = capitalInicial;
+    public void setRecursoFinanceiro(BigDecimal recursoFinanceiro) {
+        this.recursoFinanceiro = recursoFinanceiro;
     }
 
     public Integer getNumeroFuncionarios() {
@@ -103,6 +115,14 @@ public class EmpresaModeloResDTO {
 
     public void setSalarioFuncionario(BigDecimal salarioFuncionario) {
         this.salarioFuncionario = salarioFuncionario;
+    }
+
+    public BigDecimal getDespesaAdministrativa() {
+        return despesaAdministrativa;
+    }
+
+    public void setDespesaAdministrativa(BigDecimal despesaAdministrativa) {
+        this.despesaAdministrativa = despesaAdministrativa;
     }
 
     public String getHistoria() {

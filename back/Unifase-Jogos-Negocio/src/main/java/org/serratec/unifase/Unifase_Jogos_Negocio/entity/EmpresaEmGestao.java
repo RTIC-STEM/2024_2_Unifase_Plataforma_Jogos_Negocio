@@ -3,6 +3,8 @@ package org.serratec.unifase.Unifase_Jogos_Negocio.entity;
 import jakarta.persistence.*;
 
 import java.math.BigDecimal;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 public class EmpresaEmGestao {
@@ -22,19 +24,7 @@ public class EmpresaEmGestao {
     private String tamanho;
 
     @Column(name = "tipo_produto_servico", nullable = false)
-    private String tipoProdutoServiço;
-
-    @Column(name = "valor_produto", nullable = false)
-    private BigDecimal valorProduto;
-
-    @Column(name = "capital_inicial", nullable = false)
-    private BigDecimal capitalInicial;
-
-    @Column(name = "numero_funcionarios", nullable = false)
-    private Integer numeroFuncionarios;
-
-    @Column(name = "salario_funcionario", nullable = false)
-    private BigDecimal salarioFuncionario;
+    private String tipoProdutoServico;
 
     @Column(name = "historia", nullable = false, columnDefinition = "TEXT")
     private String historia;
@@ -42,24 +32,24 @@ public class EmpresaEmGestao {
     @ManyToOne
     private EmpresaModelo empresaModeloOriginal;
 
+    @OneToMany(mappedBy = "empresa",cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<DemonstrativoDoResultadoDoExercicio> dre = new ArrayList<>();
+
     //Adiconar aluno responsável
 
 
     public EmpresaEmGestao() {
     }
 
-    public EmpresaEmGestao(Long id, String nomeEmpresa, String setor, String tamanho, String tipoProdutoServiço, BigDecimal valorProduto, BigDecimal capitalInicial, Integer numeroFuncionarios, BigDecimal salarioFuncionario, String historia, EmpresaModelo empresaModeloOriginal) {
+    public EmpresaEmGestao(Long id, String nomeEmpresa, String setor, String tamanho, String tipoProdutoServico, String historia, EmpresaModelo empresaModeloOriginal, List<DemonstrativoDoResultadoDoExercicio> dre) {
         this.id = id;
         this.nomeEmpresa = nomeEmpresa;
         this.setor = setor;
         this.tamanho = tamanho;
-        this.tipoProdutoServiço = tipoProdutoServiço;
-        this.valorProduto = valorProduto;
-        this.capitalInicial = capitalInicial;
-        this.numeroFuncionarios = numeroFuncionarios;
-        this.salarioFuncionario = salarioFuncionario;
+        this.tipoProdutoServico = tipoProdutoServico;
         this.historia = historia;
         this.empresaModeloOriginal = empresaModeloOriginal;
+        this.dre = dre;
     }
 
     public Long getId() {
@@ -94,44 +84,12 @@ public class EmpresaEmGestao {
         this.tamanho = tamanho;
     }
 
-    public String getTipoProdutoServiço() {
-        return tipoProdutoServiço;
+    public String getTipoProdutoServico() {
+        return tipoProdutoServico;
     }
 
-    public void setTipoProdutoServiço(String tipoProdutoServiço) {
-        this.tipoProdutoServiço = tipoProdutoServiço;
-    }
-
-    public BigDecimal getValorProduto() {
-        return valorProduto;
-    }
-
-    public void setValorProduto(BigDecimal valorProduto) {
-        this.valorProduto = valorProduto;
-    }
-
-    public BigDecimal getCapitalInicial() {
-        return capitalInicial;
-    }
-
-    public void setCapitalInicial(BigDecimal capitalInicial) {
-        this.capitalInicial = capitalInicial;
-    }
-
-    public Integer getNumeroFuncionarios() {
-        return numeroFuncionarios;
-    }
-
-    public void setNumeroFuncionarios(Integer numeroFuncionarios) {
-        this.numeroFuncionarios = numeroFuncionarios;
-    }
-
-    public BigDecimal getSalarioFuncionario() {
-        return salarioFuncionario;
-    }
-
-    public void setSalarioFuncionario(BigDecimal salarioFuncionario) {
-        this.salarioFuncionario = salarioFuncionario;
+    public void setTipoProdutoServico(String tipoProdutoServico) {
+        this.tipoProdutoServico = tipoProdutoServico;
     }
 
     public String getHistoria() {
@@ -148,5 +106,13 @@ public class EmpresaEmGestao {
 
     public void setEmpresaModeloOriginal(EmpresaModelo empresaModeloOriginal) {
         this.empresaModeloOriginal = empresaModeloOriginal;
+    }
+
+    public List<DemonstrativoDoResultadoDoExercicio> getDre() {
+        return dre;
+    }
+
+    public void setDre(List<DemonstrativoDoResultadoDoExercicio> dre) {
+        this.dre = dre;
     }
 }
