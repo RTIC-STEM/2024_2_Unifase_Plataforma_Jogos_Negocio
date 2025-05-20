@@ -1,5 +1,7 @@
 package org.serratec.unifase.Unifase_Jogos_Negocio.service;
 
+import org.serratec.unifase.Unifase_Jogos_Negocio.dto.demonstrativoDoResultadoDoExercicio.DreResDTO;
+import org.serratec.unifase.Unifase_Jogos_Negocio.dto.empresaEmGestao.EmpresaEmGestaoResDTO;
 import org.serratec.unifase.Unifase_Jogos_Negocio.entity.DemonstrativoDoResultadoDoExercicio;
 import org.serratec.unifase.Unifase_Jogos_Negocio.entity.EmpresaEmGestao;
 import org.serratec.unifase.Unifase_Jogos_Negocio.entity.EmpresaModelo;
@@ -92,6 +94,27 @@ public class EmpresaEmGestaoService {
         }
     }
 
+    public EmpresaEmGestaoResDTO findEmpresaEmGestaoComDre (Long idEmpresa){
+        EmpresaEmGestao empresaEmGestao = empresaEmGestaoRepository.findById(idEmpresa)
+                .orElseThrow(() -> new NotFoundException("Não foi encontrada empresa com id informado."));
 
+        DemonstrativoDoResultadoDoExercicio dreMaisRecente = dreRepository
+                .findTopByEmpresaOrderByDataCalculoDesc(empresaEmGestao)
+                .orElse(null);
+
+        EmpresaEmGestaoResDTO empresaDto = new EmpresaEmGestaoResDTO();
+        empresaDto.setIdEmpresa(empresaEmGestao.getId());
+        empresaDto.setNomeEmpresa(empresaEmGestao.getNomeEmpresa());
+        empresaDto.setSetor(empresaEmGestao.getSetor());
+        empresaDto.setTamanho(empresaEmGestao.getTamanho());
+        empresaDto.setTipoProdutoServico(empresaEmGestao.getTipoProdutoServico());
+        empresaDto.setHistoria(empresaEmGestao.getHistoria());
+
+        if (dreMaisRecente != null) {
+            empresaDto.setDreMaisRecente(new DreResDTO(dreMaisRecente));
+        }
+
+        return empresaDto;
+    }
 
 }
