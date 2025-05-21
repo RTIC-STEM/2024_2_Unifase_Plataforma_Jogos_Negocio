@@ -1,0 +1,1234 @@
+
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Demonstrativo de Resultado do Exercício">
+  <meta name="theme-color" content="#4285f4">
+  <meta name="color-scheme" content="light dark">
+  <title>Business Strategy - DRE</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/lucide/1.0.0/lucide.min.css">
+  <style>
+    /* Estilos gerais */
+    :root {
+      --primary: #3f51b5;
+      --foreground: #1f2937;
+      --background: #ffffff;
+      --muted: #f3f4f6;
+      --muted-foreground: #6b7280;
+      --border: #e5e7eb;
+      --card: #ffffff;
+      --card-foreground: #1f2937;
+    }
+    
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: 'Inter', sans-serif;
+    }
+    
+    body {
+      background-color: var(--background);
+      color: var(--foreground);
+      line-height: 1.5;
+      min-height: 100vh;
+    }
+    
+    .flex {
+      display: flex;
+    }
+    
+    .flex-col {
+      flex-direction: column;
+    }
+    
+    .grid {
+      display: grid;
+    }
+    
+    .gap-6 {
+      gap: 1.5rem;
+    }
+    
+    .gap-4 {
+      gap: 1rem;
+    }
+    
+    .gap-2 {
+      gap: 0.5rem;
+    }
+    
+    .mb-6 {
+      margin-bottom: 1.5rem;
+    }
+    
+    .mt-6 {
+      margin-top: 1.5rem;
+    }
+    
+    .mt-4 {
+      margin-top: 1rem;
+    }
+    
+    .mt-2 {
+      margin-top: 0.5rem;
+    }
+    
+    .p-8 {
+      padding: 2rem;
+    }
+    
+    .py-32 {
+      padding-top: 8rem;
+      padding-bottom: 8rem;
+    }
+    
+    .items-center {
+      align-items: center;
+    }
+    
+    .justify-center {
+      justify-content: center;
+    }
+    
+    .justify-between {
+      justify-content: space-between;
+    }
+    
+    .text-center {
+      text-align: center;
+    }
+    
+    .text-muted-foreground {
+      color: var(--muted-foreground);
+    }
+    
+    .text-xl {
+      font-size: 1.25rem;
+    }
+    
+    .text-sm {
+      font-size: 0.875rem;
+    }
+    
+    .text-lg {
+      font-size: 1.125rem;
+    }
+    
+    .font-semibold {
+      font-weight: 600;
+    }
+    
+    .main-title {
+      font-size: 1.875rem;
+      font-weight: 700;
+      margin-bottom: 1.5rem;
+      color: var(--foreground);
+    }
+    
+    .text-green-600 {
+      color: #16a34a;
+    }
+    
+    .text-red-600 {
+      color: #dc2626;
+    }
+    
+    .bg-green-100 {
+      background-color: #dcfce7;
+    }
+    
+    .bg-red-100 {
+      background-color: #fee2e2;
+    }
+    
+    .rounded-full {
+      border-radius: 9999px;
+    }
+    
+    .p-2 {
+      padding: 0.5rem;
+    }
+    
+    .flex-wrap {
+      flex-wrap: wrap;
+    }
+    
+    .w-full {
+      width: 100%;
+    }
+    
+    .h-4 {
+      height: 1rem;
+    }
+    
+    .w-4 {
+      width: 1rem;
+    }
+    
+    .mr-2 {
+      margin-right: 0.5rem;
+    }
+    
+    .overflow-auto {
+      overflow: auto;
+    }
+
+    /* Estilos para sidebar */
+    .sidebar {
+      width: 240px;
+      background-color: #f8f9fa;
+      border-right: 1px solid var(--border);
+      height: 100vh;
+      position: fixed;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      overflow-y: auto;
+    }
+    
+    .sidebar-items {
+      padding: 1rem 0;
+    }
+    
+    .sidebar-item {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      padding: 0.75rem 1.5rem;
+      cursor: pointer;
+      transition: background-color 0.2s;
+    }
+    
+    .sidebar-item:hover {
+      background-color: rgba(0, 0, 0, 0.05);
+    }
+    
+    .sidebar-item.active {
+      background-color: var(--primary);
+      color: white;
+    }
+    
+    .sidebar-footer {
+      border-top: 1px solid var(--border);
+      padding-top: 0.5rem;
+    }
+    
+    /* Estilos para card e botões */
+    .card {
+      background-color: var(--card);
+      border-radius: 0.5rem;
+      border: 1px solid var(--border);
+      overflow: hidden;
+    }
+    
+    .card-header {
+      padding: 1.5rem;
+      border-bottom: 1px solid var(--border);
+    }
+    
+    .card-title {
+      font-size: 1.25rem;
+      font-weight: 600;
+      color: var(--card-foreground);
+    }
+    
+    .card-description {
+      font-size: 0.875rem;
+      color: var(--muted-foreground);
+      margin-top: 0.25rem;
+    }
+    
+    .card-content {
+      padding: 1.5rem;
+    }
+    
+    .button {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      padding: 0.5rem 1rem;
+      font-weight: 500;
+      font-size: 0.875rem;
+      border-radius: 0.375rem;
+      background-color: var(--primary);
+      color: white;
+      border: none;
+      cursor: pointer;
+      transition: background-color 0.2s;
+    }
+    
+    .button:hover {
+      background-color: #2c3ea0;
+    }
+    
+    .button-outline {
+      background-color: transparent;
+      border: 1px solid var(--border);
+      color: var(--foreground);
+    }
+    
+    .button-outline:hover {
+      background-color: var(--muted);
+      color: var(--foreground);
+    }
+    
+    /* Estilos para tabela */
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 14px;
+    }
+    
+    table th, table td {
+      padding: 8px 12px;
+      border-bottom: 1px solid var(--border);
+    }
+    
+    table th {
+      font-weight: 600;
+      text-align: left;
+    }
+    
+    table tbody tr:hover {
+      background-color: rgba(241, 245, 249, 0.5);
+    }
+    
+    /* Estilos para selects e tabs */
+    .select {
+      position: relative;
+    }
+    
+    .select-trigger {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0.5rem 0.75rem;
+      border: 1px solid var(--border);
+      border-radius: 0.375rem;
+      background-color: var(--background);
+      cursor: pointer;
+    }
+    
+    .select-content {
+      position: absolute;
+      top: 100%;
+      left: 0;
+      width: 100%;
+      background-color: var(--background);
+      border: 1px solid var(--border);
+      border-radius: 0.375rem;
+      margin-top: 0.25rem;
+      z-index: 10;
+      box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -2px rgba(0, 0, 0, 0.1);
+    }
+    
+    .select-item {
+      padding: 0.5rem 0.75rem;
+      cursor: pointer;
+      transition: background-color 0.2s;
+    }
+    
+    .select-item:hover {
+      background-color: var(--muted);
+    }
+    
+    .tabs-list {
+      display: flex;
+      border-bottom: 1px solid var(--border);
+    }
+    
+    .tabs-trigger {
+      padding: 0.5rem 1rem;
+      cursor: pointer;
+      border-bottom: 2px solid transparent;
+    }
+    
+    .tabs-trigger.active {
+      border-color: var(--primary);
+      font-weight: 500;
+    }
+    
+    .tabs-content {
+      padding: 1rem 0;
+    }
+    
+    .hidden {
+      display: none;
+    }
+    
+    /* Estilos para gráficos */
+    .chart-container {
+      height: 400px;
+      width: 100%;
+    }
+    
+    /* Estilos para acessibilidade */
+    .accessibility-bar {
+      display: flex;
+      gap: 0.5rem;
+      justify-content: flex-end;
+      margin-bottom: 1rem;
+    }
+    
+    .accessibility-bar button {
+      padding: 0.25rem 0.5rem;
+      border: 1px solid var(--border);
+      border-radius: 0.25rem;
+      background-color: var(--background);
+      cursor: pointer;
+      transition: background-color 0.2s;
+    }
+    
+    .accessibility-bar button:hover {
+      background-color: var(--muted);
+    }
+    
+    /* Toast */
+    #toast-container {
+      position: fixed;
+      bottom: 1rem;
+      right: 1rem;
+      z-index: 50;
+      display: flex;
+      flex-direction: column;
+      gap: 0.5rem;
+    }
+    
+    .toast {
+      background-color: var(--background);
+      border: 1px solid var(--border);
+      border-radius: 0.5rem;
+      padding: 1rem;
+      box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -2px rgba(0, 0, 0, 0.1);
+      width: 360px;
+      max-width: calc(100vw - 2rem);
+      animation: slide-in 0.3s ease-out;
+    }
+    
+    .toast-title {
+      font-weight: 600;
+      font-size: 0.875rem;
+    }
+    
+    .toast-description {
+      font-size: 0.875rem;
+      color: var(--muted-foreground);
+      margin-top: 0.25rem;
+    }
+    
+    @keyframes slide-in {
+      from {
+        transform: translateX(100%);
+        opacity: 0;
+      }
+      to {
+        transform: translateX(0);
+        opacity: 1;
+      }
+    }
+    
+    .loading {
+      text-align: center;
+      color: var(--muted-foreground);
+      font-style: italic;
+    }
+    
+    /* Modo escuro */
+    .dark-mode {
+      --foreground: #f9fafb;
+      --background: #1f2937;
+      --muted: #374151;
+      --muted-foreground: #9ca3af;
+      --border: #4b5563;
+      --card: #374151;
+      --card-foreground: #f9fafb;
+    }
+    
+    .dark-mode .sidebar {
+      background-color: #111827;
+      color: #f9fafb;
+    }
+    
+    .dark-mode .sidebar-item.active {
+      background-color: var(--primary);
+    }
+    
+    .dark-mode table tbody tr:hover {
+      background-color: rgba(55, 65, 81, 0.7);
+    }
+    
+    .dark-mode .select-trigger,
+    .dark-mode .tabs-trigger {
+      background-color: #374151;
+      color: #f9fafb;
+    }
+    
+    .dark-mode .tabs-trigger.active {
+      background-color: #4c1d95;
+      color: #f9fafb;
+    }
+    
+    .dark-mode .select-content {
+      background-color: #374151;
+      color: #f9fafb;
+    }
+    
+    .dark-mode .select-item:hover {
+      background-color: #4b5563;
+    }
+    
+    /* Layout principal */
+    #main-content {
+      margin-left: 240px;
+      width: calc(100% - 240px);
+    }
+    
+    /* Responsividade */
+    @media (max-width: 768px) {
+      .sidebar {
+        width: 64px;
+      }
+      
+      .sidebar-item span {
+        display: none;
+      }
+      
+      #main-content {
+        margin-left: 64px;
+        width: calc(100% - 64px);
+      }
+    }
+    
+    @media (max-width: 640px) {
+      table {
+        font-size: 12px;
+      }
+      
+      .card-content {
+        padding: 12px;
+      }
+      
+      .flex-col-sm {
+        flex-direction: column;
+      }
+      
+      .items-start-sm {
+        align-items: flex-start;
+      }
+      
+      .mt-2-sm {
+        margin-top: 0.5rem;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div id="app" class="flex">
+    <div class="sidebar">
+      <div class="sidebar-items">
+        <div class="sidebar-item" data-view="gameCreation">
+          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-plus"><path d="M5 12h14"></path><path d="M12 5v14"></path></svg>
+          <span>Criação de Jogos</span>
+        </div>
+        <div class="sidebar-item" data-view="monitoringDashboard">
+          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-layout-dashboard"><rect width="7" height="9" x="3" y="3" rx="1"></rect><rect width="7" height="5" x="14" y="3" rx="1"></rect><rect width="7" height="9" x="14" y="12" rx="1"></rect><rect width="7" height="5" x="3" y="16" rx="1"></rect></svg>
+          <span>Monitoramento</span>
+        </div>
+        <div class="sidebar-item" data-view="scenarioCreation">
+          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-file-text"><path d="M14.5 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7.5L14.5 2z"></path><polyline points="14 2 14 8 20 8"></polyline><line x1="16" x2="8" y1="13" y2="13"></line><line x1="16" x2="8" y1="17" y2="17"></line><line x1="10" x2="8" y1="9" y2="9"></line></svg>
+          <span>Criação de Cenários</span>
+        </div>
+        <div class="sidebar-item active" data-view="dre">
+          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-file-text"><path d="M14.5 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7.5L14.5 2z"></path><polyline points="14 2 14 8 20 8"></polyline><line x1="16" x2="8" y1="13" y2="13"></line><line x1="16" x2="8" y1="17" y2="17"></line><line x1="10" x2="8" y1="9" y2="9"></line></svg>
+          <span>DRE</span>
+        </div>
+        <div class="sidebar-item" data-view="reports">
+          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-file-text"><path d="M14.5 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7.5L14.5 2z"></path><polyline points="14 2 14 8 20 8"></polyline><line x1="16" x2="8" y1="13" y2="13"></line><line x1="16" x2="8" y1="17" y2="17"></line><line x1="10" x2="8" y1="9" y2="9"></line></svg>
+          <span>Relatórios</span>
+        </div>
+      </div>
+      <div class="sidebar-footer">
+        <div class="sidebar-item" id="settings-button">
+          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-settings"><path d="M12.22 2h-.44a2 2 0 0 0-2 2v.18a2 2 0 0 1-1 1.73l-.43.25a2 2 0 0 1-2 0l-.15-.08a2 2 0 0 0-2.73.73l-.22.38a2 2 0 0 0 .73 2.73l.15.1a2 2 0 0 1 1 1.72v.51a2 2 0 0 1-1 1.74l-.15.09a2 2 0 0 0-.73 2.73l.22.38a2 2 0 0 0 2.73.73l.15-.08a2 2 0 0 1 2 0l.43.25a2 2 0 0 1 1 1.73V20a2 2 0 0 0 2 2h.44a2 2 0 0 0 2-2v-.18a2 2 0 0 1 1-1.73l.43-.25a2 2 0 0 1 2 0l.15.08a2 2 0 0 0 2.73-.73l.22-.39a2 2 0 0 0-.73-2.73l-.15-.08a2 2 0 0 1-1-1.74v-.5a2 2 0 0 1 1-1.74l.15-.09a2 2 0 0 0 .73-2.73l-.22-.38a2 2 0 0 0-2.73-.73l-.15.08a2 2 0 0 1-2 0l-.43-.25a2 2 0 0 1-1-1.73V4a2 2 0 0 0-2-2z"></path><circle cx="12" cy="12" r="3"></circle></svg>
+          <span>Configurações</span>
+        </div>
+        <div class="sidebar-item" id="logout-button">
+          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-log-out"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"></path><polyline points="16 17 21 12 16 7"></polyline><line x1="21" x2="9" y1="12" y2="12"></line></svg>
+          <span>Sair</span>
+        </div>
+      </div>
+    </div>
+
+    <div id="main-content" class="p-8 overflow-auto">
+      <div class="accessibility-bar">
+        <button onclick="aumentarFonte()" aria-label="Aumentar tamanho da fonte">A+</button>
+        <button onclick="diminuirFonte()" aria-label="Diminuir tamanho da fonte">A-</button>
+        <button onclick="toggleDarkMode()" id="dark-mode-toggle" aria-label="Alternar modo escuro">
+          🌙 Modo Escuro
+        </button>
+      </div>
+
+      <div class="mb-6">
+        <h1 class="main-title">Demonstrativo de Resultado do Exercício</h1>
+        <div class="flex flex-col-sm flex-col items-start-sm sm:flex-row justify-between items-center mt-2">
+          <div>
+            <div class="text-xl font-semibold" id="empresa-nome">Carregando...</div>
+            <div class="text-muted-foreground" id="empresa-cnpj">CNPJ: Carregando...</div>
+          </div>
+          <div class="text-muted-foreground mt-2-sm mt-2" id="periodo-display">
+            Período: Carregando...
+          </div>
+        </div>
+      </div>
+
+      <div class="grid gap-6">
+        <div class="card">
+          <div class="card-header">
+            <div class="card-title">Demonstrativo de Resultado do Exercício</div>
+            <div class="card-description">
+              Visualize os resultados financeiros da sua empresa no período selecionado
+            </div>
+          </div>
+          <div class="card-content">
+            <div class="grid gap-4 md:flex md:justify-between md:items-center">
+              <div class="grid gap-2">
+                <label for="period">Período</label>
+                <div class="select">
+                  <div class="select-trigger" id="periodo-select">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-calendar"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect><line x1="16" y1="2" x2="16" y2="6"></line><line x1="8" y1="2" x2="8" y2="6"></line><line x1="3" y1="10" x2="21" y2="10"></line></svg>
+                    <span id="periodo-value">Mês Atual</span>
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-chevron-down"><path d="m6 9 6 6 6-6"></path></svg>
+                  </div>
+                  <div class="select-content hidden" id="periodo-options">
+                    <div class="select-item" data-value="current">Mês Atual</div>
+                    <div class="select-item" data-value="last">Mês Anterior</div>
+                    <div class="select-item" data-value="quarter">Último Trimestre</div>
+                    <div class="select-item" data-value="year">Ano Corrente</div>
+                  </div>
+                </div>
+              </div>
+
+              <div class="flex gap-2">
+                <div class="tabs-list">
+                  <div class="tabs-trigger active" data-view="table">Tabela</div>
+                  <div class="tabs-trigger" data-view="chart">Gráfico</div>
+                </div>
+              </div>
+            </div>
+
+            <div id="loading" class="flex justify-center items-center py-32">
+              <div class="loading">⏳ Carregando dados financeiros...</div>
+            </div>
+
+            <div id="dre-content" class="mt-6 hidden">
+              <div id="table-view">
+                <div class="overflow-x-auto">
+                  <table id="dre-table">
+                    <thead>
+                      <tr class="bg-sidebar text-sidebar-foreground">
+                        <th class="px-4 py-3 text-left">Descrição</th>
+                        <th class="px-4 py-3 text-right">Valor (R$)</th>
+                        <th class="px-4 py-3 text-right">% da Receita</th>
+                      </tr>
+                    </thead>
+                    <tbody id="dre-table-body">
+                      <!-- O conteúdo da tabela será preenchido via JavaScript -->
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+
+              <div id="chart-view" class="hidden">
+                <div class="chart-container" id="dre-chart">
+                  <!-- O gráfico será criado via JavaScript -->
+                  <canvas id="dre-chart-canvas" height="400"></canvas>
+                </div>
+              </div>
+
+              <div class="mt-6 flex justify-between">
+                <div class="flex items-center gap-2" id="resultado-periodo-container">
+                  <!-- O resultado do período será preenchido via JavaScript -->
+                </div>
+                
+                <div class="flex gap-2">
+                  <button id="toggle-view-button" class="button button-outline">
+                    Ver Gráfico
+                  </button>
+                  <button id="export-pdf-button" class="button">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-4 h-4 mr-2"><path d="M14.5 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7.5L14.5 2z"></path><polyline points="14 2 14 8 20 8"></polyline><line x1="16" x2="8" y1="13" y2="13"></line><line x1="16" x2="8" y1="17" y2="17"></line><line x1="10" x2="8" y1="9" y2="9"></line></svg>
+                    Exportar PDF
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div id="toast-container"></div>
+
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <script>
+    // Variáveis globais
+    let dreData = null;
+    let currentView = "table";
+    let currentPeriod = "current";
+    let fontSizePercent = 100;
+    let isDarkMode = false;
+    let chart = null;
+
+    // Inicialização quando a página carregar
+    document.addEventListener('DOMContentLoaded', function() {
+      initializePage();
+    });
+
+    // Função para inicializar a página
+    function initializePage() {
+      // Configurar eventos da interface
+      setupUIEvents();
+      
+      // Carregar dados iniciais
+      loadDREData("current");
+      
+      // Verificar modo escuro salvo
+      checkSavedTheme();
+      
+      // Verificar tamanho de fonte salvo
+      checkSavedFontSize();
+    }
+
+    // Configurar eventos da interface
+    function setupUIEvents() {
+      // Eventos do período
+      const periodoSelect = document.getElementById('periodo-select');
+      periodoSelect.addEventListener('click', function(e) {
+        e.stopPropagation();
+        document.getElementById('periodo-options').classList.toggle('hidden');
+      });
+      
+      // Eventos para os itens do select
+      const periodoOptions = document.querySelectorAll('#periodo-options .select-item');
+      periodoOptions.forEach(option => {
+        option.addEventListener('click', function() {
+          const value = this.getAttribute('data-value');
+          document.getElementById('periodo-value').textContent = this.textContent;
+          document.getElementById('periodo-options').classList.add('hidden');
+          if (currentPeriod !== value) {
+            currentPeriod = value;
+            loadDREData(value);
+          }
+        });
+      });
+      
+      // Fechar o select quando clicar fora
+      document.addEventListener('click', function(e) {
+        if (!e.target.closest('#periodo-select')) {
+          document.getElementById('periodo-options').classList.add('hidden');
+        }
+      });
+
+      // Tabs para alternar entre tabela e gráfico
+      const tabTriggers = document.querySelectorAll('.tabs-trigger');
+      tabTriggers.forEach(trigger => {
+        trigger.addEventListener('click', function() {
+          const view = this.getAttribute('data-view');
+          
+          // Atualizar classes das tabs
+          document.querySelectorAll('.tabs-trigger').forEach(t => t.classList.remove('active'));
+          this.classList.add('active');
+          
+          // Atualizar visualização
+          toggleView(view);
+        });
+      });
+
+      // Botão para alternar entre tabela e gráfico
+      const toggleViewButton = document.getElementById('toggle-view-button');
+      toggleViewButton.addEventListener('click', function() {
+        const newView = currentView === "table" ? "chart" : "table";
+        toggleView(newView);
+        
+        // Atualizar classes das tabs
+        document.querySelectorAll('.tabs-trigger').forEach(t => {
+          if (t.getAttribute('data-view') === newView) {
+            t.classList.add('active');
+          } else {
+            t.classList.remove('active');
+          }
+        });
+      });
+
+      // Botão para exportar PDF
+      document.getElementById('export-pdf-button').addEventListener('click', exportPDF);
+
+      // Eventos da sidebar
+      document.querySelectorAll('.sidebar-item').forEach(item => {
+        item.addEventListener('click', function() {
+          document.querySelectorAll('.sidebar-item').forEach(i => i.classList.remove('active'));
+          this.classList.add('active');
+        });
+      });
+    }
+
+    // Alternar entre visualização de tabela e gráfico
+    function toggleView(view) {
+      currentView = view;
+      
+      if (view === "table") {
+        document.getElementById('table-view').classList.remove('hidden');
+        document.getElementById('chart-view').classList.add('hidden');
+        document.getElementById('toggle-view-button').textContent = "Ver Gráfico";
+      } else {
+        document.getElementById('table-view').classList.add('hidden');
+        document.getElementById('chart-view').classList.remove('hidden');
+        document.getElementById('toggle-view-button').textContent = "Ver Tabela";
+        
+        // Renderizar o gráfico se ainda não foi feito
+        if (!chart) {
+          renderChart();
+        }
+      }
+    }
+
+    // Carregar dados do DRE
+    function loadDREData(period) {
+      document.getElementById('loading').classList.remove('hidden');
+      document.getElementById('dre-content').classList.add('hidden');
+      
+      // Simulando carregamento de dados
+      setTimeout(() => {
+        dreData = generateMockDREData(period);
+        updateDREDisplay();
+        document.getElementById('loading').classList.add('hidden');
+        document.getElementById('dre-content').classList.remove('hidden');
+      }, 800);
+    }
+
+    // Atualizar exibição do DRE com os dados carregados
+    function updateDREDisplay() {
+      // Atualizar cabeçalho
+      document.getElementById('empresa-nome').textContent = dreData.empresa;
+      document.getElementById('empresa-cnpj').textContent = `CNPJ: ${dreData.cnpj}`;
+      document.getElementById('periodo-display').textContent = `Período: ${dreData.periodo}`;
+      
+      // Renderizar tabela
+      renderTable();
+      
+      // Atualizar o resultado do período
+      updateResultadoPeriodo();
+      
+      // Limpar gráfico anterior se existir
+      if (chart) {
+        chart.destroy();
+        chart = null;
+      }
+    }
+
+    // Renderizar tabela do DRE
+    function renderTable() {
+      const tableBody = document.getElementById('dre-table-body');
+      tableBody.innerHTML = '';
+      
+      // Receita Bruta
+      tableBody.appendChild(createHeaderRow("1. RECEITA OPERACIONAL BRUTA", dreData.receitaBruta));
+      dreData.receitas.forEach(item => {
+        tableBody.appendChild(createDataRow(item.nome, item.valor, item.percentual));
+      });
+      
+      // Deduções
+      tableBody.appendChild(createHeaderRow("2. (-) DEDUÇÕES DA RECEITA BRUTA", dreData.deducoes, (dreData.deducoes / dreData.receitaBruta) * 100));
+      dreData.deducoesList.forEach(item => {
+        tableBody.appendChild(createDataRow(item.nome, item.valor, item.percentual, 16));
+      });
+      
+      // Receita Líquida
+      tableBody.appendChild(createHeaderRow("3. (=) RECEITA OPERACIONAL LÍQUIDA", dreData.receitaLiquida, (dreData.receitaLiquida / dreData.receitaBruta) * 100));
+      
+      // Custos
+      tableBody.appendChild(createHeaderRow("4. (-) CUSTOS OPERACIONAIS", dreData.custosProdutos, (dreData.custosProdutos / dreData.receitaBruta) * 100));
+      dreData.custos.forEach(item => {
+        tableBody.appendChild(createDataRow(item.nome, item.valor, item.percentual, 16));
+      });
+      
+      // Resultado Bruto
+      tableBody.appendChild(createHeaderRow("5. (=) RESULTADO OPERACIONAL BRUTO", dreData.resultadoBruto, (dreData.resultadoBruto / dreData.receitaBruta) * 100));
+      
+      // Despesas
+      tableBody.appendChild(createHeaderRow("6. (-) DESPESAS OPERACIONAIS", dreData.despesasOperacionais, (dreData.despesasOperacionais / dreData.receitaBruta) * 100));
+      dreData.despesas.forEach(item => {
+        tableBody.appendChild(createDataRow(item.nome, item.valor, item.percentual, 16));
+      });
+      
+      // Resultado Operacional
+      tableBody.appendChild(createHeaderRow("7. (=) RESULTADO OPERACIONAL", dreData.resultadoOperacional, (dreData.resultadoOperacional / dreData.receitaBruta) * 100));
+      
+      // Resultado Financeiro
+      tableBody.appendChild(createHeaderRow("8. (±) RESULTADO FINANCEIRO", dreData.resultadoFinanceiro, (dreData.resultadoFinanceiro / dreData.receitaBruta) * 100));
+      dreData.financeiros.forEach(item => {
+        tableBody.appendChild(createDataRow(item.nome, item.valor, item.percentual, 16));
+      });
+      
+      // Resultado antes do IR
+      tableBody.appendChild(createHeaderRow("9. (=) RESULTADO ANTES DO IR E CS", dreData.resultadoAntesIR, (dreData.resultadoAntesIR / dreData.receitaBruta) * 100));
+      
+      // IR e CS
+      tableBody.appendChild(createHeaderRow("10. (-) PROVISÃO PARA IR E CS", dreData.impostoRenda, (dreData.impostoRenda / dreData.receitaBruta) * 100));
+      
+      // Lucro Líquido
+      tableBody.appendChild(createHeaderRow("11. (=) LUCRO/PREJUÍZO LÍQUIDO DO EXERCÍCIO", dreData.lucroLiquido, (dreData.lucroLiquido / dreData.receitaBruta) * 100, true));
+    }
+
+    // Criar linha de cabeçalho na tabela
+    function createHeaderRow(nome, valor, percentual, isHighlighted = false) {
+      const row = document.createElement('tr');
+      row.className = `${isHighlighted ? 'font-bold' : ''} bg-muted`;
+      
+      const tdNome = document.createElement('td');
+      tdNome.className = "px-4 py-2 text-left";
+      tdNome.textContent = nome;
+      row.appendChild(tdNome);
+      
+      const tdValor = document.createElement('td');
+      tdValor.className = "px-4 py-2 text-right";
+      tdValor.textContent = formatCurrency(valor);
+      row.appendChild(tdValor);
+      
+      if (percentual !== undefined) {
+        const tdPerc = document.createElement('td');
+        tdPerc.className = "px-4 py-2 text-right";
+        tdPerc.textContent = percentual.toFixed(2) + "%";
+        row.appendChild(tdPerc);
+      } else {
+        const tdPerc = document.createElement('td');
+        tdPerc.className = "px-4 py-2 text-right";
+        tdPerc.textContent = "-";
+        row.appendChild(tdPerc);
+      }
+      
+      return row;
+    }
+
+    // Criar linha de dados na tabela
+    function createDataRow(nome, valor, percentual, indent = 0) {
+      const row = document.createElement('tr');
+      
+      const tdNome = document.createElement('td');
+      tdNome.className = "px-4 py-2 text-left";
+      tdNome.style.paddingLeft = `${indent + 16}px`;
+      tdNome.textContent = nome;
+      row.appendChild(tdNome);
+      
+      const tdValor = document.createElement('td');
+      tdValor.className = "px-4 py-2 text-right";
+      tdValor.textContent = formatCurrency(valor);
+      row.appendChild(tdValor);
+      
+      if (percentual !== undefined) {
+        const tdPerc = document.createElement('td');
+        tdPerc.className = "px-4 py-2 text-right";
+        tdPerc.textContent = percentual.toFixed(2) + "%";
+        row.appendChild(tdPerc);
+      } else {
+        const tdPerc = document.createElement('td');
+        tdPerc.className = "px-4 py-2 text-right";
+        tdPerc.textContent = "-";
+        row.appendChild(tdPerc);
+      }
+      
+      return row;
+    }
+
+    // Atualizar exibição do resultado do período
+    function updateResultadoPeriodo() {
+      const container = document.getElementById('resultado-periodo-container');
+      container.innerHTML = '';
+      
+      const isPositive = dreData.lucroLiquido > 0;
+      
+      const iconContainer = document.createElement('div');
+      iconContainer.className = `p-2 rounded-full flex items-center justify-center ${isPositive ? 'bg-green-100 text-green-600' : 'bg-red-100 text-red-600'}`;
+      iconContainer.innerHTML = isPositive ? 
+        '<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-arrow-up"><path d="m5 12 7-7 7 7"></path><path d="M12 19V5"></path></svg>' : 
+        '<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-arrow-down"><path d="M12 5v14"></path><path d="m19 12-7 7-7-7"></path></svg>';
+      
+      const textContainer = document.createElement('div');
+      
+      const label = document.createElement('div');
+      label.className = "text-sm text-muted-foreground";
+      label.textContent = "Resultado do Período";
+      
+      const value = document.createElement('div');
+      value.className = `text-lg font-semibold ${isPositive ? 'text-green-600' : 'text-red-600'}`;
+      value.textContent = formatCurrency(dreData.lucroLiquido);
+      
+      textContainer.appendChild(label);
+      textContainer.appendChild(value);
+      
+      container.appendChild(iconContainer);
+      container.appendChild(textContainer);
+    }
+
+    // Renderizar gráfico
+    function renderChart() {
+      if (!dreData) return;
+      
+      const ctx = document.getElementById('dre-chart-canvas').getContext('2d');
+      
+      const chartData = [
+        { name: "Receita Bruta", valor: dreData.receitaBruta, color: '#4ade80' },
+        { name: "Deduções", valor: -dreData.deducoes, color: '#f87171' },
+        { name: "Receita Líquida", valor: dreData.receitaLiquida, color: '#60a5fa' },
+        { name: "Custos", valor: -dreData.custosProdutos, color: '#f87171' },
+        { name: "Resultado Bruto", valor: dreData.resultadoBruto, color: '#60a5fa' },
+        { name: "Despesas", valor: -dreData.despesasOperacionais, color: '#f87171' },
+        { name: "Resultado Operacional", valor: dreData.resultadoOperacional, color: dreData.resultadoOperacional > 0 ? '#60a5fa' : '#f87171' },
+        { name: "Resultado Financeiro", valor: dreData.resultadoFinanceiro, color: dreData.resultadoFinanceiro > 0 ? '#4ade80' : '#f87171' },
+        { name: "Resultado Antes IR", valor: dreData.resultadoAntesIR, color: dreData.resultadoAntesIR > 0 ? '#60a5fa' : '#f87171' },
+        { name: "IR e CS", valor: -dreData.impostoRenda, color: '#f87171' },
+        { name: "Lucro Líquido", valor: dreData.lucroLiquido, color: dreData.lucroLiquido > 0 ? '#4ade80' : '#f87171' }
+      ];
+      
+      chart = new Chart(ctx, {
+        type: 'bar',
+        data: {
+          labels: chartData.map(item => item.name),
+          datasets: [{
+            label: 'Valor',
+            data: chartData.map(item => item.valor),
+            backgroundColor: chartData.map(item => item.color),
+            borderColor: chartData.map(item => item.color),
+            borderWidth: 1
+          }]
+        },
+        options: {
+          responsive: true,
+          maintainAspectRatio: false,
+          scales: {
+            y: {
+              beginAtZero: true,
+              ticks: {
+                callback: function(value) {
+                  return formatCurrency(value, false);
+                }
+              }
+            },
+            x: {
+              ticks: {
+                autoSkip: false,
+                maxRotation: 45,
+                minRotation: 45
+              }
+            }
+          },
+          plugins: {
+            tooltip: {
+              callbacks: {
+                label: function(context) {
+                  return formatCurrency(context.parsed.y);
+                }
+              }
+            },
+            legend: {
+              display: false
+            }
+          }
+        }
+      });
+    }
+
+    // Exportar para PDF
+    function exportPDF() {
+      showToast('Relatório exportado com sucesso', 'O arquivo foi salvo na pasta de downloads');
+    }
+
+    // Formatar moeda
+    function formatCurrency(value, includeSymbol = true) {
+      return value.toLocaleString('pt-BR', {
+        style: includeSymbol ? 'currency' : 'decimal',
+        currency: 'BRL',
+        minimumFractionDigits: includeSymbol ? 2 : 0,
+        maximumFractionDigits: includeSymbol ? 2 : 0
+      });
+    }
+
+    // Exibir toast
+    function showToast(title, description, variant = 'default') {
+      const toastContainer = document.getElementById('toast-container');
+      const toast = document.createElement('div');
+      toast.className = `toast ${variant === 'destructive' ? 'toast-destructive' : ''}`;
+      toast.innerHTML = `
+        <div class="toast-title">${title}</div>
+        <div class="toast-description">${description}</div>
+      `;
+      
+      toastContainer.appendChild(toast);
+      
+      // Remover toast após 5 segundos
+      setTimeout(() => {
+        toast.style.opacity = '0';
+        toast.style.transform = 'translateX(100%)';
+        setTimeout(() => {
+          toast.remove();
+        }, 300);
+      }, 5000);
+    }
+
+    // Aumentar fonte
+    function aumentarFonte() {
+      if (fontSizePercent < 150) {
+        fontSizePercent += 10;
+        document.documentElement.style.fontSize = `${fontSizePercent}%`;
+        localStorage.setItem('fontSizePercent', fontSizePercent);
+      }
+    }
+
+    // Diminuir fonte
+    function diminuirFonte() {
+      if (fontSizePercent > 70) {
+        fontSizePercent -= 10;
+        document.documentElement.style.fontSize = `${fontSizePercent}%`;
+        localStorage.setItem('fontSizePercent', fontSizePercent);
+      }
+    }
+
+    // Alternar modo escuro
+    function toggleDarkMode() {
+      isDarkMode = !isDarkMode;
+      if (isDarkMode) {
+        document.body.classList.add('dark-mode');
+        document.getElementById('dark-mode-toggle').textContent = '☀️ Modo Claro';
+        localStorage.setItem('darkMode', 'true');
+      } else {
+        document.body.classList.remove('dark-mode');
+        document.getElementById('dark-mode-toggle').textContent = '🌙 Modo Escuro';
+        localStorage.removeItem('darkMode');
+      }
+      
+      // Atualizar o gráfico se estiver visível
+      if (currentView === "chart" && chart) {
+        chart.destroy();
+        chart = null;
+        renderChart();
+      }
+    }
+
+    // Verificar tema salvo
+    function checkSavedTheme() {
+      if (localStorage.getItem('darkMode') === 'true') {
+        isDarkMode = true;
+        document.body.classList.add('dark-mode');
+        document.getElementById('dark-mode-toggle').textContent = '☀️ Modo Claro';
+      }
+    }
+
+    // Verificar tamanho de fonte salvo
+    function checkSavedFontSize() {
+      const savedFontSize = localStorage.getItem('fontSizePercent');
+      if (savedFontSize) {
+        fontSizePercent = parseInt(savedFontSize);
+        document.documentElement.style.fontSize = `${fontSizePercent}%`;
+      }
+    }
+
+    // Função para gerar dados fictícios de DRE
+    function generateMockDREData(period) {
+      // Gerar dados com base no período selecionado
+      const multiplier = period === 'year' ? 12 : period === 'quarter' ? 3 : 1;
+      const baseReceita = 500000 * multiplier;
+      const variacao = Math.random() * 0.2 - 0.1; // Variação de -10% a +10%
+      const receitaBruta = baseReceita * (1 + variacao);
+
+      // Calcular demais valores com base na receita bruta
+      const deducoes = receitaBruta * 0.15;
+      const receitaLiquida = receitaBruta - deducoes;
+      const custosProdutos = receitaLiquida * 0.45;
+      const resultadoBruto = receitaLiquida - custosProdutos;
+      const despesasOperacionais = resultadoBruto * 0.35;
+      const resultadoOperacional = resultadoBruto - despesasOperacionais;
+      const resultadoFinanceiro = receitaBruta * (Math.random() * 0.06 - 0.03); // Entre -3% e +3%
+      const resultadoAntesIR = resultadoOperacional + resultadoFinanceiro;
+      const impostoRenda = resultadoAntesIR > 0 ? resultadoAntesIR * 0.34 : 0;
+      const lucroLiquido = resultadoAntesIR - impostoRenda;
+
+      // Título do período
+      let titulo = "";
+      const dataAtual = new Date();
+      const mes = dataAtual.toLocaleString('pt-BR', { month: 'long' });
+      const mesAnterior = new Date(dataAtual);
+      mesAnterior.setMonth(dataAtual.getMonth() - 1);
+      const mesAnteriorNome = mesAnterior.toLocaleString('pt-BR', { month: 'long' });
+      
+      if (period === 'current') {
+        titulo = `${mes} de ${dataAtual.getFullYear()}`;
+      } else if (period === 'last') {
+        titulo = `${mesAnteriorNome} de ${mesAnterior.getFullYear()}`;
+      } else if (period === 'quarter') {
+        const trimestre = Math.floor(dataAtual.getMonth() / 3) + 1;
+        titulo = `${trimestre}º Trimestre de ${dataAtual.getFullYear()}`;
+      } else {
+        titulo = `Ano de ${dataAtual.getFullYear()}`;
+      }
+
+      // Criar itens detalhados
+      const receitas = [
+        { id: "rec1", nome: "Vendas de Produtos", valor: receitaBruta * 0.7, percentual: 70 },
+        { id: "rec2", nome: "Prestação de Serviços", valor: receitaBruta * 0.3, percentual: 30 }
+      ];
+      
+      const deducoesList = [
+        { id: "ded1", nome: "Impostos sobre Vendas", valor: deducoes * 0.8, percentual: (deducoes * 0.8 / receitaBruta) * 100 },
+        { id: "ded2", nome: "Devoluções e Abatimentos", valor: deducoes * 0.2, percentual: (deducoes * 0.2 / receitaBruta) * 100 }
+      ];
+      
+      const custos = [
+        { id: "cus1", nome: "Matéria-Prima", valor: custosProdutos * 0.6, percentual: (custosProdutos * 0.6 / receitaBruta) * 100 },
+        { id: "cus2", nome: "Mão de Obra Direta", valor: custosProdutos * 0.3, percentual: (custosProdutos * 0.3 / receitaBruta) * 100 },
+        { id: "cus3", nome: "Gastos Gerais de Fabricação", valor: custosProdutos * 0.1, percentual: (custosProdutos * 0.1 / receitaBruta) * 100 }
+      ];
+      
+      const despesas = [
+        { id: "des1", nome: "Despesas Administrativas", valor: despesasOperacionais * 0.5, percentual: (despesasOperacionais * 0.5 / receitaBruta) * 100 },
+        { id: "des2", nome: "Despesas com Vendas", valor: despesasOperacionais * 0.4, percentual: (despesasOperacionais * 0.4 / receitaBruta) * 100 },
+        { id: "des3", nome: "Outras Despesas Operacionais", valor: despesasOperacionais * 0.1, percentual: (despesasOperacionais * 0.1 / receitaBruta) * 100 }
+      ];
+      
+      const receitasFinanceiras = resultadoFinanceiro > 0 ? resultadoFinanceiro : 0;
+      const despesasFinanceiras = resultadoFinanceiro < 0 ? Math.abs(resultadoFinanceiro) : 0;
+      
+      const financeiros = [
+        { id: "fin1", nome: "Receitas Financeiras", valor: receitasFinanceiras, percentual: (receitasFinanceiras / receitaBruta) * 100 },
+        { id: "fin2", nome: "(-) Despesas Financeiras", valor: despesasFinanceiras, percentual: (despesasFinanceiras / receitaBruta) * 100 }
+      ];
+
+      // Retornar objeto com os dados
+      return {
+        empresa: "Tech Solutions SA",
+        cnpj: "12.345.678/0001-90",
+        periodo: titulo,
+        receitaBruta,
+        receitas,
+        deducoes,
+        deducoesList,
+        receitaLiquida,
+        custosProdutos,
+        custos,
+        resultadoBruto,
+        despesasOperacionais,
+        despesas,
+        resultadoOperacional,
+        resultadoFinanceiro,
+        financeiros,
+        resultadoAntesIR,
+        impostoRenda,
+        lucroLiquido
+      };
+    }
+  </script>
+</body>
+</html>
