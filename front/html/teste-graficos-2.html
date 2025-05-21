@@ -1,0 +1,1252 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gráficos Empresariais</title>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/echarts@5.4.3/dist/echarts.min.js"></script>
+    <style>
+        :root {
+            --primary: #6E59A5;
+            --secondary: #8B5CF6;
+            --success: #10B981;
+            --danger: #EF4444;
+            --warning: #F59E0B;
+            --info: #0EA5E9;
+            --light: #F3F4F6;
+            --dark: #1F2937;
+            --purple-light: #E5DEFF;
+            --orange-light: #FDE1D3;
+            --blue-light: #D3E4FD;
+            --green-light: #F2FCE2;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #F9FAFB;
+            margin: 0;
+            padding: 0;
+            color: #333;
+        }
+        
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        
+        header {
+            background-color: white;
+            padding: 20px;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+            margin-bottom: 30px;
+        }
+        
+        .header-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        h1 {
+            margin: 0;
+            color: var(--dark);
+            font-size: 24px;
+        }
+        
+        .company-info {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+        }
+        
+        .company-logo {
+            width: 50px;
+            height: 50px;
+            background-color: var(--primary);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: bold;
+            font-size: 20px;
+        }
+        
+        .user-controls {
+            display: flex;
+            gap: 15px;
+        }
+        
+        button {
+            background-color: var(--light);
+            border: none;
+            padding: 8px 16px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-weight: 500;
+            transition: all 0.2s;
+        }
+        
+        button:hover {
+            background-color: #E5E7EB;
+        }
+        
+        .button-primary {
+            background-color: var(--primary);
+            color: white;
+        }
+        
+        .button-primary:hover {
+            background-color: #5D4A8C;
+        }
+        
+        .chart-controls {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 20px;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+        
+        .period-selector {
+            display: flex;
+            gap: 10px;
+        }
+        
+        .data-source {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .switch {
+            position: relative;
+            display: inline-block;
+            width: 60px;
+            height: 30px;
+        }
+        
+        .switch input {
+            opacity: 0;
+            width: 0;
+            height: 0;
+        }
+        
+        .slider {
+            position: absolute;
+            cursor: pointer;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: #ccc;
+            transition: .4s;
+            border-radius: 34px;
+        }
+        
+        .slider:before {
+            position: absolute;
+            content: "";
+            height: 22px;
+            width: 22px;
+            left: 4px;
+            bottom: 4px;
+            background-color: white;
+            transition: .4s;
+            border-radius: 50%;
+        }
+        
+        input:checked + .slider {
+            background-color: var(--primary);
+        }
+        
+        input:focus + .slider {
+            box-shadow: 0 0 1px var(--primary);
+        }
+        
+        input:checked + .slider:before {
+            transform: translateX(30px);
+        }
+        
+        .charts-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(500px, 1fr));
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+        
+        .chart-container {
+            background-color: white;
+            border-radius: 10px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
+            padding: 15px;
+            height: 400px;
+            position: relative;
+        }
+        
+        .chart-title {
+            font-size: 18px;
+            margin-top: 0;
+            margin-bottom: 15px;
+            color: var(--dark);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .chart-subtitle {
+            color: #6B7280;
+            font-size: 14px;
+            margin-top: -10px;
+            margin-bottom: 15px;
+        }
+        
+        .chart {
+            width: 100%;
+            height: 310px;
+        }
+        
+        .chart-legend {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 15px;
+            margin-top: 15px;
+        }
+        
+        .legend-item {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            font-size: 12px;
+        }
+        
+        .legend-color {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+        }
+        
+        .chart-actions {
+            display: flex;
+            gap: 5px;
+        }
+        
+        .chart-action {
+            background: none;
+            border: none;
+            cursor: pointer;
+            padding: 3px;
+            border-radius: 4px;
+            color: #6B7280;
+        }
+        
+        .chart-action:hover {
+            background-color: var(--light);
+            color: var(--dark);
+        }
+        
+        /* Loading animation */
+        .loading {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100%;
+            color: #6B7280;
+        }
+        
+        .loading::after {
+            content: "";
+            width: 30px;
+            height: 30px;
+            border: 4px solid #DDD;
+            border-top-color: var(--primary);
+            border-radius: 50%;
+            animation: loading 1s linear infinite;
+            margin-left: 10px;
+        }
+        
+        @keyframes loading {
+            to {
+                transform: rotate(360deg);
+            }
+        }
+        
+        .error-message {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            height: 100%;
+            color: var(--danger);
+            text-align: center;
+        }
+        
+        .error-message svg {
+            margin-bottom: 10px;
+        }
+        
+        .error-action {
+            margin-top: 15px;
+            background-color: var(--light);
+            border: none;
+            padding: 8px 16px;
+            border-radius: 6px;
+            cursor: pointer;
+        }
+        
+        .kpi-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+        
+        .kpi-card {
+            background-color: white;
+            border-radius: 10px;
+            padding: 20px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .kpi-title {
+            font-size: 14px;
+            color: #6B7280;
+            margin: 0 0 5px 0;
+        }
+        
+        .kpi-value {
+            font-size: 24px;
+            font-weight: 600;
+            margin: 0;
+        }
+        
+        .kpi-change {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            font-size: 14px;
+            margin-top: 10px;
+        }
+        
+        .kpi-positive {
+            color: var(--success);
+        }
+        
+        .kpi-negative {
+            color: var(--danger);
+        }
+        
+        .kpi-icon {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            width: 40px;
+            height: 40px;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .kpi-bg-pattern {
+            position: absolute;
+            bottom: -20px;
+            right: -20px;
+            width: 100px;
+            height: 100px;
+            opacity: 0.1;
+        }
+        
+        /* Modo escuro */
+        .dark-mode {
+            background-color: #111827;
+            color: #F9FAFB;
+        }
+        
+        .dark-mode header, 
+        .dark-mode .chart-container,
+        .dark-mode .kpi-card {
+            background-color: #1F2937;
+            color: #F9FAFB;
+        }
+        
+        .dark-mode h1, 
+        .dark-mode .chart-title {
+            color: #F9FAFB;
+        }
+        
+        .dark-mode button {
+            background-color: #374151;
+            color: #E5E7EB;
+        }
+        
+        .dark-mode button:hover {
+            background-color: #4B5563;
+        }
+        
+        .dark-mode .button-primary {
+            background-color: var(--primary);
+        }
+        
+        .dark-mode .button-primary:hover {
+            background-color: #5D4A8C;
+        }
+        
+        /* Responsividade */
+        @media (max-width: 768px) {
+            .charts-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .kpi-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+            
+            .header-content {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 15px;
+            }
+            
+            .user-controls {
+                align-self: flex-end;
+            }
+        }
+        
+        @media (max-width: 576px) {
+            .kpi-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .chart-controls {
+                flex-direction: column;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="container">
+            <div class="header-content">
+                <div class="company-info">
+                    <div class="company-logo">TS</div>
+                    <div>
+                        <h1>Tech Solutions Analytics</h1>
+                        <div>Dashboard de Performance Empresarial</div>
+                    </div>
+                </div>
+                <div class="user-controls">
+                    <button id="toggle-dark-mode">🌙 Modo Escuro</button>
+                    <button class="button-primary">Exportar Dados</button>
+                </div>
+            </div>
+        </div>
+    </header>
+    
+    <div class="container">
+        <div class="chart-controls">
+            <div class="period-selector">
+                <button class="period-btn button-primary" data-period="month">Mês Atual</button>
+                <button class="period-btn" data-period="quarter">Trimestre</button>
+                <button class="period-btn" data-period="year">Ano</button>
+                <button class="period-btn" data-period="custom">Personalizado</button>
+            </div>
+            <div class="data-source">
+                <span>Dados Fictícios</span>
+                <label class="switch">
+                    <input type="checkbox" id="data-source-toggle">
+                    <span class="slider"></span>
+                </label>
+                <span>Dados do Banco</span>
+            </div>
+        </div>
+        
+        <div class="kpi-grid">
+            <div class="kpi-card" style="border-left: 4px solid var(--success);">
+                <h3 class="kpi-title">Receita Total</h3>
+                <p class="kpi-value">R$ 1.250.000</p>
+                <div class="kpi-change kpi-positive">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 16 16">
+                        <path d="M8 5.5a.5.5 0 0 1 .5.5v5a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5z"/>
+                        <path d="M7.646 4.146a.5.5 0 0 1 .708 0l2 2a.5.5 0 0 1-.708.708L8 5.207 6.354 6.854a.5.5 0 1 1-.708-.708l2-2z"/>
+                    </svg>
+                    12.5% desde o mês anterior
+                </div>
+                <div class="kpi-icon" style="background-color: var(--green-light); color: var(--success);">
+                    💰
+                </div>
+                <svg class="kpi-bg-pattern" xmlns="http://www.w3.org/2000/svg" width="100" height="100" viewBox="0 0 100 100">
+                    <path fill="currentColor" d="M0 0h100v100H0z"/>
+                </svg>
+            </div>
+            <div class="kpi-card" style="border-left: 4px solid var(--info);">
+                <h3 class="kpi-title">Novos Clientes</h3>
+                <p class="kpi-value">386</p>
+                <div class="kpi-change kpi-positive">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 16 16">
+                        <path d="M8 5.5a.5.5 0 0 1 .5.5v5a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5z"/>
+                        <path d="M7.646 4.146a.5.5 0 0 1 .708 0l2 2a.5.5 0 0 1-.708.708L8 5.207 6.354 6.854a.5.5 0 1 1-.708-.708l2-2z"/>
+                    </svg>
+                    8.2% desde o mês anterior
+                </div>
+                <div class="kpi-icon" style="background-color: var(--blue-light); color: var(--info);">
+                    👥
+                </div>
+            </div>
+            <div class="kpi-card" style="border-left: 4px solid var(--warning);">
+                <h3 class="kpi-title">Taxa de Conversão</h3>
+                <p class="kpi-value">24.8%</p>
+                <div class="kpi-change kpi-positive">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 16 16">
+                        <path d="M8 5.5a.5.5 0 0 1 .5.5v5a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5z"/>
+                        <path d="M7.646 4.146a.5.5 0 0 1 .708 0l2 2a.5.5 0 0 1-.708.708L8 5.207 6.354 6.854a.5.5 0 1 1-.708-.708l2-2z"/>
+                    </svg>
+                    3.6% desde o mês anterior
+                </div>
+                <div class="kpi-icon" style="background-color: var(--orange-light); color: var(--warning);">
+                    📈
+                </div>
+            </div>
+            <div class="kpi-card" style="border-left: 4px solid var(--danger);">
+                <h3 class="kpi-title">Taxa de Rejeição</h3>
+                <p class="kpi-value">18.3%</p>
+                <div class="kpi-change kpi-negative">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 16 16">
+                        <path d="M8 10.5a.5.5 0 0 1-.5-.5V5a.5.5 0 0 1 1 0v5a.5.5 0 0 1-.5.5z"/>
+                        <path d="M7.646 11.854a.5.5 0 0 0 .708 0l2-2a.5.5 0 0 0-.708-.708L8 10.793 6.354 9.146a.5.5 0 1 0-.708.708l2 2z"/>
+                    </svg>
+                    2.1% desde o mês anterior
+                </div>
+                <div class="kpi-icon" style="background-color: #FECACA; color: var(--danger);">
+                    ❌
+                </div>
+            </div>
+        </div>
+        
+        <div class="charts-grid">
+            <div class="chart-container">
+                <div class="chart-title">
+                    <span>Receita por Produto</span>
+                    <div class="chart-actions">
+                        <button class="chart-action" title="Baixar CSV">📊</button>
+                        <button class="chart-action" title="Expandir">🔍</button>
+                    </div>
+                </div>
+                <div class="chart-subtitle">Últimos 6 meses</div>
+                <div id="revenue-chart" class="chart"></div>
+            </div>
+            
+            <div class="chart-container">
+                <div class="chart-title">
+                    <span>Distribuição de Lucro</span>
+                    <div class="chart-actions">
+                        <button class="chart-action" title="Baixar CSV">📊</button>
+                        <button class="chart-action" title="Expandir">🔍</button>
+                    </div>
+                </div>
+                <div class="chart-subtitle">Percentual por departamento</div>
+                <div id="pie-chart" class="chart"></div>
+            </div>
+            
+            <div class="chart-container">
+                <div class="chart-title">
+                    <span>Clientes por Região</span>
+                    <div class="chart-actions">
+                        <button class="chart-action" title="Baixar CSV">📊</button>
+                        <button class="chart-action" title="Expandir">🔍</button>
+                    </div>
+                </div>
+                <div class="chart-subtitle">Distribuição geográfica</div>
+                <div id="map-chart" class="chart"></div>
+            </div>
+            
+            <div class="chart-container">
+                <div class="chart-title">
+                    <span>Análise de Desempenho</span>
+                    <div class="chart-actions">
+                        <button class="chart-action" title="Baixar CSV">📊</button>
+                        <button class="chart-action" title="Expandir">🔍</button>
+                    </div>
+                </div>
+                <div class="chart-subtitle">Comparativo de metas e resultados</div>
+                <div id="radar-chart" class="chart"></div>
+            </div>
+        </div>
+        
+        <div class="charts-grid">
+            <div class="chart-container">
+                <div class="chart-title">
+                    <span>Crescimento de Receita</span>
+                    <div class="chart-actions">
+                        <button class="chart-action" title="Baixar CSV">📊</button>
+                        <button class="chart-action" title="Expandir">🔍</button>
+                    </div>
+                </div>
+                <div class="chart-subtitle">Análise ano a ano</div>
+                <div id="growth-chart" class="chart"></div>
+            </div>
+            
+            <div class="chart-container">
+                <div class="chart-title">
+                    <span>Funil de Vendas</span>
+                    <div class="chart-actions">
+                        <button class="chart-action" title="Baixar CSV">📊</button>
+                        <button class="chart-action" title="Expandir">🔍</button>
+                    </div>
+                </div>
+                <div class="chart-subtitle">Conversão em cada etapa</div>
+                <div id="funnel-chart" class="chart"></div>
+            </div>
+        </div>
+    </div>
+    
+    <script>
+        // Configuração do backend - Altere para o seu backend
+        const API_BASE_URL = 'http://localhost:8080';
+        
+        // Estado da aplicação
+        let currentPeriod = 'month';
+        let useRealData = false;
+        let isDarkMode = false;
+        
+        // Referências para os gráficos
+        let revenueChart;
+        let pieChart;
+        let mapChart;
+        let radarChart;
+        let growthChart;
+        let funnelChart;
+        
+        // Inicialização quando a página carregar
+        document.addEventListener('DOMContentLoaded', function() {
+            setupEventListeners();
+            initCharts();
+            loadData();
+        });
+        
+        // Configurar os listeners de eventos
+        function setupEventListeners() {
+            // Botões de período
+            document.querySelectorAll('.period-btn').forEach(button => {
+                button.addEventListener('click', function() {
+                    document.querySelectorAll('.period-btn').forEach(btn => {
+                        btn.classList.remove('button-primary');
+                    });
+                    this.classList.add('button-primary');
+                    currentPeriod = this.getAttribute('data-period');
+                    loadData();
+                });
+            });
+            
+            // Toggle de fonte de dados
+            document.getElementById('data-source-toggle').addEventListener('change', function() {
+                useRealData = this.checked;
+                loadData();
+            });
+            
+            // Toggle de modo escuro
+            document.getElementById('toggle-dark-mode').addEventListener('click', function() {
+                toggleDarkMode();
+            });
+        }
+        
+        // Alternar entre modo claro e escuro
+        function toggleDarkMode() {
+            isDarkMode = !isDarkMode;
+            
+            if (isDarkMode) {
+                document.body.classList.add('dark-mode');
+                document.getElementById('toggle-dark-mode').textContent = '☀️ Modo Claro';
+            } else {
+                document.body.classList.remove('dark-mode');
+                document.getElementById('toggle-dark-mode').textContent = '🌙 Modo Escuro';
+            }
+            
+            // Recarregar os gráficos para atualizar as cores
+            updateCharts();
+        }
+        
+        // Inicializar todos os gráficos
+        function initCharts() {
+            // Gráfico de receita
+            const revenueCtx = document.getElementById('revenue-chart');
+            revenueChart = echarts.init(revenueCtx);
+            
+            // Gráfico de pizza
+            const pieCtx = document.getElementById('pie-chart');
+            pieChart = echarts.init(pieCtx);
+            
+            // Gráfico de mapa
+            const mapCtx = document.getElementById('map-chart');
+            mapChart = echarts.init(mapCtx);
+            
+            // Gráfico de radar
+            const radarCtx = document.getElementById('radar-chart');
+            radarChart = echarts.init(radarCtx);
+            
+            // Gráfico de crescimento
+            const growthCtx = document.getElementById('growth-chart');
+            growthChart = echarts.init(growthCtx);
+            
+            // Gráfico de funil
+            const funnelCtx = document.getElementById('funnel-chart');
+            funnelChart = echarts.init(funnelCtx);
+            
+            // Adaptar os gráficos ao redimensionar a janela
+            window.addEventListener('resize', function() {
+                revenueChart.resize();
+                pieChart.resize();
+                mapChart.resize();
+                radarChart.resize();
+                growthChart.resize();
+                funnelChart.resize();
+            });
+        }
+        
+        // Carregar dados e atualizar os gráficos
+        async function loadData() {
+            try {
+                let data;
+                
+                if (useRealData) {
+                    // Tentar carregar dados reais do backend
+                    try {
+                        const response = await fetch(`${API_BASE_URL}/api/charts?period=${currentPeriod}`);
+                        
+                        if (!response.ok) {
+                            throw new Error(`Erro ${response.status}: Falha ao buscar dados do backend`);
+                        }
+                        
+                        data = await response.json();
+                    } catch (error) {
+                        console.error("Erro ao carregar dados do backend:", error);
+                        data = generateMockData(currentPeriod);
+                        
+                        // Mostrar alerta de fallback para o usuário
+                        alert(`Não foi possível conectar ao backend. Usando dados fictícios como fallback.`);
+                    }
+                } else {
+                    // Usar dados fictícios
+                    data = generateMockData(currentPeriod);
+                }
+                
+                updateCharts(data);
+                
+            } catch (error) {
+                console.error("Erro ao carregar dados:", error);
+            }
+        }
+        
+        // Atualizar todos os gráficos com os dados
+        function updateCharts(data) {
+            if (!data) return;
+            
+            updateRevenueChart(data.revenue);
+            updatePieChart(data.profitDistribution);
+            updateMapChart(data.customersByRegion);
+            updateRadarChart(data.performance);
+            updateGrowthChart(data.revenueGrowth);
+            updateFunnelChart(data.salesFunnel);
+        }
+        
+        // Atualizar gráfico de receita
+        function updateRevenueChart(data) {
+            const theme = isDarkMode ? 
+                { 
+                    backgroundColor: 'transparent',
+                    textStyle: { color: '#F9FAFB' },
+                    legend: { textStyle: { color: '#F9FAFB' } }
+                } : {};
+                
+            const option = {
+                ...theme,
+                tooltip: {
+                    trigger: 'axis',
+                    axisPointer: {
+                        type: 'shadow'
+                    }
+                },
+                legend: {
+                    data: ['Software', 'Hardware', 'Serviços', 'Consultoria'],
+                    bottom: 0
+                },
+                grid: {
+                    left: '3%',
+                    right: '4%',
+                    bottom: '10%',
+                    containLabel: true
+                },
+                xAxis: {
+                    type: 'category',
+                    data: data.months
+                },
+                yAxis: {
+                    type: 'value',
+                    name: 'Receita (R$)'
+                },
+                series: [
+                    {
+                        name: 'Software',
+                        type: 'bar',
+                        stack: 'total',
+                        itemStyle: { color: '#9b87f5' },
+                        emphasis: { focus: 'series' },
+                        data: data.software
+                    },
+                    {
+                        name: 'Hardware',
+                        type: 'bar',
+                        stack: 'total',
+                        itemStyle: { color: '#0EA5E9' },
+                        emphasis: { focus: 'series' },
+                        data: data.hardware
+                    },
+                    {
+                        name: 'Serviços',
+                        type: 'bar',
+                        stack: 'total',
+                        itemStyle: { color: '#10B981' },
+                        emphasis: { focus: 'series' },
+                        data: data.services
+                    },
+                    {
+                        name: 'Consultoria',
+                        type: 'bar',
+                        stack: 'total',
+                        itemStyle: { color: '#F59E0B' },
+                        emphasis: { focus: 'series' },
+                        data: data.consulting
+                    }
+                ]
+            };
+            
+            revenueChart.setOption(option);
+        }
+        
+        // Atualizar gráfico de pizza
+        function updatePieChart(data) {
+            const theme = isDarkMode ? 
+                { 
+                    backgroundColor: 'transparent',
+                    textStyle: { color: '#F9FAFB' },
+                    legend: { textStyle: { color: '#F9FAFB' } }
+                } : {};
+                
+            const option = {
+                ...theme,
+                tooltip: {
+                    trigger: 'item',
+                    formatter: '{a} <br/>{b}: {c} ({d}%)'
+                },
+                legend: {
+                    orient: 'horizontal',
+                    bottom: 0,
+                    data: data.map(item => item.name)
+                },
+                series: [
+                    {
+                        name: 'Distribuição de Lucro',
+                        type: 'pie',
+                        radius: ['40%', '70%'],
+                        avoidLabelOverlap: false,
+                        itemStyle: {
+                            borderRadius: 10,
+                            borderColor: isDarkMode ? '#1F2937' : '#fff',
+                            borderWidth: 2
+                        },
+                        label: {
+                            show: false,
+                            position: 'center'
+                        },
+                        emphasis: {
+                            label: {
+                                show: true,
+                                fontSize: '18',
+                                fontWeight: 'bold'
+                            }
+                        },
+                        labelLine: {
+                            show: false
+                        },
+                        data: data
+                    }
+                ]
+            };
+            
+            pieChart.setOption(option);
+        }
+        
+        // Atualizar gráfico de mapa
+        function updateMapChart(data) {
+            const theme = isDarkMode ? 
+                { 
+                    backgroundColor: 'transparent',
+                    textStyle: { color: '#F9FAFB' },
+                    visualMap: { textStyle: { color: '#F9FAFB' } }
+                } : {};
+                
+            const option = {
+                ...theme,
+                tooltip: {
+                    trigger: 'item',
+                    formatter: '{b}: {c} clientes'
+                },
+                visualMap: {
+                    min: 0,
+                    max: data.maxValue,
+                    text: ['Alto', 'Baixo'],
+                    inRange: {
+                        color: ['#D3E4FD', '#0EA5E9', '#1E40AF']
+                    },
+                    calculable: true
+                },
+                series: [
+                    {
+                        type: 'map',
+                        map: 'brazil',
+                        roam: true,
+                        emphasis: {
+                            label: {
+                                show: true
+                            }
+                        },
+                        data: data.regions
+                    }
+                ]
+            };
+            
+            // Simplificação visual para um gráfico de barras horizontais
+            // já que o mapa real exigiria dados geográficos complexos
+            const barOption = {
+                ...theme,
+                tooltip: {
+                    trigger: 'axis',
+                    axisPointer: {
+                        type: 'shadow'
+                    }
+                },
+                grid: {
+                    left: '3%',
+                    right: '4%',
+                    bottom: '3%',
+                    containLabel: true
+                },
+                xAxis: {
+                    type: 'value',
+                    name: 'Número de Clientes'
+                },
+                yAxis: {
+                    type: 'category',
+                    data: data.regions.map(item => item.name),
+                    inverse: true
+                },
+                series: [
+                    {
+                        name: 'Clientes',
+                        type: 'bar',
+                        data: data.regions.map(item => ({
+                            value: item.value,
+                            itemStyle: {
+                                color: function() {
+                                    // Cor baseada no valor relativo
+                                    const percentage = item.value / data.maxValue;
+                                    if (percentage > 0.66) return '#1E40AF';
+                                    if (percentage > 0.33) return '#0EA5E9';
+                                    return '#D3E4FD';
+                                }()
+                            }
+                        })),
+                        label: {
+                            show: true,
+                            position: 'right',
+                            formatter: '{c}'
+                        }
+                    }
+                ]
+            };
+            
+            mapChart.setOption(barOption);
+        }
+        
+        // Atualizar gráfico de radar
+        function updateRadarChart(data) {
+            const theme = isDarkMode ? 
+                { 
+                    backgroundColor: 'transparent',
+                    textStyle: { color: '#F9FAFB' },
+                    legend: { textStyle: { color: '#F9FAFB' } }
+                } : {};
+                
+            const option = {
+                ...theme,
+                tooltip: {
+                    trigger: 'item'
+                },
+                legend: {
+                    data: ['Meta', 'Realizado'],
+                    bottom: 0
+                },
+                radar: {
+                    shape: 'circle',
+                    indicator: data.indicators
+                },
+                series: [
+                    {
+                        type: 'radar',
+                        emphasis: {
+                            lineStyle: {
+                                width: 4
+                            }
+                        },
+                        data: [
+                            {
+                                value: data.target,
+                                name: 'Meta',
+                                areaStyle: {
+                                    color: 'rgba(155, 135, 245, 0.2)'
+                                },
+                                lineStyle: {
+                                    color: '#9b87f5',
+                                    width: 2
+                                },
+                                itemStyle: {
+                                    color: '#9b87f5'
+                                }
+                            },
+                            {
+                                value: data.actual,
+                                name: 'Realizado',
+                                areaStyle: {
+                                    color: 'rgba(14, 165, 233, 0.2)'
+                                },
+                                lineStyle: {
+                                    color: '#0EA5E9',
+                                    width: 2
+                                },
+                                itemStyle: {
+                                    color: '#0EA5E9'
+                                }
+                            }
+                        ]
+                    }
+                ]
+            };
+            
+            radarChart.setOption(option);
+        }
+        
+        // Atualizar gráfico de crescimento
+        function updateGrowthChart(data) {
+            const theme = isDarkMode ? 
+                { 
+                    backgroundColor: 'transparent',
+                    textStyle: { color: '#F9FAFB' },
+                    legend: { textStyle: { color: '#F9FAFB' } }
+                } : {};
+                
+            const option = {
+                ...theme,
+                tooltip: {
+                    trigger: 'axis'
+                },
+                legend: {
+                    data: ['Receita', 'Crescimento (%)'],
+                    bottom: 0
+                },
+                grid: {
+                    left: '3%',
+                    right: '4%',
+                    bottom: '10%',
+                    containLabel: true
+                },
+                xAxis: [
+                    {
+                        type: 'category',
+                        data: data.years
+                    }
+                ],
+                yAxis: [
+                    {
+                        type: 'value',
+                        name: 'Receita (R$ milhões)',
+                        position: 'left'
+                    },
+                    {
+                        type: 'value',
+                        name: 'Crescimento (%)',
+                        position: 'right',
+                        axisLabel: {
+                            formatter: '{value}%'
+                        }
+                    }
+                ],
+                series: [
+                    {
+                        name: 'Receita',
+                        type: 'bar',
+                        itemStyle: { color: '#9b87f5' },
+                        data: data.revenue
+                    },
+                    {
+                        name: 'Crescimento (%)',
+                        type: 'line',
+                        yAxisIndex: 1,
+                        symbol: 'circle',
+                        symbolSize: 8,
+                        itemStyle: { color: '#10B981' },
+                        lineStyle: { width: 3 },
+                        data: data.growthRate
+                    }
+                ]
+            };
+            
+            growthChart.setOption(option);
+        }
+        
+        // Atualizar gráfico de funil
+        function updateFunnelChart(data) {
+            const theme = isDarkMode ? 
+                { 
+                    backgroundColor: 'transparent',
+                    textStyle: { color: '#F9FAFB' },
+                    legend: { textStyle: { color: '#F9FAFB' } }
+                } : {};
+                
+            const option = {
+                ...theme,
+                tooltip: {
+                    trigger: 'item',
+                    formatter: "{a} <br/>{b} : {c}"
+                },
+                legend: {
+                    data: data.map(item => item.name),
+                    bottom: 0
+                },
+                series: [
+                    {
+                        name: 'Funil de Vendas',
+                        type: 'funnel',
+                        left: '10%',
+                        top: 20,
+                        bottom: 60,
+                        width: '80%',
+                        min: 0,
+                        max: data[0].value,
+                        minSize: '0%',
+                        maxSize: '100%',
+                        sort: 'descending',
+                        gap: 2,
+                        label: {
+                            show: true,
+                            position: 'inside'
+                        },
+                        labelLine: {
+                            length: 10,
+                            lineStyle: {
+                                width: 1,
+                                type: 'solid'
+                            }
+                        },
+                        itemStyle: {
+                            borderColor: isDarkMode ? '#1F2937' : '#fff',
+                            borderWidth: 1
+                        },
+                        emphasis: {
+                            label: {
+                                fontSize: 20
+                            }
+                        },
+                        data: data
+                    }
+                ]
+            };
+            
+            funnelChart.setOption(option);
+        }
+        
+        // Gerar dados fictícios
+        function generateMockData(period) {
+            const multiplier = period === 'year' ? 12 : period === 'quarter' ? 3 : 1;
+            
+            // Dados de receita
+            const revenue = {
+                months: ['Jan', 'Fev', 'Mar', 'Abr', 'Mai', 'Jun'],
+                software: [320, 302, 341, 374, 390, 450].map(v => v * multiplier),
+                hardware: [120, 132, 101, 134, 190, 230].map(v => v * multiplier),
+                services: [220, 182, 191, 234, 290, 330].map(v => v * multiplier),
+                consulting: [150, 212, 201, 154, 190, 330].map(v => v * multiplier)
+            };
+            
+            // Distribuição de lucro
+            const profitDistribution = [
+                { value: 40, name: 'Desenvolvimento', itemStyle: { color: '#9b87f5' } },
+                { value: 25, name: 'Marketing', itemStyle: { color: '#0EA5E9' } },
+                { value: 15, name: 'Vendas', itemStyle: { color: '#10B981' } },
+                { value: 10, name: 'Administrativo', itemStyle: { color: '#F59E0B' } },
+                { value: 10, name: 'P&D', itemStyle: { color: '#EF4444' } }
+            ];
+            
+            // Clientes por região
+            const customersByRegion = {
+                maxValue: 300 * multiplier,
+                regions: [
+                    { name: 'Sudeste', value: 300 * multiplier },
+                    { name: 'Sul', value: 180 * multiplier },
+                    { name: 'Nordeste', value: 220 * multiplier },
+                    { name: 'Centro-Oeste', value: 120 * multiplier },
+                    { name: 'Norte', value: 90 * multiplier }
+                ]
+            };
+            
+            // Análise de desempenho
+            const performance = {
+                indicators: [
+                    { name: 'Vendas', max: 100 },
+                    { name: 'Marketing', max: 100 },
+                    { name: 'Desenvolvimento', max: 100 },
+                    { name: 'Suporte', max: 100 },
+                    { name: 'Satisfação', max: 100 }
+                ],
+                target: [80, 90, 70, 85, 95],
+                actual: [78, 83, 90, 80, 92]
+            };
+            
+            // Crescimento de receita
+            const revenueGrowth = {
+                years: ['2019', '2020', '2021', '2022', '2023'],
+                revenue: [1.2, 1.8, 2.5, 3.2, 4.5],
+                growthRate: [null, 50, 38.9, 28, 40.6]
+            };
+            
+            // Funil de vendas
+            const salesFunnel = [
+                { value: 6000 * multiplier, name: 'Leads', itemStyle: { color: '#9b87f5' } },
+                { value: 3000 * multiplier, name: 'Qualificados', itemStyle: { color: '#7E69AB' } },
+                { value: 2000 * multiplier, name: 'Oportunidades', itemStyle: { color: '#0EA5E9' } },
+                { value: 1200 * multiplier, name: 'Propostas', itemStyle: { color: '#10B981' } },
+                { value: 800 * multiplier, name: 'Fechados', itemStyle: { color: '#F59E0B' } }
+            ];
+            
+            return {
+                revenue,
+                profitDistribution,
+                customersByRegion,
+                performance,
+                revenueGrowth,
+                salesFunnel
+            };
+        }
+    </script>
+    
+    <!-- Definições do mapa do Brasil para o ECharts (não incluído por simplicidade) -->
+    <script>
+        // Aqui seria incluído o código para o mapa do Brasil se necessário
+        // Como o mapa é complexo, estamos usando uma visualização de barras como alternativa
+    </script>
+</body>
+</html>
