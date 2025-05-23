@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Simulação Empresarial</title>
+  <link rel="stylesheet" href="../css/index.css">
+</head>
+<body>
+  <div class="background-pattern">
+    <div class="page">
+      <div class="container">
+        <div class="grid">
+          <div class="info">
+            <div class="logo">Business Strategy</div>
+            <h1>Simulação Empresarial<br><span class="gradient-text">Interativa e Prática</span></h1>
+            <p>
+              Aprenda conceitos de administração de empresas de forma interativa e prática,
+              através de simulações, desafios e rankings.
+            </p>
+
+            <div class="cards">
+              <div class="card">
+                <div class="icon navy"><!-- ícone 1 --></div>
+                <h3>Simulação Empresarial</h3>
+                <p>Tome decisões reais e veja os resultados</p>
+              </div>
+
+              <div class="card">
+                <div class="icon teal"><!-- ícone 2 --></div>
+                <h3>Gestão Financeira</h3>
+                <p>Aprenda a administrar recursos e investimentos</p>
+              </div>
+
+              <div class="card">
+                <div class="icon blue"><!-- ícone 3 --></div>
+                <h3>Tomada de Decisões</h3>
+                <p>Desenvolva estratégias e veja os resultados</p>
+              </div>
+            </div>
+          </div>
+
+          <div class="container">
+            <div class="login-form">
+              <div class="login-tabs">
+                <button class="tab active" data-tab="login">Entrar</button>
+                <button class="tab" data-tab="register">Cadastrar</button>
+                <button class="tab" data-tab="access">Código de Acesso</button>
+              </div>
+
+              <form id="login" class="tab-content active">
+                <input type="email" id="loginEmail" placeholder="Email" required>
+                <input type="password" id="loginPassword" placeholder="Senha" required>
+                <button type="submit">Entrar</button>
+              </form>
+
+              <form id="register" class="tab-content">
+                <input type="text" placeholder="Nome" required>
+                <input type="email" placeholder="Email" required>
+                <input type="password" placeholder="Senha" required>
+                <button type="submit">Cadastrar</button>
+              </form>
+
+              <form id="access" class="tab-content">
+                <input type="text" id="accessCode" placeholder="Código" required>
+                <button type="submit">Validar Código</button>
+              </form>
+
+              
+             <!-- Credenciais de Professor dentro do formulário de login -->
+             <div class="info-box">
+              <strong>Credenciais de Professor:</strong><br>
+              E-mail: professor@simulacao.edu.br<br>
+              Senha: Professor2024!
+            </div>
+         
+
+            </div>
+          </div>
+          
+      
+          
+          <footer>
+            &copy; <span id="year"></span> Business Strategy | Todos os direitos reservados
+          </footer>
+
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    // Atualiza o ano no footer
+    document.getElementById('year').textContent = new Date().getFullYear();
+
+    // Alternar abas
+    const tabs = document.querySelectorAll('.tab');
+    const contents = document.querySelectorAll('.tab-content');
+
+    tabs.forEach(tab => {
+      tab.addEventListener('click', () => {
+        tabs.forEach(t => t.classList.remove('active'));
+        contents.forEach(c => c.classList.remove('active'));
+
+        tab.classList.add('active');
+        document.getElementById(tab.dataset.tab).classList.add('active');
+      });
+    });
+
+    // Login
+    document.getElementById('login').addEventListener('submit', e => {
+      e.preventDefault();
+      const email = document.getElementById('loginEmail').value.trim();
+      const password = document.getElementById('loginPassword').value.trim();
+
+      if (email === 'professor@simulacao.edu.br' && password === 'Professor2024!') {
+        window.location.href = 'gameCreation.html';
+      } else {
+        window.location.href = 'dashboard.html';
+      }
+    });
+
+    // Cadastro
+    document.getElementById('register').addEventListener('submit', e => {
+      e.preventDefault();
+      alert('Cadastro realizado com sucesso!');
+    });
+
+    // Código de acesso
+    document.getElementById('access').addEventListener('submit', e => {
+      e.preventDefault();
+      const code = document.getElementById('accessCode').value.trim();
+      if (code !== '') {
+        window.location.href = 'dashboard.html';
+      }
+    });
+  </script>
+</body>
+</html>

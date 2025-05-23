@@ -84,7 +84,7 @@
         
         <!-- Botão para enviar para o backend - adicionado sem alterar o restante -->
         <button id="botaoEnviar" type="button" style="display: none; margin-top: 20px;" onclick="enviarParaBackend()">
-            Enviar para o Backend
+            Casdastrar Empresa
         </button>
     </div>
 
@@ -208,50 +208,60 @@
                        .replace(/\*(.*?)\*/g, '<em>$1</em>');
         }
 
-        // Função para enviar dados para o backend - adicionada sem alterar o restante
-    async function enviarParaBackend() {
-        const mensagem = document.getElementById("mensagem");
-        mensagem.innerText = "Enviando dados para o backend...";
-        mensagem.style.color = "blue";
+
+
         
-        // Pegando os dados dos inputs do formulário
-        const dados = {
+
+        // Função para enviar dados para o backend
+        async function enviarParaBackend() {
+    const mensagem = document.getElementById("mensagem");
+    mensagem.innerText = "Enviando dados...";
+    mensagem.style.color = "blue";
+
+    try {
+        const empresaData = {
             nomeEmpresa: document.getElementById("nome").value.trim(),
-            setor: document.getElementById("setor").value.trim(),
-            tamanho: document.getElementById("tamanho").value.trim(),
+            setor: document.getElementById("setor").value,
+            tamanho: document.getElementById("tamanho").value,
             tipoProdutoServico: document.getElementById("tipoProduto").value.trim(),
             valorProduto: parseFloat(document.getElementById("precoProduto").value),
             capitalInicial: parseFloat(document.getElementById("capital").value),
             numeroFuncionarios: parseInt(document.getElementById("funcionarios").value),
             salarioFuncionario: parseFloat(document.getElementById("salarioMedio").value),
-            historia: document.getElementById("historia").value.trim() // Adicionando a história
+            historia: document.getElementById("historia").innerText.trim()
         };
 
-        try {
-            const resposta = await fetch("http://localhost:8080/empresas-em-gestao", {
-                method: "POST",
-                headers: {
-                    "Content-Type": "application/json",
-                    // Adicione headers de autenticação se necessário
-                },
-                body: JSON.stringify(dados)
-            });
+        console.log("Dados que serão enviados para o backend:", empresaData); // Aqui você faz o log dos dados
+        
+        const response = await fetch("/empresa-modelo", {
+        method: 'POST', // ou 'GET'
+        })
+        .then(response => {
+        console.log(response); // Não conseguirá acessar o conteúdo da resposta, só o status
+        })
+        .catch(error => {
+        console.error('Erro ao fazer a requisição:', error);
+        });
 
-            if (!resposta.ok) {
-                const erro = await resposta.json();
-                throw new Error(erro.message || "Erro ao cadastrar empresa");
-            }
-
-            // Sucesso
-            mensagem.innerText = "Dados enviados com sucesso!";
-            mensagem.style.color = "green";
-        } catch (erro) {
-            // Erro
-            console.error("Erro ao enviar para o backend:", erro);
-            mensagem.innerText = `Erro: ${erro.message}`;
-            mensagem.style.color = "red";
+        if (!response.ok) {
+            const errorDetail = await response.json();
+            console.error("Erro detalhado:", errorDetail);
+            throw new Error(`Erro HTTP ${response.status}: ${errorDetail.message || 'Erro no servidor'}`);
         }
+
+        const resultado = await response.json();
+        console.log("Resposta do backend:", resultado); // Logar a resposta do backend
+
+        mensagem.innerText = "Empresa cadastrada com sucesso! ID: " + resultado.idEmpresaModelo;
+        mensagem.style.color = "green";
+
+    } catch (erro) {
+        // Erro
+        console.error("Erro ao enviar para o backend:", erro);
+        mensagem.innerText = `Erro: ${erro.message}`;
+        mensagem.style.color = "red";
     }
+}
 
 
 
