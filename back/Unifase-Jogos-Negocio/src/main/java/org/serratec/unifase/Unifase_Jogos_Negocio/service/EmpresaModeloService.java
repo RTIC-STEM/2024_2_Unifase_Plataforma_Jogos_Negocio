@@ -21,12 +21,14 @@ public class EmpresaModeloService {
         EmpresaModelo empresaModelo = new EmpresaModelo();
         empresaModelo.setNomeEmpresa(empresaModeloReqDTO.getNomeEmpresa());
         empresaModelo.setSetor(empresaModeloReqDTO.getSetor());
-        empresaModelo.setCapitalInicial(empresaModeloReqDTO.getCapitalInicial());
-        empresaModelo.setTipoProdutoServico(empresaModeloReqDTO.getTipoProdutoServico());
         empresaModelo.setTamanho(empresaModeloReqDTO.getTamanho());
+        empresaModelo.setTipoProdutoServico(empresaModeloReqDTO.getTipoProdutoServico());
+        empresaModelo.setQuantidadeDeVendas(empresaModeloReqDTO.getQuantidadeDeVenda());
         empresaModelo.setValorProduto(empresaModeloReqDTO.getValorProduto());
+        empresaModelo.setRecursoFinanceiro(empresaModeloReqDTO.getRecursoFinanceiro());
         empresaModelo.setNumeroFuncionarios(empresaModeloReqDTO.getNumeroFuncionarios());
         empresaModelo.setSalarioFuncionario(empresaModeloReqDTO.getSalarioFuncionario());
+        empresaModelo.setDespesaAdministrativa(empresaModeloReqDTO.getDespesaAdministrativa());
         empresaModelo.setHistoria(empresaModeloReqDTO.getHistoria());
 
        empresaModeloRepository.save(empresaModelo);
@@ -53,12 +55,14 @@ public class EmpresaModeloService {
         empresaModelo.setId(id);
         empresaModelo.setNomeEmpresa(empresaModeloReqDTO.getNomeEmpresa());
         empresaModelo.setSetor(empresaModeloReqDTO.getSetor());
-        empresaModelo.setCapitalInicial(empresaModeloReqDTO.getCapitalInicial());
-        empresaModelo.setTipoProdutoServico(empresaModeloReqDTO.getTipoProdutoServico());
         empresaModelo.setTamanho(empresaModeloReqDTO.getTamanho());
+        empresaModelo.setTipoProdutoServico(empresaModeloReqDTO.getTipoProdutoServico());
+        empresaModelo.setQuantidadeDeVendas(empresaModeloReqDTO.getQuantidadeDeVenda());
         empresaModelo.setValorProduto(empresaModeloReqDTO.getValorProduto());
+        empresaModelo.setRecursoFinanceiro(empresaModeloReqDTO.getRecursoFinanceiro());
         empresaModelo.setNumeroFuncionarios(empresaModeloReqDTO.getNumeroFuncionarios());
         empresaModelo.setSalarioFuncionario(empresaModeloReqDTO.getSalarioFuncionario());
+        empresaModelo.setDespesaAdministrativa(empresaModeloReqDTO.getDespesaAdministrativa());
         empresaModelo.setHistoria(empresaModeloReqDTO.getHistoria());
 
         EmpresaModelo empresaAtualizada = empresaModeloRepository.save(empresaModelo);

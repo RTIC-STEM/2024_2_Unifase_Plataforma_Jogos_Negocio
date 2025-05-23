@@ -24,11 +24,17 @@ public class EmpresaModelo {
     @Column(name = "tipo_produto_servico", nullable = false)
     private String tipoProdutoServico;
 
+    @Column(name = "quantidade_de_vendas", nullable = false)
+    private Integer quantidadeDeVendas;
+
     @Column(name = "valor_produto", nullable = false)
     private BigDecimal valorProduto;
 
-    @Column(name = "capital_inicial", nullable = false)
-    private BigDecimal capitalInicial;
+    @Column(name = "recurso_financeiro", nullable = false)
+    private BigDecimal recursoFinanceiro;
+
+    @Column(name = "despesa_administrativa", nullable = false)
+    private BigDecimal despesaAdministrativa;
 
     @Column(name = "numero_funcionarios", nullable = false)
     private Integer numeroFuncionarios;
@@ -45,14 +51,16 @@ public class EmpresaModelo {
     public EmpresaModelo() {
     }
 
-    public EmpresaModelo(Long id, String nomeEmpresa, String setor, String tamanho, String tipoProdutoServico, BigDecimal valorProduto, BigDecimal capitalInicial, Integer numeroFuncionarios, BigDecimal salarioFuncionario, String historia) {
+    public EmpresaModelo(Long id, String nomeEmpresa, String setor, String tamanho, String tipoProdutoServico, Integer quantidadeDeVendas, BigDecimal valorProduto, BigDecimal recursoFinanceiro, BigDecimal despesaAdministrativa, Integer numeroFuncionarios, BigDecimal salarioFuncionario, String historia) {
         this.id = id;
         this.nomeEmpresa = nomeEmpresa;
         this.setor = setor;
         this.tamanho = tamanho;
         this.tipoProdutoServico = tipoProdutoServico;
+        this.quantidadeDeVendas = quantidadeDeVendas;
         this.valorProduto = valorProduto;
-        this.capitalInicial = capitalInicial;
+        this.recursoFinanceiro = recursoFinanceiro;
+        this.despesaAdministrativa = despesaAdministrativa;
         this.numeroFuncionarios = numeroFuncionarios;
         this.salarioFuncionario = salarioFuncionario;
         this.historia = historia;
@@ -98,6 +106,14 @@ public class EmpresaModelo {
         this.tipoProdutoServico = tipoProdutoServico;
     }
 
+    public Integer getQuantidadeDeVendas() {
+        return quantidadeDeVendas;
+    }
+
+    public void setQuantidadeDeVendas(Integer quantidadeDeVendas) {
+        this.quantidadeDeVendas = quantidadeDeVendas;
+    }
+
     public BigDecimal getValorProduto() {
         return valorProduto;
     }
@@ -106,12 +122,20 @@ public class EmpresaModelo {
         this.valorProduto = valorProduto;
     }
 
-    public BigDecimal getCapitalInicial() {
-        return capitalInicial;
+    public BigDecimal getRecursoFinanceiro() {
+        return recursoFinanceiro;
     }
 
-    public void setCapitalInicial(BigDecimal capitalInicial) {
-        this.capitalInicial = capitalInicial;
+    public void setRecursoFinanceiro(BigDecimal recursoFinanceiro) {
+        this.recursoFinanceiro = recursoFinanceiro;
+    }
+
+    public BigDecimal getDespesaAdministrativa() {
+        return despesaAdministrativa;
+    }
+
+    public void setDespesaAdministrativa(BigDecimal despesaAdministrativa) {
+        this.despesaAdministrativa = despesaAdministrativa;
     }
 
     public Integer getNumeroFuncionarios() {

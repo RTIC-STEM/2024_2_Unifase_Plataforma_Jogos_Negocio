@@ -10,10 +10,12 @@ public class EmpresaModeloReqDTO {
     private String setor;
     private String tamanho;
     private String tipoProdutoServico;
+    private Integer quantidadeDeVenda;
     private BigDecimal valorProduto;
-    private BigDecimal capitalInicial;
+    private BigDecimal recursoFinanceiro;
     private Integer numeroFuncionarios;
     private BigDecimal salarioFuncionario;
+    private BigDecimal despesaAdministrativa;
     private String historia;
 
     public EmpresaModeloReqDTO() {
@@ -24,10 +26,12 @@ public class EmpresaModeloReqDTO {
         this.setor = empresaModelo.getSetor();
         this.tamanho = empresaModelo.getTamanho();
         this.tipoProdutoServico = empresaModelo.getTipoProdutoServico();
+        this.quantidadeDeVenda = empresaModelo.getQuantidadeDeVendas();
         this.valorProduto = empresaModelo.getValorProduto();
-        this.capitalInicial = empresaModelo.getCapitalInicial();
+        this.recursoFinanceiro = empresaModelo.getRecursoFinanceiro();
         this.numeroFuncionarios = empresaModelo.getNumeroFuncionarios();
         this.salarioFuncionario = empresaModelo.getSalarioFuncionario();
+        this.despesaAdministrativa = empresaModelo.getDespesaAdministrativa();
         this.historia = empresaModelo.getHistoria();
     }
 
@@ -55,9 +59,21 @@ public class EmpresaModeloReqDTO {
         this.tamanho = tamanho;
     }
 
-    public String getTipoProdutoServico() { return tipoProdutoServico; }
+    public String getTipoProdutoServico() {
+        return tipoProdutoServico;
+    }
 
-    public void setTipoProdutoServico(String tipoProdutoServico) { this.tipoProdutoServico = tipoProdutoServico; }
+    public void setTipoProdutoServico(String tipoProdutoServico) {
+        this.tipoProdutoServico = tipoProdutoServico;
+    }
+
+    public Integer getQuantidadeDeVenda() {
+        return quantidadeDeVenda;
+    }
+
+    public void setQuantidadeDeVenda(Integer quantidadeDeVenda) {
+        this.quantidadeDeVenda = quantidadeDeVenda;
+    }
 
     public BigDecimal getValorProduto() {
         return valorProduto;
@@ -67,12 +83,12 @@ public class EmpresaModeloReqDTO {
         this.valorProduto = valorProduto;
     }
 
-    public BigDecimal getCapitalInicial() {
-        return capitalInicial;
+    public BigDecimal getRecursoFinanceiro() {
+        return recursoFinanceiro;
     }
 
-    public void setCapitalInicial(BigDecimal capitalInicial) {
-        this.capitalInicial = capitalInicial;
+    public void setRecursoFinanceiro(BigDecimal recursoFinanceiro) {
+        this.recursoFinanceiro = recursoFinanceiro;
     }
 
     public Integer getNumeroFuncionarios() {
@@ -89,6 +105,14 @@ public class EmpresaModeloReqDTO {
 
     public void setSalarioFuncionario(BigDecimal salarioFuncionario) {
         this.salarioFuncionario = salarioFuncionario;
+    }
+
+    public BigDecimal getDespesaAdministrativa() {
+        return despesaAdministrativa;
+    }
+
+    public void setDespesaAdministrativa(BigDecimal despesaAdministrativa) {
+        this.despesaAdministrativa = despesaAdministrativa;
     }
 
     public String getHistoria() {
