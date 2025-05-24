@@ -498,14 +498,13 @@
         };
 
         try {
-            const resposta = await fetch("http://localhost:8080/empresas-modelo", {
-                method: "POST",
-                headers: {
-                    "Content-Type": "application/json",
-                    // Adicione headers de autenticação se necessário
-                },
-                body: JSON.stringify(dados)
-            });
+            const resposta = await fetch("http://localhost:8080/empresa-modelo", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify(dados) // <-- isso aqui precisa ser um objeto real
+        });
 
             if (!resposta.ok) {
                 const erro = await resposta.json();
