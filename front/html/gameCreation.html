@@ -81,10 +81,10 @@
                 
                 <div id="company-profile" class="tabs-content space-y-4 mt-4">
                   <div class="grid gap-2">
-                    <label for="nome">Nome da Empresa:</label>
+                    <label for="nomeEmpresa">Nome da Empresa:</label>
                     <input 
                       type="text" 
-                      id="nome" 
+                      id="nomeEmpresa" 
                       required 
                       placeholder="Ex: Tech Solutions"
                     />
@@ -112,10 +112,10 @@
                   </div>
                   
                   <div class="grid gap-2">
-                    <label for="tipoProduto">Tipo de Produto/Serviço:</label>
+                    <label for="tipoProdutoServico">Tipo de Produto/Serviço:</label>
                     <input 
                       type="text" 
-                      id="tipoProduto" 
+                      id="tipoProdutoServico" 
                       required 
                       placeholder="Ex: Software de gestão"
                     />
@@ -124,10 +124,10 @@
                 
                 <div id="financial-details" class="tabs-content space-y-4 mt-4 hidden">
                   <div class="grid gap-2">
-                    <label for="precoProduto">Preço Sugerido do Produto (R$):</label>
+                    <label for="valorProduto">Preço Sugerido do Produto (R$):</label>
                     <input 
                       type="number" 
-                      id="precoProduto" 
+                      id="valorProduto" 
                       required 
                       placeholder="Ex: 10.00" 
                       step="0.01"
@@ -135,20 +135,20 @@
                   </div>
                   
                   <div class="grid gap-2">
-                    <label for="recursoFinaceiro">Recurso financeiros (R$):</label>
+                    <label for="recursoFinanceiro">Recurso financeiros (R$):</label>
                     <input 
                       type="number" 
-                      id="recursoFinaceiro" 
+                      id="recursoFinanceiro" 
                       required 
                       placeholder="Ex: 50000"
                     />
                   </div>
 
                     <div class="grid gap-2">
-                    <label for="quantidedeVendas">Quantidade de vendas:</label>
+                    <label for="quantidadeDeVenda">Quantidade de vendas:</label>
                     <input 
                       type="number" 
-                      id="quantidedeVendas" 
+                      id="quantidadeDeVenda" 
                       required 
                       placeholder="Ex: 10"
                     />
@@ -165,20 +165,20 @@
                   </div>
                   
                   <div class="grid gap-2">
-                    <label for="funcionarios">Quantidade de Funcionários:</label>
+                    <label for="numeroFuncionarios">Quantidade de Funcionários:</label>
                     <input 
                       type="number" 
-                      id="funcionarios" 
+                      id="numeroFuncionarios" 
                       required 
                       placeholder="Ex: 10"
                     />
                   </div>
                   
                   <div class="grid gap-2">
-                    <label for="salarioMedio">Salário Médio dos Funcionários (R$):</label>
+                    <label for="salarioFuncionario">Salário Médio dos Funcionários (R$):</label>
                     <input 
                       type="number" 
-                      id="salarioMedio" 
+                      id="salarioFuncionario" 
                       required 
                       placeholder="Ex: 3500" 
                       step="0.01"
@@ -353,23 +353,23 @@
     let historiaGerada = '';
     
     async function cadastrarEmpresa() {
-        const nome = document.getElementById("nome").value.trim();
+        const nomeEmpresa = document.getElementById("nomeEmpresa").value;
         const setor = document.getElementById("setor").value;
         const tamanho = document.getElementById("tamanho").value;
-        const tipoProduto = document.getElementById("tipoProduto").value.trim();
-        const precoProduto = document.getElementById("precoProduto").value;
-        const recursoFinaceiro = document.getElementById("recursoFinaceiro").value;
-        const quantidedeVendas = document.getElementById("quantidedeVendas").value;
+        const tipoProdutoServico = document.getElementById("tipoProdutoServico").value;
+        const valorProduto = document.getElementById("valorProduto").value;
+        const recursoFinanceiro = document.getElementById("recursoFinanceiro").value;
+        const quantidadeDeVenda = document.getElementById("quantidadeDeVenda").value;
         const despesaAdministrativa = document.getElementById("despesaAdministrativa").value;
-        const funcionarios = document.getElementById("funcionarios").value;
-        const salarioMedio = document.getElementById("salarioMedio").value;
+        const numeroFuncionarios = document.getElementById("numeroFuncionarios").value;
+        const salarioFuncionario = document.getElementById("salarioFuncionario").value;
         
         const mensagem = document.getElementById("mensagem");
         const historia = document.getElementById("historia");
         const historiaContent = document.getElementById("historia-content");
         
         // Validação
-        if (!nome || !setor || !tamanho || !tipoProduto || !precoProduto || !recursoFinaceiro || !quantidedeVendas || !despesaAdministrativa || !funcionarios || !salarioMedio) {
+        if (!nomeEmpresa || !setor || !tamanho || !tipoProdutoServico || !valorProduto || !recursoFinanceiro || !quantidadeDeVenda || !despesaAdministrativa || !numeroFuncionarios || !salarioFuncionario) {
             mensagem.innerText = "Por favor, preencha todos os campos.";
             mensagem.style.color = "red";
             mensagem.classList.remove('hidden');
@@ -398,16 +398,16 @@
                         },
                         {
                             "role": "user",
-                            "content": `Crie um perfil completo para a empresa ${nome} do setor de ${setor}. 
+                            "content": `Crie um perfil completo para a empresa ${nomeEmpresa} do setor de ${setor}. 
                             Dados importantes:
                             - Tamanho: ${tamanho}
-                            - Tipo de produto/serviço: ${tipoProduto}
-                            - Preço sugerido do produto: R$ ${Number(precoProduto).toLocaleString('pt-BR', {minimumFractionDigits: 2})}
-                            - Recurso Finaceiro: R$ ${Number(recursoFinaceiro).toLocaleString('pt-BR')}
-                            - Volume de Vendas: ${quantidedeVendas} unidades/mês
+                            - Tipo de produto/serviço: ${tipoProdutoServico}
+                            - Preço sugerido do produto: R$ ${Number(valorProduto).toLocaleString('pt-BR', {minimumFractionDigits: 2})}
+                            - Recurso Finaceiro: R$ ${Number(recursoFinanceiro).toLocaleString('pt-BR')}
+                            - Volume de Vendas: ${quantidadeDeVenda} unidades/mês
                             - Despesas Administrativas: R$ ${Number(despesaAdministrativa).toLocaleString('pt-BR', {minimumFractionDigits: 2})}
-                            - Equipe: ${funcionarios} funcionários
-                            - Salário médio: R$ ${Number(salarioMedio).toLocaleString('pt-BR', {minimumFractionDigits: 2})}
+                            - Equipe: ${numeroFuncionarios} funcionários
+                            - Salário médio: R$ ${Number(salarioFuncionario).toLocaleString('pt-BR', {minimumFractionDigits: 2})}
                             
                             Estrutura do texto:
                             1. Visão geral da empresa (nome, setor, tamanho e produto principal)
@@ -449,14 +449,14 @@
                 
                 // Fallback manual
                 historiaGerada = `
-                    <h4>${nome}</h4>
+                    <h4>${nomeEmpresa}</h4>
                     <p><strong>Setor:</strong> ${setor}</p>
                     <p><strong>Tamanho:</strong> ${tamanho}</p>
-                    <p><strong>Produto/Serviço:</strong> ${tipoProduto}</p>
-                    <p><strong>Preço do Produto:</strong> R$ ${Number(precoProduto).toLocaleString('pt-BR', {minimumFractionDigits: 2})}</p>
-                    <p><strong>Recurso Finaceiro:</strong> R$ ${Number(recursoFinaceiro).toLocaleString('pt-BR')}</p>
-                    <p><strong>Equipe:</strong> ${funcionarios} colaboradores</p>
-                    <p><strong>Salário Médio:</strong> R$ ${Number(salarioMedio).toLocaleString('pt-BR', {minimumFractionDigits: 2})}</p>
+                    <p><strong>Produto/Serviço:</strong> ${tipoProdutoServico}</p>
+                    <p><strong>Preço do Produto:</strong> R$ ${Number(valorProduto).toLocaleString('pt-BR', {minimumFractionDigits: 2})}</p>
+                    <p><strong>Recurso Finaceiro:</strong> R$ ${Number(recursoFinanceiro).toLocaleString('pt-BR')}</p>
+                    <p><strong>Equipe:</strong> ${numeroFuncionarios} colaboradores</p>
+                    <p><strong>Salário Médio:</strong> R$ ${Number(salarioFuncionario).toLocaleString('pt-BR', {minimumFractionDigits: 2})}</p>
                 `;
                 historia.innerHTML = historiaGerada + '<p><em>Não foi possível gerar o conteúdo completo. Recarregue a página ou tente novamente.</em></p>';
                 mensagem.innerText = `Erro: ${error.message.split('.')[0]}`;
@@ -484,21 +484,21 @@
         
         // Pegando os dados dos inputs do formulário
         const dados = {
-            nomeEmpresa: document.getElementById("nome").value.trim(),
-            setor: document.getElementById("setor").value.trim(),
-            tamanho: document.getElementById("tamanho").value.trim(),
-            tipoProdutoServico: document.getElementById("tipoProduto").value.trim(),
-            valorProduto: parseFloat(document.getElementById("precoProduto").value),
-            recursoFinaceiro: parseFloat(document.getElementById("recursoFinaceiro").value),
-            quantidedeVendas: parseFloat(document.getElementById("quantidedeVendas").value),
+            nomeEmpresa: document.getElementById("nomeEmpresa").value,
+            setor: document.getElementById("setor").value,
+            tamanho: document.getElementById("tamanho").value,
+            tipoProdutoServico: document.getElementById("tipoProdutoServico").value,
+            valorProduto: parseFloat(document.getElementById("valorProduto").value),
+            recursoFinanceiro: parseFloat(document.getElementById("recursoFinanceiro").value),
+            quantidadeDeVenda: parseFloat(document.getElementById("quantidadeDeVenda").value),
             despesaAdministrativa: parseFloat(document.getElementById("despesaAdministrativa").value),
-            numeroFuncionarios: parseInt(document.getElementById("funcionarios").value),
-            salarioFuncionario: parseFloat(document.getElementById("salarioMedio").value),
-            historia: document.getElementById("historia").value.trim() // Adicionando a história
+            numeroFuncionarios: parseInt(document.getElementById("numeroFuncionarios").value),
+            salarioFuncionario: parseFloat(document.getElementById("salarioFuncionario").value),
+            historia: document.getElementById("historia").value // Adicionando a história
         };
 
         try {
-            const resposta = await fetch("http://localhost:8080/empresas-em-gestao", {
+            const resposta = await fetch("http://localhost:8080/empresas-modelo", {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json",
