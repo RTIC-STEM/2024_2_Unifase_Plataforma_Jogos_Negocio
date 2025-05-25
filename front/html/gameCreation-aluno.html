@@ -1,0 +1,759 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Portal do Aluno - Business Strategy</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    /* CSS Reset and Base Styles */
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: 'Inter', sans-serif;
+    }
+    
+    body {
+      background-color: #f9fafb;
+      color: #1f2937;
+      line-height: 1.5;
+      display: flex;
+      min-height: 100vh;
+    }
+    
+    /* Sidebar Styles */
+    .sidebar {
+      width: 240px;
+      background-color: #fff;
+      border-right: 1px solid #e5e7eb;
+      display: flex;
+      flex-direction: column;
+      flex-shrink: 0;
+    }
+    
+    .sidebar-header {
+      padding: 1rem;
+      border-bottom: 1px solid #e5e7eb;
+    }
+    
+    .sidebar-title {
+      font-size: 1.25rem;
+      font-weight: 700;
+      color: #111827;
+    }
+    
+    .sidebar-content {
+      flex: 1;
+      overflow-y: auto;
+      padding: 1rem 0;
+    }
+    
+    .sidebar-menu {
+      list-style: none;
+    }
+    
+    .sidebar-menu-item {
+      margin: 0 0.5rem;
+    }
+    
+    .sidebar-menu-link {
+      display: flex;
+      align-items: center;
+      padding: 0.5rem 0.75rem;
+      border-radius: 0.375rem;
+      color: #6b7280;
+      text-decoration: none;
+      transition: background-color 0.2s ease, color 0.2s ease;
+    }
+    
+    .sidebar-menu-link.active {
+      background-color: #eff6ff;
+      color: #1d4ed8;
+      font-weight: 500;
+    }
+    
+    .sidebar-menu-link:hover:not(.active) {
+      background-color: #f3f4f6;
+      color: #374151;
+    }
+    
+    .sidebar-menu-icon {
+      margin-right: 0.75rem;
+      width: 1.25rem;
+      height: 1.25rem;
+    }
+    
+    .sidebar-footer {
+      padding: 1rem;
+      border-top: 1px solid #e5e7eb;
+    }
+    
+    /* Main Content Styles */
+    .main-content {
+      flex: 1;
+      overflow-y: auto;
+    }
+    
+    .container {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 2rem 1rem;
+    }
+    
+    h1 {
+      font-size: 1.875rem;
+      font-weight: 700;
+      margin-bottom: 1.5rem;
+    }
+    
+    .grid {
+      display: grid;
+      gap: 1.5rem;
+    }
+    
+    /* Card Styles */
+    .card {
+      background-color: #fff;
+      border-radius: 0.5rem;
+      border: 1px solid #e5e7eb;
+      box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+      overflow: hidden;
+    }
+    
+    .card-header {
+      padding: 1.5rem;
+      border-bottom: 1px solid #f3f4f6;
+    }
+    
+    .card-title {
+      font-size: 1.25rem;
+      font-weight: 600;
+      margin-bottom: 0.25rem;
+    }
+    
+    .card-description {
+      color: #6b7280;
+      font-size: 0.875rem;
+    }
+    
+    .card-content {
+      padding: 1.5rem;
+    }
+    
+    /* Form Styles */
+    .form-group {
+      margin-bottom: 1rem;
+    }
+    
+    label {
+      display: block;
+      font-weight: 500;
+      margin-bottom: 0.5rem;
+      color: #374151;
+    }
+    
+    input {
+      width: 100%;
+      padding: 0.5rem 0.75rem;
+      font-size: 0.875rem;
+      border: 1px solid #d1d5db;
+      border-radius: 0.25rem;
+      background-color: #fff;
+    }
+    
+    input:focus {
+      outline: none;
+      border-color: #2563eb;
+      box-shadow: 0 0 0 1px #2563eb;
+    }
+    
+    input[readonly] {
+      background-color: #f3f4f6;
+      cursor: not-allowed;
+    }
+    
+    /* Button Styles */
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      padding: 0.5rem 1rem;
+      font-weight: 500;
+      border-radius: 0.25rem;
+      cursor: pointer;
+      transition: background-color 0.2s ease, color 0.2s ease, border-color 0.2s ease;
+    }
+    
+    .btn-primary {
+      background-color: #1d4ed8;
+      color: #fff;
+      border: 1px solid #1d4ed8;
+    }
+    
+    .btn-primary:hover {
+      background-color: #1e40af;
+      border-color: #1e40af;
+    }
+    
+    .btn-lg {
+      padding: 0.75rem 1.5rem;
+      font-size: 1rem;
+    }
+    
+    /* Tab Styles */
+    .tabs {
+      margin-bottom: 1rem;
+    }
+    
+    .tabs-list {
+      display: flex;
+      background-color: #f3f4f6;
+      border-radius: 0.25rem;
+      padding: 0.25rem;
+      margin-bottom: 1rem;
+    }
+    
+    .tab-trigger {
+      padding: 0.5rem 0.75rem;
+      font-size: 0.875rem;
+      font-weight: 500;
+      border-radius: 0.25rem;
+      cursor: pointer;
+      flex: 1;
+      text-align: center;
+    }
+    
+    .tab-trigger.active {
+      background-color: #fff;
+      box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+    }
+    
+    .tab-content {
+      display: none;
+    }
+    
+    .tab-content.active {
+      display: block;
+    }
+    
+    /* Alert Styles */
+    .alert {
+      display: flex;
+      align-items: center;
+      padding: 1rem;
+      border-radius: 0.25rem;
+      margin-bottom: 1rem;
+    }
+    
+    .alert-destructive {
+      background-color: #fee2e2;
+      border: 1px solid #fecaca;
+      color: #b91c1c;
+    }
+    
+    .alert-icon {
+      margin-right: 0.5rem;
+      display: inline-flex;
+      width: 1rem;
+      height: 1rem;
+    }
+    
+    /* Toast Styles */
+    .toast-container {
+      position: fixed;
+      bottom: 1rem;
+      right: 1rem;
+      z-index: 50;
+      max-width: 350px;
+    }
+    
+    .toast {
+      background-color: #fff;
+      color: #1f2937;
+      border: 1px solid #e5e7eb;
+      border-radius: 0.5rem;
+      padding: 1rem;
+      margin-top: 0.5rem;
+      box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+      animation: slide-in 0.3s ease-out forwards;
+    }
+    
+    .toast-title {
+      font-weight: 600;
+      font-size: 0.875rem;
+      margin-bottom: 0.25rem;
+    }
+    
+    .toast-description {
+      font-size: 0.75rem;
+      color: #6b7280;
+    }
+    
+    @keyframes slide-in {
+      from {
+        transform: translateX(100%);
+        opacity: 0;
+      }
+      to {
+        transform: translateX(0);
+        opacity: 1;
+      }
+    }
+    
+    /* Prose Styles for Company History */
+    .prose {
+      line-height: 1.7;
+      color: inherit;
+    }
+    
+    .prose p {
+      margin-top: 1.25em;
+      margin-bottom: 1.25em;
+    }
+    
+    .prose strong {
+      font-weight: 600;
+      color: #111827;
+    }
+    
+    /* Responsive Styles */
+    @media (max-width: 768px) {
+      body {
+        flex-direction: column;
+      }
+      
+      .sidebar {
+        width: 100%;
+        height: auto;
+        border-right: none;
+        border-bottom: 1px solid #e5e7eb;
+      }
+      
+      .sidebar-content {
+        display: none;
+      }
+      
+      .sidebar-content.open {
+        display: block;
+      }
+      
+      .sidebar-toggle {
+        display: block;
+      }
+      
+      .container {
+        padding: 1rem;
+      }
+    }
+    
+    /* Toggle button for mobile */
+    .sidebar-toggle {
+      display: none;
+      padding: 0.5rem;
+      background: none;
+      border: none;
+      cursor: pointer;
+    }
+    
+    /* Utility Classes */
+    .flex {
+      display: flex;
+    }
+    
+    .justify-between {
+      justify-content: space-between;
+    }
+    
+    .justify-end {
+      justify-content: flex-end;
+    }
+    
+    .space-y-4 > * + * {
+      margin-top: 1rem;
+    }
+    
+    .hidden {
+      display: none !important;
+    }
+    
+    .animate-spin {
+      animation: spin 1s linear infinite;
+    }
+    
+    @keyframes spin {
+      from {
+        transform: rotate(0deg);
+      }
+      to {
+        transform: rotate(360deg);
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <!-- Sidebar -->
+  <div class="sidebar">
+    <!-- Sidebar Header -->
+    <div class="sidebar-header">
+      <div class="flex justify-between items-center">
+        <h2 class="sidebar-title">Portal do Aluno</h2>
+        <button class="sidebar-toggle" aria-label="Toggle Navigation" id="sidebar-toggle">
+          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <line x1="3" y1="12" x2="21" y2="12"></line>
+            <line x1="3" y1="6" x2="21" y2="6"></line>
+            <line x1="3" y1="18" x2="21" y2="18"></line>
+          </svg>
+        </button>
+      </div>
+    </div>
+    
+    <!-- Sidebar Content -->
+    <div class="sidebar-content">
+      <ul class="sidebar-menu">
+        <li class="sidebar-menu-item">
+          <a href="#" class="sidebar-menu-link active">
+            <svg class="sidebar-menu-icon" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M20 14.66V20a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h5.34"></path>
+              <polygon points="18 2 22 6 12 16 8 16 8 12 18 2"></polygon>
+            </svg>
+            <span>Meus Dados</span>
+          </a>
+        </li>
+        <li class="sidebar-menu-item">
+          <a href="#" class="sidebar-menu-link">
+            <svg class="sidebar-menu-icon" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <rect x="3" y="3" width="7" height="7"></rect>
+              <rect x="14" y="3" width="7" height="7"></rect>
+              <rect x="14" y="14" width="7" height="7"></rect>
+              <rect x="3" y="14" width="7" height="7"></rect>
+            </svg>
+            <span>Dashboard</span>
+          </a>
+        </li>
+        <li class="sidebar-menu-item">
+          <a href="#" class="sidebar-menu-link">
+            <svg class="sidebar-menu-icon" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
+              <polyline points="14 2 14 8 20 8"></polyline>
+              <line x1="16" y1="13" x2="8" y2="13"></line>
+              <line x1="16" y1="17" x2="8" y2="17"></line>
+              <polyline points="10 9 9 9 8 9"></polyline>
+            </svg>
+            <span>Atividades</span>
+          </a>
+        </li>
+        <li class="sidebar-menu-item">
+          <a href="#" class="sidebar-menu-link">
+            <svg class="sidebar-menu-icon" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
+              <polyline points="14 2 14 8 20 8"></polyline>
+              <line x1="16" y1="13" x2="8" y2="13"></line>
+              <line x1="16" y1="17" x2="8" y2="17"></line>
+              <polyline points="10 9 9 9 8 9"></polyline>
+            </svg>
+            <span>Relatórios</span>
+          </a>
+        </li>
+      </ul>
+    </div>
+    
+    <!-- Sidebar Footer -->
+    <div class="sidebar-footer">
+      <ul class="sidebar-menu">
+        <li class="sidebar-menu-item">
+          <a href="#" class="sidebar-menu-link">
+            <svg class="sidebar-menu-icon" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <circle cx="12" cy="12" r="3"></circle>
+              <path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"></path>
+            </svg>
+            <span>Configurações</span>
+          </a>
+        </li>
+        <li class="sidebar-menu-item">
+          <a href="#" class="sidebar-menu-link">
+            <svg class="sidebar-menu-icon" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"></path>
+              <polyline points="16 17 21 12 16 7"></polyline>
+              <line x1="21" y1="12" x2="9" y2="12"></line>
+            </svg>
+            <span>Sair</span>
+          </a>
+        </li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- Main Content -->
+  <div class="main-content">
+    <div class="container">
+      <h1>Dados da Empresa</h1>
+      
+      <form id="student-form">
+        <div class="grid">
+          <div class="card">
+            <div class="card-header">
+              <div class="card-title">História da Empresa</div>
+              <div class="card-description">
+                Conheça a empresa que você irá administrar na simulação
+              </div>
+            </div>
+            <div class="card-content">
+              <div id="error-container" class="alert alert-destructive hidden">
+                <span class="alert-icon">⚠️</span>
+                <div id="error-message"></div>
+              </div>
+              
+              <div id="company-history" class="prose">
+                <!-- Company history will be loaded here -->
+                <p><strong>Carregando...</strong> história da empresa...</p>
+              </div>
+            </div>
+          </div>
+          
+          <div class="card">
+            <div class="card-header">
+              <div class="card-title">Nome Da Empresa</div>
+              <div class="card-description">
+                Atualize o nome da Empresa
+              </div>
+            </div>
+            <div class="card-content">
+              <div class="space-y-4">
+                <div class="form-group">
+                  <input 
+                    id="studentName"
+                    placeholder="Digite seu nome completo"
+                  />
+                </div>
+              </div>
+            </div>
+          </div>
+          
+          <div class="card">
+            <div class="card-header">
+              <div class="card-title">Detalhes da Empresa</div>
+              <div class="card-description">
+                Dados da empresa que serão utilizados na simulação
+              </div>
+            </div>
+            <div class="card-content">
+              <div class="tabs">
+                <div class="tabs-list">
+                  <div class="tab-trigger active" data-tab="company-profile">Perfil da Empresa</div>
+                  <div class="tab-trigger" data-tab="financial-details">Detalhes Financeiros</div>
+                </div>
+                
+                <div id="company-profile" class="tab-content active">
+                  <div class="space-y-4">
+                    <div class="form-group">
+                      <label for="sector">Setor de Atuação</label>
+                      <input 
+                        id="sector" 
+                        readonly
+                      />
+                    </div>
+                    
+                    <div class="form-group">
+                      <label for="companySize">Tamanho da Empresa</label>
+                      <input 
+                        id="companySize" 
+                        readonly
+                      />
+                    </div>
+                    
+                    <div class="form-group">
+                      <label for="productType">Tipo de Produto/Serviço</label>
+                      <input 
+                        id="productType" 
+                        readonly
+                      />
+                    </div>
+                  </div>
+                </div>
+                
+                <div id="financial-details" class="tab-content">
+                  <div class="space-y-4">
+                    <div class="form-group">
+                      <label for="suggestedPrice">Preço Sugerido do Produto (R$)</label>
+                      <input 
+                        id="suggestedPrice" 
+                        readonly
+                      />
+                    </div>
+                    
+                    <div class="form-group">
+                      <label for="initialCapital">Capital Inicial (R$)</label>
+                      <input 
+                        id="initialCapital" 
+                        readonly
+                      />
+                    </div>
+                    
+                    <div class="form-group">
+                      <label for="employeeCount">Quantidade de Funcionários</label>
+                      <input 
+                        id="employeeCount" 
+                        readonly
+                      />
+                    </div>
+                    
+                    <div class="form-group">
+                      <label for="averageSalary">Salário Médio dos Funcionários (R$)</label>
+                      <input 
+                        id="averageSalary" 
+                        readonly
+                      />
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          
+          <div class="flex justify-end">
+            <button type="submit" class="btn btn-primary btn-lg">Atualizar Dados</button>
+          </div>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <div id="toast-container" class="toast-container"></div>
+
+  <script>
+    document.addEventListener('DOMContentLoaded', function() {
+      // Sidebar toggle functionality for mobile
+      const sidebarToggle = document.getElementById('sidebar-toggle');
+      const sidebarContent = document.querySelector('.sidebar-content');
+      
+      if (sidebarToggle) {
+        sidebarToggle.addEventListener('click', function() {
+          sidebarContent.classList.toggle('open');
+        });
+      }
+      
+      // Select all tab triggers
+      const tabTriggers = document.querySelectorAll('.tab-trigger');
+      
+      // Add click event to each tab trigger
+      tabTriggers.forEach(trigger => {
+        trigger.addEventListener('click', () => {
+          // Remove active class from all triggers and contents
+          document.querySelectorAll('.tab-trigger').forEach(t => t.classList.remove('active'));
+          document.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
+          
+          // Add active class to clicked trigger
+          trigger.classList.add('active');
+          
+          // Show the corresponding content
+          const tabId = trigger.getAttribute('data-tab');
+          document.getElementById(tabId).classList.add('active');
+        });
+      });
+      
+      // Load company data (simulating data fetch)
+      loadCompanyData();
+      
+      // Handle form submission
+      const form = document.getElementById('student-form');
+      form.addEventListener('submit', function(e) {
+        e.preventDefault();
+        
+        const studentName = document.getElementById('studentName').value.trim();
+        
+        if (!studentName) {
+          showError('Por favor, insira seu nome para continuar.');
+          return;
+        }
+        
+        // Simulate form submission
+        showToast('Dados atualizados com sucesso!', `Olá ${studentName}, seus dados foram atualizados.`);
+      });
+      
+      // Function to load company data
+      function loadCompanyData() {
+        // Simulate loading delay
+        setTimeout(() => {
+          try {
+            // This would come from your API in a real app
+            const companyData = {
+              companyName: 'Tech Solutions',
+              sector: 'Tecnologia',
+              companySize: 'Média',
+              productType: 'Software de gestão',
+              suggestedPrice: 199.99,
+              initialCapital: 50000,
+              employeeCount: 15,
+              averageSalary: 3500,
+            };
+            
+            // Fill form fields with company data
+            document.getElementById('companyName').value = companyData.companyName;
+            document.getElementById('sector').value = companyData.sector;
+            document.getElementById('companySize').value = companyData.companySize;
+            document.getElementById('productType').value = companyData.productType;
+            document.getElementById('suggestedPrice').value = companyData.suggestedPrice.toFixed(2);
+            document.getElementById('initialCapital').value = companyData.initialCapital.toLocaleString('pt-BR');
+            document.getElementById('employeeCount').value = companyData.employeeCount;
+            document.getElementById('averageSalary').value = companyData.averageSalary.toFixed(2);
+            
+            // Generate company history
+            const history = `
+              <p><strong>${companyData.companyName}</strong> é uma empresa do setor de ${companyData.sector}, 
+              classificada como de porte ${companyData.companySize.toLowerCase()}.</p>
+              <p>A empresa atua no mercado oferecendo ${companyData.productType} com um preço sugerido 
+              de R$ ${companyData.suggestedPrice.toFixed(2)}.</p>
+              <p>Com um capital inicial de R$ ${companyData.initialCapital.toLocaleString('pt-BR')}, 
+              a empresa conta com ${companyData.employeeCount} funcionários, que recebem em média 
+              R$ ${companyData.averageSalary.toFixed(2)}.</p>
+              <p>A cultura organizacional é focada em inovação e qualidade, buscando sempre atender 
+              as necessidades do mercado.</p>
+              <p>Com perspectivas de crescimento, a empresa planeja expandir suas operações nos próximos anos.</p>
+            `;
+            
+            document.getElementById('company-history').innerHTML = history;
+            
+          } catch (error) {
+            showError('Falha ao carregar os dados da empresa. Por favor, tente novamente mais tarde.');
+          }
+        }, 1500);
+      }
+      
+      // Function to show error message
+      function showError(message) {
+        const errorContainer = document.getElementById('error-container');
+        const errorMessage = document.getElementById('error-message');
+        
+        errorMessage.textContent = message;
+        errorContainer.classList.remove('hidden');
+        
+        // Hide error after 5 seconds
+        setTimeout(() => {
+          errorContainer.classList.add('hidden');
+        }, 5000);
+      }
+      
+      // Function to show toast notification
+      function showToast(title, description) {
+        const toastContainer = document.getElementById('toast-container');
+        const toast = document.createElement('div');
+        toast.className = 'toast';
+        
+        toast.innerHTML = `
+          <div class="toast-title">${title}</div>
+          <div class="toast-description">${description}</div>
+        `;
+        
+        toastContainer.appendChild(toast);
+        
+        // Remove toast after 5 seconds
+        setTimeout(() => {
+          toast.remove();
+        }, 5000);
+      }
+    });
+  </script>
+</body>
+</html>

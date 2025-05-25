@@ -498,34 +498,50 @@
         };
 
         try {
-            const resposta = await fetch("http://localhost:8080/empresa-modelo", {
+        // Envia para empresa-modelo
+        const respostaModelo = await fetch("http://localhost:8080/empresa-modelo", {
             method: "POST",
             headers: {
                 "Content-Type": "application/json"
             },
-            body: JSON.stringify(dados) // <-- isso aqui precisa ser um objeto real
+            body: JSON.stringify(dados)
         });
 
-            if (!resposta.ok) {
-                const erro = await resposta.json();
-                throw new Error(erro.message || "Erro ao cadastrar empresa");
-            }
-
-            // Sucesso
-            mensagem.innerText = "Dados enviados com sucesso!";
-            mensagem.style.color = "green";
-        } catch (erro) {
-            // Erro
-            console.error("Erro ao enviar para o backend:", erro);
-            mensagem.innerText = `Erro: ${erro.message}`;
-            mensagem.style.color = "red";
+        if (!respostaModelo.ok) {
+            const erroModelo = await respostaModelo.json();
+            throw new Error(erroModelo.message || "Erro ao cadastrar na empresa-modelo");
         }
+
+        // Envia para empresa-em-gestao
+        const respostaGestao = await fetch("http://localhost:8080/empresa-em-gestao", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify(dados)
+        });
+
+        if (!respostaGestao.ok) {
+            const erroGestao = await respostaGestao.json();
+            throw new Error(erroGestao.message || "Erro ao cadastrar na empresa-em-gestao");
+        }
+
+        // Sucesso nas duas requisições
+        mensagem.innerText = "Dados enviados com sucesso para modelo e gestão!";
+        mensagem.style.color = "green";
+
+    } catch (erro) {
+        console.error("Erro ao enviar para o backend:", erro);
+        mensagem.innerText = `Erro: ${erro.message}`;
+        mensagem.style.color = "red";
     }
+        }
 
 
 
 
 
+        
 
 // Acessibilidade - Modo Claro Padrão
 // Acessibilidade - Controle de Fonte
