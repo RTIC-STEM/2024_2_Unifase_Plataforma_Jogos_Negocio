@@ -389,6 +389,21 @@
         transform: rotate(360deg);
       }
     }
+    .historia-box {
+  border: 1px solid #ccc;
+  padding: 1rem;
+  background-color: #f9f9f9;
+  border-radius: 6px;
+  min-height: 150px;
+  max-height: 300px;
+  overflow-y: auto;
+  white-space: pre-wrap; /* quebra linhas automaticamente */
+  word-wrap: break-word; /* impede estouro lateral */
+  font-family: Arial, sans-serif;
+  font-size: 1rem;
+  color: #333;
+}
+
   </style>
 </head>
 
@@ -498,19 +513,17 @@
               <div class="card-description">
                 Conheça a empresa que você irá administrar na simulação
               </div>
-            </div>
+              <label for="company-history-box">História:</label>
+              <div id="company-history-box" class="historia-box" readonly></div>
+
+            
             <div class="card-content">
               <div id="error-container" class="alert alert-destructive hidden">
                 <span class="alert-icon">⚠️</span>
                 <div id="error-message"></div>
               </div>
               
-              <div id="company-history" class="prose">
-                <!-- Company history will be loaded here -->
-                <p><strong>Carregando...</strong> história da empresa...</p>
-              </div>
-            </div>
-          </div>
+              
           
           <div class="card">
             <div class="card-header">
@@ -564,9 +577,9 @@
                     </div>
                     
                     <div class="form-group">
-                      <label for="productType">Tipo de Produto/Serviço</label>
+                      <label for="tipoProdutoServico">Tipo de Produto/Serviço:</label>
                       <input 
-                        id="productType" 
+                        id="tipoProdutoServico" 
                         readonly
                       />
                     </div>
@@ -576,33 +589,49 @@
                 <div id="financial-details" class="tab-content">
                   <div class="space-y-4">
                     <div class="form-group">
-                      <label for="suggestedPrice">Preço Sugerido do Produto (R$)</label>
+                      <label for="valorProduto">Preço Sugerido do Produto (R$):</label>
                       <input 
-                        id="suggestedPrice" 
+                        id="valorProduto" 
                         readonly
                       />
                     </div>
                     
                     <div class="form-group">
-                      <label for="initialCapital">Capital Inicial (R$)</label>
+                      <label for="recursoFinanceiro">Recurso financeiros (R$):</label>
                       <input 
-                        id="initialCapital" 
+                        id="recursoFinanceiro" 
+                        readonly
+                      />
+                    </div>
+
+                  <div class="form-group">
+                      <label for="quantidadeDeVenda">Quantidade de vendas:</label>
+                      <input 
+                        id="quantidadeDeVenda" 
+                        readonly
+                      />
+                    </div>
+
+                      <div class="form-group">
+                      <label for="despesaAdministrativa">Despesa administrativa (R$):</label>
+                      <input 
+                        id="despesaAdministrativa" 
                         readonly
                       />
                     </div>
                     
                     <div class="form-group">
-                      <label for="employeeCount">Quantidade de Funcionários</label>
+                      <label for="numeroFuncionarios">Quantidade de Funcionários:</label>
                       <input 
-                        id="employeeCount" 
+                        id="numeroFuncionarios" 
                         readonly
                       />
                     </div>
                     
                     <div class="form-group">
-                      <label for="averageSalary">Salário Médio dos Funcionários (R$)</label>
+                      <label for="salarioFuncionario">Salário Médio dos Funcionários (R$):</label>
                       <input 
-                        id="averageSalary" 
+                        id="salarioFuncionario" 
                         readonly
                       />
                     </div>
@@ -624,136 +653,117 @@
 
   <script>
     document.addEventListener('DOMContentLoaded', function() {
-      // Sidebar toggle functionality for mobile
-      const sidebarToggle = document.getElementById('sidebar-toggle');
-      const sidebarContent = document.querySelector('.sidebar-content');
+  // Seleciona todos os botões das abas
+  const tabTriggers = document.querySelectorAll('.tab-trigger');
+  
+  tabTriggers.forEach(trigger => {
+    trigger.addEventListener('click', () => {
+      // Remove a classe 'active' de todas as abas e conteúdos
+      document.querySelectorAll('.tab-trigger').forEach(t => t.classList.remove('active'));
+      document.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
       
-      if (sidebarToggle) {
-        sidebarToggle.addEventListener('click', function() {
-          sidebarContent.classList.toggle('open');
-        });
-      }
+      // Adiciona a classe 'active' à aba clicada
+      trigger.classList.add('active');
       
-      // Select all tab triggers
-      const tabTriggers = document.querySelectorAll('.tab-trigger');
-      
-      // Add click event to each tab trigger
-      tabTriggers.forEach(trigger => {
-        trigger.addEventListener('click', () => {
-          // Remove active class from all triggers and contents
-          document.querySelectorAll('.tab-trigger').forEach(t => t.classList.remove('active'));
-          document.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
-          
-          // Add active class to clicked trigger
-          trigger.classList.add('active');
-          
-          // Show the corresponding content
-          const tabId = trigger.getAttribute('data-tab');
-          document.getElementById(tabId).classList.add('active');
-        });
-      });
-      
-      // Load company data (simulating data fetch)
-      loadCompanyData();
-      
-      // Handle form submission
-      const form = document.getElementById('student-form');
-      form.addEventListener('submit', function(e) {
-        e.preventDefault();
-        
-        const studentName = document.getElementById('studentName').value.trim();
-        
-        if (!studentName) {
-          showError('Por favor, insira seu nome para continuar.');
-          return;
-        }
-        
-        // Simulate form submission
-        showToast('Dados atualizados com sucesso!', `Olá ${studentName}, seus dados foram atualizados.`);
-      });
-      
-      // Function to load company data
-      function loadCompanyData() {
-        // Simulate loading delay
-        setTimeout(() => {
-          try {
-            // This would come from your API in a real app
-            const companyData = {
-              companyName: 'Tech Solutions',
-              sector: 'Tecnologia',
-              companySize: 'Média',
-              productType: 'Software de gestão',
-              suggestedPrice: 199.99,
-              initialCapital: 50000,
-              employeeCount: 15,
-              averageSalary: 3500,
-            };
-            
-            // Fill form fields with company data
-            document.getElementById('companyName').value = companyData.companyName;
-            document.getElementById('sector').value = companyData.sector;
-            document.getElementById('companySize').value = companyData.companySize;
-            document.getElementById('productType').value = companyData.productType;
-            document.getElementById('suggestedPrice').value = companyData.suggestedPrice.toFixed(2);
-            document.getElementById('initialCapital').value = companyData.initialCapital.toLocaleString('pt-BR');
-            document.getElementById('employeeCount').value = companyData.employeeCount;
-            document.getElementById('averageSalary').value = companyData.averageSalary.toFixed(2);
-            
-            // Generate company history
-            const history = `
-              <p><strong>${companyData.companyName}</strong> é uma empresa do setor de ${companyData.sector}, 
-              classificada como de porte ${companyData.companySize.toLowerCase()}.</p>
-              <p>A empresa atua no mercado oferecendo ${companyData.productType} com um preço sugerido 
-              de R$ ${companyData.suggestedPrice.toFixed(2)}.</p>
-              <p>Com um capital inicial de R$ ${companyData.initialCapital.toLocaleString('pt-BR')}, 
-              a empresa conta com ${companyData.employeeCount} funcionários, que recebem em média 
-              R$ ${companyData.averageSalary.toFixed(2)}.</p>
-              <p>A cultura organizacional é focada em inovação e qualidade, buscando sempre atender 
-              as necessidades do mercado.</p>
-              <p>Com perspectivas de crescimento, a empresa planeja expandir suas operações nos próximos anos.</p>
-            `;
-            
-            document.getElementById('company-history').innerHTML = history;
-            
-          } catch (error) {
-            showError('Falha ao carregar os dados da empresa. Por favor, tente novamente mais tarde.');
-          }
-        }, 1500);
-      }
-      
-      // Function to show error message
-      function showError(message) {
-        const errorContainer = document.getElementById('error-container');
-        const errorMessage = document.getElementById('error-message');
-        
-        errorMessage.textContent = message;
-        errorContainer.classList.remove('hidden');
-        
-        // Hide error after 5 seconds
-        setTimeout(() => {
-          errorContainer.classList.add('hidden');
-        }, 5000);
-      }
-      
-      // Function to show toast notification
-      function showToast(title, description) {
-        const toastContainer = document.getElementById('toast-container');
-        const toast = document.createElement('div');
-        toast.className = 'toast';
-        
-        toast.innerHTML = `
-          <div class="toast-title">${title}</div>
-          <div class="toast-description">${description}</div>
-        `;
-        
-        toastContainer.appendChild(toast);
-        
-        // Remove toast after 5 seconds
-        setTimeout(() => {
-          toast.remove();
-        }, 5000);
-      }
+      // Mostra o conteúdo correspondente
+      const tabId = trigger.getAttribute('data-tab');
+      document.getElementById(tabId).classList.add('active');
     });
-  </script>
+  });
+});
+document.addEventListener('DOMContentLoaded', function() {
+    // Função para obter o ID dinamicamente (exemplo: pode vir da URL ou de um campo input)
+    function obterEmpresaModeloId() {
+      // Exemplo simples: pegar ID de um input hidden ou campo texto, caso tenha
+      // return document.getElementById('empresaModeloIdInput').value || 1;
+
+      // Ou exemplo para pegar o ID da URL, se estiver em query param ?id=3
+      const params = new URLSearchParams(window.location.search);
+      return params.get('id') || 3;  // padrão 1 se não tiver na URL
+    }
+
+    const empresaModeloId = obterEmpresaModeloId();
+
+    fetch(`http://localhost:8080/empresa-modelo/${empresaModeloId}`)
+      .then(response => {
+        if (!response.ok) {
+          throw new Error(`Erro ao buscar dados da empresa modelo com ID ${empresaModeloId}`);
+        }
+        return response.json();
+      })
+      .then(data => {
+        document.getElementById("studentName").value = data.nomeEmpresa || "";
+        document.getElementById("sector").value = data.setor || "";
+        document.getElementById("companySize").value = data.tamanho || "";
+        document.getElementById("tipoProdutoServico").value = data.tipoProdutoServico || "";
+        document.getElementById("quantidadeDeVenda").value = data.quantidadeDeVendas || "";
+        document.getElementById("valorProduto").value = data.valorProduto || "";
+        document.getElementById("recursoFinanceiro").value = data.recursoFinanceiro || "";
+        document.getElementById("numeroFuncionarios").value = data.numeroFuncionarios || "";
+        document.getElementById("salarioFuncionario").value = data.salarioFuncionario || "";
+        document.getElementById("despesaAdministrativa").value = data.despesaAdministrativa || "";
+        document.getElementById("company-history-box").textContent = data.historia || "História não disponível.";
+
+        const historia = data.historia || "História não disponível.";
+        const formatada = historia
+          .split('\n')
+          .map(p => `<p>${p}</p>`)
+          .join('');
+        document.getElementById("company-history-box").innerHTML = formatada;
+
+      })
+      .catch(error => {
+        console.error("Erro ao carregar dados da empresa modelo:", error);
+        alert("Não foi possível carregar os dados da empresa. Verifique o ID ou tente novamente mais tarde.");
+      });
+
+    // Resto do seu código para sidebar, tabs, etc...
+
+    // Exemplo do formulário e mensagens:
+    const form = document.getElementById('student-form');
+    form.addEventListener('submit', function(e) {
+      e.preventDefault();
+
+      const studentName = document.getElementById('studentName').value.trim();
+
+      if (!studentName) {
+        showError('Por favor, insira seu nome para continuar.');
+        return;
+      }
+
+      showToast('Dados atualizados com sucesso!', `Olá ${studentName}, seus dados foram atualizados.`);
+    });
+
+    function showError(message) {
+      const errorContainer = document.getElementById('error-container');
+      const errorMessage = document.getElementById('error-message');
+
+      errorMessage.textContent = message;
+      errorContainer.classList.remove('hidden');
+
+      setTimeout(() => {
+        errorContainer.classList.add('hidden');
+      }, 5000);
+    }
+
+    function showToast(title, description) {
+      const toastContainer = document.getElementById('toast-container');
+      const toast = document.createElement('div');
+      toast.className = 'toast';
+
+      toast.innerHTML = `
+        <div class="toast-title">${title}</div>
+        <div class="toast-description">${description}</div>
+      `;
+
+      toastContainer.appendChild(toast);
+
+      setTimeout(() => {
+        toast.remove();
+      }, 5000);
+    }
+  });
+</script>
+
 </body>
 </html>
