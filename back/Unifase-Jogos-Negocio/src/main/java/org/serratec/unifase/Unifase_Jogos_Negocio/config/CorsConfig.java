@@ -9,7 +9,8 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 public class CorsConfig {
     private static final String[] ALLOWED_ORIGINS = {
             "http://localhost:3000",
-            "http://localhost:80"
+            "http://localhost:80",
+            "http://localhost"
     };
 
     @Bean
