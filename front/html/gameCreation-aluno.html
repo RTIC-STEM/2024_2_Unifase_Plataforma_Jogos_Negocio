@@ -763,6 +763,48 @@ document.addEventListener('DOMContentLoaded', function() {
       }, 5000);
     }
   });
+
+
+  document.getElementById('student-form').addEventListener('submit', function(event) {
+  event.preventDefault(); // impede o reload da página ao enviar
+
+  // Monte o objeto com os dados, você pode trocar os nomes que quiser
+  const dadosEmpresa = {
+    nomeEmpresa: document.getElementById('studentName').value,
+    setor: document.getElementById('sector').value,
+    tamanho: document.getElementById('companySize').value,
+    tipoProdutoServico: document.getElementById('productType').value,
+    quantidadeDeVenda: document.getElementById('quantidadeDeVenda').value,
+    valorProduto: document.getElementById('valorProduto').value,
+    recursoFinanceiro: document.getElementById('recursoFinanceiro').value,
+    numeroFuncionarios: document.getElementById('numeroFuncionarios').value,
+    salarioFuncionario: document.getElementById('salarioFuncionario').value,
+    despesaAdministrativa: document.getElementById('despesaAdministrativa').value,
+    historia: document.getElementById('company-history').innerText || "", // ou innerHTML, depende do que quer enviar
+  };
+
+  fetch('/empresa-em-gestao', { // altere a URL se necessário, por ex: 'http://localhost:8080/empresa-em-gestao'
+    method: 'POST', // ou PUT, conforme sua API
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify(dadosEmpresa),
+  })
+  .then(response => {
+    if (!response.ok) {
+      throw new Error('Erro ao enviar dados');
+    }
+    return response.json();
+  })
+  .then(data => {
+    alert('Dados enviados com sucesso!');
+    // Aqui pode fazer algo depois do envio, ex: limpar formulário, atualizar UI etc.
+  })
+  .catch(error => {
+    alert('Falha no envio: ' + error.message);
+  });
+});
+
 </script>
 
 </body>
