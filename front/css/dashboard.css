@@ -150,4 +150,7 @@ nav::-webkit-scrollbar {
     margin: auto;
   }
 
-  
+  #financialChart {
+  width: 100%;
+  height: 400px;
+}

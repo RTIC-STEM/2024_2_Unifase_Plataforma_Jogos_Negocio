@@ -213,17 +213,45 @@
 
     <script>
 document.addEventListener('DOMContentLoaded', function() {
+  // Exibe a data atual formatada
   document.getElementById('currentDate').textContent = new Date().toLocaleDateString('pt-BR', { 
     weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' 
   });
 
-  const empresaId = 4;
-  const meses = ['Jan', 'Fev', 'Mar', 'Abr', 'Mai', 'Jun'];
+  const empresaId = 2;
+  
+  // Função para obter os últimos 6 meses
+  function getLastSixMonths() {
+    const monthNames = ['Jan', 'Fev', 'Mar', 'Abr', 'Mai', 'Jun', 'Jul', 'Ago', 'Set', 'Out', 'Nov', 'Dez'];
+    const today = new Date();
+    const months = [];
+    
+    for (let i = 5; i >= 0; i--) {
+      const date = new Date(today.getFullYear(), today.getMonth() - i, 1);
+      months.push(monthNames[date.getMonth()]);
+    }
+    
+    return months;
+  }
 
-  // Dados fictícios para os primeiros 5 meses (Jan a Mai)
-  const receitaMock = [1000000000, 1500000000, 1300000000, 1800000000, 1700000000]; 
-  const custoMock = [600000000, 700000000, 650000000, 800000000, 750000000];
-  const lucroMock = [400000000, 800000000, 650000000, 1000000000, 950000000];
+  const meses = getLastSixMonths(); // Agora dinâmico
+
+  // Função para formatar valores monetários
+  function formatMoney(value) {
+    if (value === 0) return 'R$ 0';
+    
+    return new Intl.NumberFormat('pt-BR', {
+      style: 'currency',
+      currency: 'BRL',
+      minimumFractionDigits: 2,
+      maximumFractionDigits: 2
+    }).format(value);
+  }
+
+  // Dados fictícios para os primeiros 5 meses
+  const receitaMock = [15000, 18000, 22000, 19000, 21000]; 
+  const custoMock = [8000, 9500, 12000, 10500, 11000];
+  const lucroMock = [7000, 8500, 10000, 8500, 10000];
 
   fetch(`http://localhost:8080/empresa-em-gestao/${empresaId}`)
     .then(response => {
@@ -231,18 +259,19 @@ document.addEventListener('DOMContentLoaded', function() {
       return response.json();
     })
     .then(data => {
-      // Extrair os valores do backend para o mês "Jun"
+      // Extrair os valores do backend para o mês atual
       const receitaReal = data.dreMaisRecente?.receitaLiquida || 0;
       const custoReal = data.dreMaisRecente?.custoMercadoriaVendida || 0;
       const lucroReal = data.dreMaisRecente?.lucroBruto || 0;
 
-      // Montar arrays finais unindo mocks + dado real no último mês
+      // Montar arrays finais (5 meses mock + 1 real)
       const receitaFinal = [...receitaMock, receitaReal];
       const custoFinal = [...custoMock, custoReal];
       const lucroFinal = [...lucroMock, lucroReal];
 
-      const ctx1 = document.getElementById('financialChart').getContext('2d');
-      new Chart(ctx1, {
+      // Criar o gráfico
+      const ctx = document.getElementById('financialChart').getContext('2d');
+      new Chart(ctx, {
         type: 'line',
         data: {
           labels: meses,
@@ -251,22 +280,28 @@ document.addEventListener('DOMContentLoaded', function() {
               label: 'Receita',
               data: receitaFinal,
               borderColor: '#36A2EB',
-              fill: false,
-              tension: 0.4
+              backgroundColor: 'rgba(54, 162, 235, 0.1)',
+              fill: true,
+              tension: 0.4,
+              borderWidth: 2
             },
             {
               label: 'Custos',
               data: custoFinal,
               borderColor: '#FF6384',
-              fill: false,
-              tension: 0.4
+              backgroundColor: 'rgba(255, 99, 132, 0.1)',
+              fill: true,
+              tension: 0.4,
+              borderWidth: 2
             },
             {
               label: 'Lucro',
               data: lucroFinal,
               borderColor: '#4BC0C0',
-              fill: false,
-              tension: 0.4
+              backgroundColor: 'rgba(75, 192, 192, 0.1)',
+              fill: true,
+              tension: 0.4,
+              borderWidth: 2
             }
           ]
         },
@@ -276,14 +311,25 @@ document.addEventListener('DOMContentLoaded', function() {
           plugins: {
             title: {
               display: true,
-              text: 'Desempenho Financeiro'
+              text: 'Desempenho Financeiro - Últimos 6 Meses',
+              font: {
+                size: 16
+              }
+            },
+            tooltip: {
+              callbacks: {
+                label: function(context) {
+                  return `${context.dataset.label}: ${formatMoney(context.raw)}`;
+                }
+              }
             }
           },
           scales: {
             y: {
+              beginAtZero: true,
               ticks: {
                 callback: function(value) {
-                  return 'R$ ' + (value / 1e9).toFixed(1) + ' bi';
+                  return formatMoney(value);
                 }
               }
             }
@@ -292,14 +338,28 @@ document.addEventListener('DOMContentLoaded', function() {
       });
     })
     .catch(error => {
-      console.error("Erro ao buscar dados da empresa:", error);
+      console.error("Erro ao buscar dados:", error);
+      // Fallback com dados completos mockados
+      renderChartWithMockData();
     });
+
+  function renderChartWithMockData() {
+    const meses = getLastSixMonths();
+    const receitaComplete = [...receitaMock, 23000];
+    const custoComplete = [...custoMock, 12500];
+    const lucroComplete = [...lucroMock, 10500];
+    
+    const ctx = document.getElementById('financialChart').getContext('2d');
+    new Chart(ctx, {
+      // ... mesma configuração do gráfico principal ...
+    });
+  }
 });
 
     // Gráfico Distribuição de Custos
 
   document.addEventListener('DOMContentLoaded', function () {
-    const empresaId = 4;
+    const empresaId = 2;
 
     fetch(`http://localhost:8080/empresa-em-gestao/${empresaId}`)
       .then(response => {
@@ -619,7 +679,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
 
 document.addEventListener("DOMContentLoaded", function () {
-  const empresaId = 4; // ID fixo da empresa
+  const empresaId = 2; // ID fixo da empresa
 
   fetch(`http://localhost:8080/empresa-em-gestao/${empresaId}`)
     .then(response => {
@@ -664,7 +724,7 @@ document.addEventListener("DOMContentLoaded", function () {
 });
 
 document.addEventListener("DOMContentLoaded", function () {
-  const empresaId = 4;
+  const empresaId = 2;
 
   // Atualiza a data atual
   document.getElementById('currentDate').textContent = new Date().toLocaleDateString('pt-BR', {

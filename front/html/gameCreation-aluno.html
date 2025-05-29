@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
@@ -404,6 +405,23 @@
   color: #333;
 }
 
+   .tab-trigger {
+    padding: 10px 16px;
+    cursor: pointer;
+    background-color: #f0f0f0;
+    border-radius: 8px;
+    margin-right: 8px;
+    color: #333;
+    transition: all 0.3s ease;
+  }
+
+  .tab-trigger.active {
+    background-color: #007BFF;  /* Azul */
+    color: white;
+    font-weight: bold;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+  }
+
   </style>
 </head>
 
@@ -553,11 +571,11 @@
             </div>
             <div class="card-content">
               <div class="tabs">
-                <div class="tabs-list">
+                <div style="display: flex; gap: 8px; margin-bottom: 16px;">
                   <div class="tab-trigger active" data-tab="company-profile">Perfil da Empresa</div>
                   <div class="tab-trigger" data-tab="financial-details">Detalhes Financeiros</div>
                 </div>
-                
+                                
                 <div id="company-profile" class="tab-content active">
                   <div class="space-y-4">
                     <div class="form-group">
@@ -667,7 +685,7 @@
 
   // Carrega dados da empresa modelo
   const params = new URLSearchParams(window.location.search);
-  const empresaModeloId = params.get('id') || 4;
+  const empresaModeloId = params.get('id') || 1;
 
   fetch(`http://localhost:8080/empresa-modelo/${empresaModeloId}`)
     .then(response => {
