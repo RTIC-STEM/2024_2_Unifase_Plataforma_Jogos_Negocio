@@ -670,7 +670,8 @@
   <div id="toast-container" class="toast-container"></div>
 
   <script>
-    document.addEventListener('DOMContentLoaded', function() {
+
+document.addEventListener('DOMContentLoaded', function() {
   // Configuração das abas
   const tabTriggers = document.querySelectorAll('.tab-trigger');
   tabTriggers.forEach(trigger => {
@@ -683,132 +684,99 @@
     });
   });
 
-  // Carrega dados da empresa modelo
-  const params = new URLSearchParams(window.location.search);
-  const empresaModeloId = params.get('id') || 1;
-
-  fetch(`http://localhost:8080/empresa-modelo/${empresaModeloId}`)
-    .then(response => {
-      if (!response.ok) throw new Error(`Erro ao buscar dados da empresa modelo`);
-      return response.json();
-    })
-    .then(data => {
-      // Preenche os campos do formulário
-      document.getElementById("studentName").value = data.nomeEmpresa || "";
-      document.getElementById("sector").value = data.setor || "";
-      document.getElementById("companySize").value = data.tamanho || "";
-      document.getElementById("tipoProdutoServico").value = data.tipoProdutoServico || "";
-      document.getElementById("quantidadeDeVenda").value = data.quantidadeDeVendas || "";
-      document.getElementById("valorProduto").value = data.valorProduto || "";
-      document.getElementById("recursoFinanceiro").value = data.recursoFinanceiro || "";
-      document.getElementById("numeroFuncionarios").value = data.numeroFuncionarios || "";
-      document.getElementById("salarioFuncionario").value = data.salarioFuncionario || "";
-      document.getElementById("despesaAdministrativa").value = data.despesaAdministrativa || "";
-      
-      // Formata a história da empresa
-      const historia = data.historia || "História não disponível.";
-      document.getElementById("company-history-box").innerHTML = historia
-        .split('\n')
-        .map(p => `<p>${p}</p>`)
-        .join('');
-    })
-    .catch(error => {
-      console.error("Erro:", error);
-      alert("Não foi possível carregar os dados da empresa modelo.");
-    });
-
-  // Configura o envio do formulário
-  document.addEventListener('DOMContentLoaded', function() {
-  // Configuração das abas
-  const tabTriggers = document.querySelectorAll('.tab-trigger');
-  tabTriggers.forEach(trigger => {
-    trigger.addEventListener('click', () => {
-      document.querySelectorAll('.tab-trigger').forEach(t => t.classList.remove('active'));
-      document.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
-      trigger.classList.add('active');
-      const tabId = trigger.getAttribute('data-tab');
-      document.getElementById(tabId).classList.add('active');
-    });
-  });
-
-  // Carrega dados da empresa modelo
-  const params = new URLSearchParams(window.location.search);
-  const empresaModeloId = params.get('id') || 1;
-
-  fetch(`http://localhost:8080/empresa-modelo/${empresaModeloId}`)
-    .then(response => {
-      if (!response.ok) throw new Error(`Erro ao buscar dados da empresa modelo`);
-      return response.json();
-    })
-    .then(data => {
-      // Preenche os campos do formulário
-      document.getElementById("studentName").value = data.nomeEmpresa || "";
-      document.getElementById("sector").value = data.setor || "";
-      // ... (mantenha os outros campos como estão)
-    })
-    .catch(error => {
-      console.error("Erro:", error);
-      alert("Não foi possível carregar os dados da empresa modelo.");
-    });
-
-  // Configura o envio do formulário - PARTE CORRIGIDA
-  const form = document.getElementById('student-form');
-  form.addEventListener('submit', async function(event) {
-    event.preventDefault();
-
-    try {
-      // 1. Obter o ID da empresa (você precisa definir como obter esse ID corretamente)
-      const empresaId = 1; // <--- DEFINA AQUI O ID CORRETO OU COMO OBTÊ-LO
-      
-      // 2. Coletar todos os dados do formulário
-      const dadosEmpresa = {
-        nomeEmpresa: document.getElementById('studentName').value,
-        setor: document.getElementById('sector').value,
-        // ... (todos os outros campos)
-      };
-
-      // 3. Enviar para o endpoint CORRETO com o ID na URL
-      const response = await fetch(`http://localhost:8080/empresa-em-gestao/${empresaId}`, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(dadosEmpresa)
-      });
-
-      if (!response.ok) throw new Error('Erro ao enviar dados');
-
-      const result = await response.json();
-      showToast('Sucesso!', 'Empresa criada com sucesso!');
-      
-    } catch (error) {
-      console.error('Erro:', error);
-      showError('Falha no envio: ' + error.message);
+  // Função que busca automaticamente a última empresa modelo (maior ID válido)
+  async function buscarUltimaEmpresaModelo() {
+    for (let id = 100; id >= 1; id--) {
+      try {
+        const response = await fetch(`http://localhost:8080/empresa-modelo/${id}`);
+        if (response.ok) {
+          const data = await response.json();
+          preencherFormulario(data);
+          console.log("Empresa modelo encontrada com ID:", id);
+          return;
+        }
+      } catch (e) {
+        // Ignora erro e tenta o próximo
+      }
     }
-  });
 
-  // Funções auxiliares
-  function showError(message) {
-    const errorContainer = document.getElementById('error-container');
-    const errorMessage = document.getElementById('error-message');
-    errorMessage.textContent = message;
-    errorContainer.classList.remove('hidden');
-    setTimeout(() => errorContainer.classList.add('hidden'), 5000);
+    alert("Não foi possível encontrar uma empresa modelo.");
   }
 
-  function showToast(title, description) {
-    const toastContainer = document.getElementById('toast-container');
-    const toast = document.createElement('div');
-    toast.className = 'toast';
-    toast.innerHTML = `
-      <div class="toast-title">${title}</div>
-      <div class="toast-description">${description}</div>
-    `;
-    toastContainer.appendChild(toast);
-    setTimeout(() => toast.remove(), 5000);
+  // Preenche os campos do formulário com os dados retornados
+  function preencherFormulario(data) {
+    document.getElementById("studentName").value = data.nomeEmpresa || "";
+    document.getElementById("sector").value = data.setor || "";
+    document.getElementById("companySize").value = data.tamanho || "";
+    document.getElementById("tipoProdutoServico").value = data.tipoProdutoServico || "";
+    document.getElementById("quantidadeDeVenda").value = data.quantidadeDeVendas || "";
+    document.getElementById("valorProduto").value = data.valorProduto || "";
+    document.getElementById("recursoFinanceiro").value = data.recursoFinanceiro || "";
+    document.getElementById("numeroFuncionarios").value = data.numeroFuncionarios || "";
+    document.getElementById("salarioFuncionario").value = data.salarioFuncionario || "";
+    document.getElementById("despesaAdministrativa").value = data.despesaAdministrativa || "";
+
+    const historia = data.historia || "História não disponível.";
+    document.getElementById("company-history-box").innerHTML = historia
+      .split('\n')
+      .map(p => `<p>${p}</p>`)
+      .join('');
+  }
+
+  // Chama a função para buscar a última empresa modelo
+  buscarUltimaEmpresaModelo();
+});
+
+
+
+  async function getUltimoEmpresaModeloId() {
+  try {
+    const response = await fetch('http://localhost:8080/empresa-modelo'); // Endpoint que retorna todos
+    const modelos = await response.json();
+
+    if (!Array.isArray(modelos) || modelos.length === 0) {
+      throw new Error('Nenhuma empresa modelo encontrada');
+    }
+
+    // Ordena os modelos por ID decrescente e pega o primeiro
+    const modeloMaisRecente = modelos.sort((a, b) => b.id - a.id)[0];
+    return modeloMaisRecente.id;
+  } catch (error) {
+    console.error('Erro ao buscar empresa modelo:', error);
+    throw error;
+  }
+}
+form.addEventListener('submit', async function(event) {
+  event.preventDefault();
+
+  try {
+    const nomeEmpresa = document.getElementById('studentName').value;
+
+    // Pega o último empresa modelo
+    const empresaId = await getUltimoEmpresaModeloId();
+
+    const params = new URLSearchParams();
+    params.append("nomeEmpresa", nomeEmpresa);
+
+    const response = await fetch(`http://localhost:8080/empresa-em-gestao/${empresaId}`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/x-www-form-urlencoded',
+      },
+      body: params
+    });
+
+    if (!response.ok) throw new Error('Erro ao enviar dados');
+
+    const result = await response.text();
+    showToast('Sucesso!', 'Empresa criada com sucesso!');
+  } catch (error) {
+    console.error('Erro:', error);
+    showError('Falha no envio: ' + error.message);
   }
 });
-});
+
+
 
 </script>
 
