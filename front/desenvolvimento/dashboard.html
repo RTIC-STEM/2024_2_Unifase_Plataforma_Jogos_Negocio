@@ -1,0 +1,755 @@
+
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Jogo de Negócios - Dashboard</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link rel="stylesheet" href="../css/dashboard.css">
+</head>
+<body class="bg-gray-50 dark:bg-gray-900 font-sans transition-colors duration-300 h-screen overflow-hidden">
+
+    <div class="flex h-screen">
+        <!-- Menu Lateral -->
+        <div id="sideMenu" class="flex flex-col h-screen w-64 bg-white dark:bg-gray-800 border-r border-gray-200 dark:border-gray-700 transition-all duration-300 ease-in-out transform -translate-x-full md:translate-x-0 fixed md:relative z-40">
+            <div class="p-4 flex items-center justify-between">
+                <div class="text-xl font-bold text-gray-800 dark:text-white">Jogo de Negócios</div>
+                <button id="toggleSidebar" class="text-gray-500 dark:text-gray-400">
+                    <i class="fas fa-chevron-left"></i>
+                </button>
+            </div>
+            <div class="border-t border-gray-200 dark:border-gray-700 my-2"></div>
+            <nav class="flex-1 overflow-y-auto p-2 space-y-1">
+                <a href="./dashboard.html" class="menu-item active">
+                    <i class="fas fa-home mr-3"></i>
+                    <span>Dashboard</span>
+                </a>
+                 <a href="./gameCreation-aluno.html" class="menu-item">
+                    <i class="fas fa-box-open mr-3"></i>
+                    <span>Dados da Empresa</span>
+                </a>
+                <a href="./financial.html" class="menu-item">
+                    <i class="fas fa-chart-bar mr-3"></i>
+                    <span>Financeiro</span>
+                </a>
+                <a href="./marketing.html" class="menu-item">
+                    <i class="fas fa-box-open mr-3"></i>
+                    <span>Marketing</span>
+                </a>
+                <a href="./humanResources.html" class="menu-item">
+                    <i class="fas fa-users mr-3"></i>
+                    <span>Recursos Humanos</span>
+                </a>
+                <a href="./production.html" class="menu-item">
+                    <i class="fas fa-industry mr-3"></i>
+                    <span>Produção</span>
+                </a>
+                <a href="./strategicDecisions.html" class="menu-item">
+                    <i class="fas fa-brain mr-3"></i>
+                    <span>Tomar Decisões</span>
+                </a>
+                <a href="./roundResults.html" class="menu-item">
+                    <i class="fas fa-award mr-3"></i>
+                    <span>Resultados da Rodada</span>
+                </a>
+            </nav>
+            <div class="border-t border-gray-200 dark:border-gray-700 p-2 space-y-1">
+                <a href="./notifications.html" class="menu-item">
+                    <i class="fas fa-bell mr-3"></i>
+                    <span>Notificações</span>
+                </a>
+                <button id="settingsButton" class="menu-item w-full text-left">
+                    <i class="fas fa-cog mr-3"></i>
+                    <span>Configurações</span>
+                </button>
+                <button id="logoutButton" class="menu-item w-full text-left">
+                    <i class="fas fa-sign-out-alt mr-3"></i>
+                    <span>Sair</span>
+                </button>
+            </div>
+        </div>
+
+        <!-- Conteúdo Principal -->
+        <div class="flex-1 flex flex-col overflow-hidden">
+            <!-- DashboardHeader -->
+            <header class="sticky top-0 z-30 flex h-16 items-center gap-4 border-b bg-white dark:bg-gray-800 px-6 dark:border-gray-700">
+                <div class="flex flex-1 items-center justify-between">
+                    <div>
+                    <h1 class="text-lg font-semibold dark:text-white" id="nomeEmpresa">Carregando...</h1>
+                    <p class="text-xs text-gray-500 dark:text-gray-400 capitalize" id="currentDate"></p>
+                    </div>
+
+                    <div class="flex items-center gap-4">
+                        <button class="relative text-blue-500 hover:text-blue-400" title="Portal de Notícias">
+                            <i class="fas fa-newspaper text-xl"></i>
+                            <span class="absolute top-0 right-0 h-2.5 w-2.5 rounded-full bg-blue-500 animate-pulse"></span>
+                        </button>
+                        <button class="relative text-gray-500 dark:text-gray-400" title="Notificações">
+                            <i class="fas fa-bell"></i>
+                            <span class="absolute top-1 right-1 h-2 w-2 rounded-full bg-blue-500"></span>
+                        </button>
+                        <div class="flex items-center gap-2">
+                            <span class="text-sm font-medium hidden md:inline-block dark:text-white">CEO</span>
+                            <div class="w-8 h-8 rounded-full bg-gray-300 flex items-center justify-center overflow-hidden">
+                                <img src="https://i.pravatar.cc/100" alt="Avatar" class="w-full h-full object-cover">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </header>
+            
+            <!-- Conteúdo -->
+            <main class="flex-1 overflow-auto p-4 md:p-6">
+                <div class="grid gap-6 mb-6">
+                    <div class="flex items-center justify-between">
+                        <div>
+                            <h2 class="text-2xl font-bold tracking-tight dark:text-white">Visão Geral</h2>
+                            <p class="text-gray-500 dark:text-gray-400">Trimestre 3, Rodada 2</p>  <!-- mudar-->
+                        </div>
+                        <div>
+                            <span class="bg-green-100 text-green-800 text-xs font-medium px-2.5 py-0.5 rounded dark:bg-green-900 dark:text-green-300">Em andamento</span>
+                        </div>
+                    </div>
+                    <div class="border-t border-gray-200 dark:border-gray-700"></div>
+                    <!-- Metric Cards -->
+                <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+                    <div class="bg-white dark:bg-gray-800 p-4 rounded shadow">
+                        <p class="text-sm text-gray-500 dark:text-gray-400">Lucro Líquido</p>
+                        <h3 id="lucro-liquido" class="text-xl font-bold text-gray-800 dark:text-white mt-2 truncate max-w-full break-words">Carregando...</h3>
+                        <p class="text-green-600 dark:text-green-400 mt-1 flex items-center">
+                           <!--  <i class="fas fa-arrow-up mr-1"></i>-->
+                        </p>
+                    </div>
+                    <div class="bg-white dark:bg-gray-800 p-4 rounded shadow">
+                        <p class="text-sm text-gray-500 dark:text-gray-400">Receita</p>
+                        <h3 id="receita" class="text-xl font-bold text-gray-800 dark:text-white mt-2 truncate max-w-full break-words">Carregando...</h3>
+                        <p class="text-green-600 dark:text-green-400 mt-1 flex items-center">
+                          <!--   <i class="fas fa-arrow-up mr-1"></i> -->
+                        </p>
+                        </div>
+
+                        <div class="bg-white dark:bg-gray-800 p-4 rounded shadow">
+                        <p class="text-sm text-gray-500 dark:text-gray-400">Unidades Vendidas</p>
+                        <h3 id="unidades-vendidas" class="text-xl font-bold text-gray-800 dark:text-white mt-2 truncate max-w-full break-words">Carregando...</h3>
+                        <p class="text-red-600 dark:text-red-400 mt-1 flex items-center">
+                           <!--  <i class="fas fa-arrow-down mr-1"></i> -->
+                        </p>
+                        </div>
+
+                      <div class="bg-white dark:bg-gray-800 p-4 rounded shadow">
+                        <p class="text-sm text-gray-500 dark:text-gray-400">Lucro Bruto</p>
+                        <h3 id="lucro-bruto" class="text-xl font-bold text-gray-800 dark:text-white mt-2 truncate max-w-full break-words">Carregando...</h3>
+                        <p class="text-green-600 dark:text-green-400 mt-1 flex items-center">
+                           <!--  <i class="fas fa-arrow-up mr-1"></i> -->
+                        </p>
+                        </div>
+                        </div>
+                <!-- Gráficos e seções -->
+            <!-- Charts -->
+            <div class="grid grid-cols-1 lg:grid-cols-3 gap-4">
+                <!-- Desempenho Financeiro -->
+                <div class="bg-white dark:bg-gray-800 p-4 rounded shadow col-span-2">
+                    <h3 class="text-lg font-bold text-gray-800 dark:text-white mb-2">Desempenho Financeiro</h3>
+                    <div class="h-64">
+                        <canvas id="financialChart"></canvas>
+                    </div>
+                </div>
+                <!-- Distribuição de Custos -->
+                <div class="bg-white dark:bg-gray-800 p-4 rounded shadow">
+                    <h3 class="text-lg font-bold text-gray-800 dark:text-white mb-2">Distribuição de Custos</h3>
+                    <div class="h-64">
+                        <canvas id="expensesChart"></canvas>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+</div>
+</div>
+
+
+    <!-- Modal de Configurações -->
+    <div id="settingsModal" class="fixed inset-0 bg-black bg-opacity-50 z-50 hidden items-center justify-center">
+        <div class="bg-white dark:bg-gray-800 rounded-lg p-6 w-full max-w-md">
+            <div class="flex justify-between items-center mb-4">
+                <h3 class="text-lg font-bold dark:text-white">Configurações</h3>
+                <button id="closeSettings" class="text-gray-500 dark:text-gray-400">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            <div class="space-y-4">
+                <div>
+                    <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Tema</label>
+                    <select class="w-full p-2 border border-gray-300 dark:border-gray-600 rounded bg-white dark:bg-gray-700 dark:text-white">
+                        <option value="light">Claro</option>
+                        <option value="dark">Escuro</option>
+                        <option value="system">Seguir sistema</option>
+                    </select>
+                </div>
+                <div>
+                    <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Idioma</label>
+                    <select class="w-full p-2 border border-gray-300 dark:border-gray-600 rounded bg-white dark:bg-gray-700 dark:text-white">
+                        <option value="pt">Português</option>
+                        <option value="en">Inglês</option>
+                        <option value="es">Espanhol</option>
+                    </select>
+                </div>
+                <div class="pt-4 border-t border-gray-200 dark:border-gray-700">
+                    <button class="w-full bg-blue-500 hover:bg-blue-600 text-white py-2 px-4 rounded">
+                        Salvar Configurações
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+<canvas id="financialChart" width="600" height="400"></canvas>
+<canvas id="expensesChart"></canvas>
+    <script src="menu-script.js"></script>
+</body>
+</html>
+
+    <script>
+document.addEventListener('DOMContentLoaded', function() {
+  // Exibe a data atual formatada
+  document.getElementById('currentDate').textContent = new Date().toLocaleDateString('pt-BR', { 
+    weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' 
+  });
+
+  const empresaId = 2;
+  
+  // Função para obter os últimos 6 meses
+  function getLastSixMonths() {
+    const monthNames = ['Jan', 'Fev', 'Mar', 'Abr', 'Mai', 'Jun', 'Jul', 'Ago', 'Set', 'Out', 'Nov', 'Dez'];
+    const today = new Date();
+    const months = [];
+    
+    for (let i = 5; i >= 0; i--) {
+      const date = new Date(today.getFullYear(), today.getMonth() - i, 1);
+      months.push(monthNames[date.getMonth()]);
+    }
+    
+    return months;
+  }
+
+  const meses = getLastSixMonths(); // Agora dinâmico
+
+  // Função para formatar valores monetários
+  function formatMoney(value) {
+    if (value === 0) return 'R$ 0';
+    
+    return new Intl.NumberFormat('pt-BR', {
+      style: 'currency',
+      currency: 'BRL',
+      minimumFractionDigits: 2,
+      maximumFractionDigits: 2
+    }).format(value);
+  }
+
+  // Dados fictícios para os primeiros 5 meses
+  const receitaMock = [15000, 18000, 22000, 19000, 21000]; 
+  const custoMock = [8000, 9500, 12000, 10500, 11000];
+  const lucroMock = [7000, 8500, 10000, 8500, 10000];
+
+  fetch(`http://localhost:8080/empresa-em-gestao/${empresaId}`)
+    .then(response => {
+      if (!response.ok) throw new Error("Erro ao buscar empresa");
+      return response.json();
+    })
+    .then(data => {
+      // Extrair os valores do backend para o mês atual
+      const receitaReal = data.dreMaisRecente?.receitaLiquida || 0;
+      const custoReal = data.dreMaisRecente?.custoMercadoriaVendida || 0;
+      const lucroReal = data.dreMaisRecente?.lucroBruto || 0;
+
+      // Montar arrays finais (5 meses mock + 1 real)
+      const receitaFinal = [...receitaMock, receitaReal];
+      const custoFinal = [...custoMock, custoReal];
+      const lucroFinal = [...lucroMock, lucroReal];
+
+      // Criar o gráfico
+      const ctx = document.getElementById('financialChart').getContext('2d');
+      new Chart(ctx, {
+        type: 'line',
+        data: {
+          labels: meses,
+          datasets: [
+            {
+              label: 'Receita',
+              data: receitaFinal,
+              borderColor: '#36A2EB',
+              backgroundColor: 'rgba(54, 162, 235, 0.1)',
+              fill: true,
+              tension: 0.4,
+              borderWidth: 2
+            },
+            {
+              label: 'Custos',
+              data: custoFinal,
+              borderColor: '#FF6384',
+              backgroundColor: 'rgba(255, 99, 132, 0.1)',
+              fill: true,
+              tension: 0.4,
+              borderWidth: 2
+            },
+            {
+              label: 'Lucro',
+              data: lucroFinal,
+              borderColor: '#4BC0C0',
+              backgroundColor: 'rgba(75, 192, 192, 0.1)',
+              fill: true,
+              tension: 0.4,
+              borderWidth: 2
+            }
+          ]
+        },
+        options: {
+          responsive: true,
+          maintainAspectRatio: false,
+          plugins: {
+            title: {
+              display: true,
+              text: 'Desempenho Financeiro - Últimos 6 Meses',
+              font: {
+                size: 16
+              }
+            },
+            tooltip: {
+              callbacks: {
+                label: function(context) {
+                  return `${context.dataset.label}: ${formatMoney(context.raw)}`;
+                }
+              }
+            }
+          },
+          scales: {
+            y: {
+              beginAtZero: true,
+              ticks: {
+                callback: function(value) {
+                  return formatMoney(value);
+                }
+              }
+            }
+          }
+        }
+      });
+    })
+    .catch(error => {
+      console.error("Erro ao buscar dados:", error);
+      // Fallback com dados completos mockados
+      renderChartWithMockData();
+    });
+
+  function renderChartWithMockData() {
+    const meses = getLastSixMonths();
+    const receitaComplete = [...receitaMock, 23000];
+    const custoComplete = [...custoMock, 12500];
+    const lucroComplete = [...lucroMock, 10500];
+    
+    const ctx = document.getElementById('financialChart').getContext('2d');
+    new Chart(ctx, {
+      // ... mesma configuração do gráfico principal ...
+    });
+  }
+});
+
+    // Gráfico Distribuição de Custos
+
+  document.addEventListener('DOMContentLoaded', function () {
+    const empresaId = 2;
+
+    fetch(`http://localhost:8080/empresa-em-gestao/${empresaId}`)
+      .then(response => {
+        if (!response.ok) throw new Error("Erro ao buscar empresa");
+        return response.json();
+      })
+      .then(data => {
+        // Pegando os valores do backend
+        const salario = Number(data.dreMaisRecente?.salarioFuncionario) || 0;
+        const despesaAdm = Number(data.dreMaisRecente?.despesaAdministrativa) || 0;
+        const despesaOper = Number(data.dreMaisRecente?.despesaOperacional) || 0;
+        const despesaComercial = Number(data.dreMaisRecente?.despesaComercial) || 0;
+
+        console.log({ salario, despesaAdm, despesaOper, despesaComercial });
+
+        const total = salario + despesaAdm + despesaOper + despesaComercial;
+        if (total === 0) {
+          alert("Dados insuficientes para montar gráfico.");
+          return;
+        }
+
+        const ctx2 = document.getElementById('expensesChart').getContext('2d');
+        new Chart(ctx2, {
+          type: 'doughnut',
+          data: {
+            labels: ['Salários', 'Administrativa', 'Operacional', 'Comercial'],
+            datasets: [{
+              data: [salario, despesaAdm, despesaOper, despesaComercial],
+              backgroundColor: [
+                '#FF6384',
+                '#36A2EB',
+                '#FFCE56',
+                '#4BC0C0'
+              ],
+              borderWidth: 1
+            }]
+          },
+          options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            plugins: {
+              title: {
+                display: true,
+                text: 'Distribuição de Custos'
+              },
+              legend: {
+                position: 'right'
+              },
+              tooltip: {
+                callbacks: {
+                  label: function(context) {
+                    const valor = context.raw;
+                    const percentual = ((valor / total) * 100).toFixed(2);
+                    return `${context.label}: R$ ${(valor / 1e6).toFixed(1)} mi (${percentual}%)`;
+                  }
+                }
+              }
+            }
+          }
+        });
+      })
+      .catch(error => {
+        console.error("Erro ao buscar dados da empresa:", error);
+      });
+  });
+
+
+
+    
+    function setupCurrentDate() {
+        const options = { 
+            weekday: 'long', 
+            year: 'numeric', 
+            month: 'long', 
+            day: 'numeric',
+            timeZone: 'America/Sao_Paulo'
+        };
+        const today = new Date().toLocaleDateString('pt-BR', options);
+        document.getElementById('currentDate').textContent = today;
+    }
+    
+    function setupSideMenu() {
+        const sideMenu = document.getElementById('sideMenu');
+        const toggleSidebar = document.getElementById('toggleSidebar');
+        const mobileMenuToggle = document.getElementById('mobileMenuToggle');
+        
+        // Toggle sidebar em desktop
+        toggleSidebar.addEventListener('click', function() {
+            sideMenu.classList.toggle('w-16');
+            sideMenu.classList.toggle('w-64');
+            
+            // Alterna ícone
+            const icon = this.querySelector('i');
+            if (sideMenu.classList.contains('w-16')) {
+                icon.classList.replace('fa-chevron-left', 'fa-bars');
+            } else {
+                icon.classList.replace('fa-bars', 'fa-chevron-left');
+            }
+            
+            // Salva estado no localStorage
+            localStorage.setItem('sidebarCollapsed', sideMenu.classList.contains('w-16'));
+        });
+        
+        // Toggle sidebar em mobile
+        mobileMenuToggle.addEventListener('click', function() {
+            sideMenu.classList.toggle('-translate-x-full');
+        });
+        
+        // Verifica estado salvo
+        if (localStorage.getItem('sidebarCollapsed') === 'true') {
+            sideMenu.classList.add('w-16');
+            sideMenu.classList.remove('w-64');
+            toggleSidebar.querySelector('i').classList.replace('fa-chevron-left', 'fa-bars');
+        }
+        
+        // Fecha menu ao clicar em um item (mobile)
+        const menuItems = sideMenu.querySelectorAll('nav button');
+        menuItems.forEach(item => {
+            item.addEventListener('click', function() {
+                if (window.innerWidth < 768) {
+                    sideMenu.classList.add('-translate-x-full');
+                }
+            });
+        });
+    }
+    
+    function setupDarkModeToggle() {
+        const darkModeToggle = document.createElement('button');
+        darkModeToggle.id = 'darkModeToggle';
+        darkModeToggle.className = 'p-2 rounded-full ml-4';
+        darkModeToggle.innerHTML = '<i class="fas fa-moon"></i>';
+        darkModeToggle.title = 'Alternar modo escuro';
+        
+        document.querySelector('header > div > div:last-child').prepend(darkModeToggle);
+        
+        darkModeToggle.addEventListener('click', function() {
+            document.body.classList.toggle('dark');
+            const icon = this.querySelector('i');
+            if (document.body.classList.contains('dark')) {
+                icon.classList.replace('fa-moon', 'fa-sun');
+            } else {
+                icon.classList.replace('fa-sun', 'fa-moon');
+            }
+            
+            // Atualiza gráficos quando o modo escuro é alterado
+            Chart.getChart('financialChart').update();
+            Chart.getChart('expensesChart').update();
+        });
+        
+        // Verifica se o modo escuro está ativado
+        if (document.body.classList.contains('dark')) {
+            darkModeToggle.innerHTML = '<i class="fas fa-sun"></i>';
+        }
+    }
+    
+    function setupNotifications() {
+        const notifications = [
+            {
+                id: 1,
+                type: "warning",
+                message: "Estoque do produto A está abaixo do limite mínimo.",
+                time: "Há 2 horas"
+            },
+            {
+                id: 2,
+                type: "info",
+                message: "Nova rodada de decisões disponível.",
+                time: "Há 5 horas"
+            },
+            {
+                id: 3,
+                type: "success",
+                message: "Relatório financeiro do trimestre disponível.",
+                time: "Há 1 dia"
+            }
+        ];
+        
+        // Esta função seria chamada quando o componente de notificações fosse renderizado
+        // No exemplo, estamos apenas simulando os dados
+    }
+
+    document.addEventListener('DOMContentLoaded', function() {
+    // Elementos do DOM
+    const sideMenu = document.getElementById('sideMenu');
+    const toggleSidebar = document.getElementById('toggleSidebar');
+    const mobileMenuToggle = document.getElementById('mobileMenuToggle');
+    const settingsButton = document.getElementById('settingsButton');
+    const logoutButton = document.getElementById('logoutButton');
+    const settingsModal = document.getElementById('settingsModal');
+    const closeSettings = document.getElementById('closeSettings');
+    
+    // Estado do menu
+    let isCollapsed = localStorage.getItem('sidebarCollapsed') === 'true';
+    let isMobile = window.innerWidth < 768;
+    
+    // Inicialização
+    initMenu();
+    setupEventListeners();
+    highlightCurrentMenuItem();
+    
+    // Verifica o modo escuro do sistema
+    if (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {
+        document.body.classList.add('dark');
+    }
+    
+    // Atualiza quando a janela é redimensionada
+    window.addEventListener('resize', function() {
+        const newIsMobile = window.innerWidth < 768;
+        if (newIsMobile !== isMobile) {
+            isMobile = newIsMobile;
+            updateMenuState();
+        }
+    });
+    
+    function initMenu() {
+        // Verifica estado salvo
+        if (isCollapsed) {
+            sideMenu.classList.add('w-16');
+            sideMenu.classList.remove('w-64');
+            const icon = toggleSidebar.querySelector('i');
+            icon.classList.replace('fa-chevron-left', 'fa-bars');
+            
+            // Esconde textos dos itens quando colapsado
+            document.querySelectorAll('.menu-item span').forEach(span => {
+                span.classList.add('hidden');
+            });
+        }
+        
+        // Atualiza estado inicial
+        updateMenuState();
+    }
+    
+    function updateMenuState() {
+        if (isMobile) {
+            sideMenu.classList.add('-translate-x-full');
+        } else {
+            sideMenu.classList.remove('-translate-x-full');
+        }
+    }
+    
+    function setupEventListeners() {
+        // Toggle sidebar em desktop
+        toggleSidebar.addEventListener('click', function() {
+            isCollapsed = !isCollapsed;
+            sideMenu.classList.toggle('w-16');
+            sideMenu.classList.toggle('w-64');
+            
+            // Alterna ícone
+            const icon = this.querySelector('i');
+            if (isCollapsed) {
+                icon.classList.replace('fa-chevron-left', 'fa-bars');
+            } else {
+                icon.classList.replace('fa-bars', 'fa-chevron-left');
+            }
+            
+            // Mostra/esconde textos dos itens
+            document.querySelectorAll('.menu-item span').forEach(span => {
+                span.classList.toggle('hidden');
+            });
+            
+            // Salva estado no localStorage
+            localStorage.setItem('sidebarCollapsed', isCollapsed);
+        });
+        
+        // Toggle sidebar em mobile
+        mobileMenuToggle.addEventListener('click', function() {
+            sideMenu.classList.toggle('-translate-x-full');
+        });
+        
+        // Configurações
+        settingsButton.addEventListener('click', function() {
+            settingsModal.classList.remove('hidden');
+            settingsModal.classList.add('flex');
+        });
+        
+        closeSettings.addEventListener('click', function() {
+            settingsModal.classList.add('hidden');
+            settingsModal.classList.remove('flex');
+        });
+        
+        // Logout
+        logoutButton.addEventListener('click', function() {
+            if (confirm('Tem certeza que deseja sair?')) {
+                window.location.href = '/';
+            }
+        });
+        
+        // Fecha menu ao clicar em um item (mobile)
+        const menuItems = sideMenu.querySelectorAll('.menu-item');
+        menuItems.forEach(item => {
+            item.addEventListener('click', function() {
+                if (isMobile) {
+                    sideMenu.classList.add('-translate-x-full');
+                }
+                
+                // Atualiza item ativo
+                menuItems.forEach(i => i.classList.remove('active'));
+                this.classList.add('active');
+            });
+        });
+    }
+    
+    function highlightCurrentMenuItem() {
+        const path = window.location.pathname;
+        const menuItems = sideMenu.querySelectorAll('.menu-item');
+        
+        menuItems.forEach(item => {
+            const href = item.getAttribute('href');
+            if (href && path.startsWith(href)) {
+                item.classList.add('active');
+            } else {
+                item.classList.remove('active');
+            }
+        });
+    }
+});
+
+
+document.addEventListener("DOMContentLoaded", function () {
+  const empresaId = 2; // ID fixo da empresa
+
+  fetch(`http://localhost:8080/empresa-em-gestao/${empresaId}`)
+    .then(response => {
+      if (!response.ok) throw new Error("Erro ao buscar empresa");
+      return response.json();
+    })
+    .then(data => {
+      // Lucro Líquido
+      const lucroLiquido = data.dreMaisRecente?.lucroLiquido || 0;
+      const lucroFormatado = lucroLiquido.toLocaleString('pt-BR', {
+        style: 'currency',
+        currency: 'BRL'
+      });
+      document.getElementById("lucro-liquido").textContent = lucroFormatado;
+
+      // Receita
+      const receitaLiquida = data.dreMaisRecente?.receitaLiquida || 0;
+      document.getElementById("receita").textContent = receitaLiquida.toLocaleString('pt-BR', {
+        style: 'currency',
+        currency: 'BRL'
+      });
+
+      // Unidades Vendidas
+      const unidadesVendidas = data.dreMaisRecente?.quantidadeDeVendas || 0;
+      document.getElementById("unidades-vendidas").textContent = unidadesVendidas.toLocaleString('pt-BR');
+
+      const lucroBruto = data.dreMaisRecente?.lucroBruto || 0;
+        const el = document.getElementById("lucro-bruto");
+        if (el) el.textContent = lucroBruto.toLocaleString('pt-BR', {
+        style: 'currency',
+        currency: 'BRL'
+        });
+
+    })
+    .catch(error => {
+      console.error("Erro ao buscar dados da empresa:", error);
+      document.getElementById("lucro-liquido").textContent = "Erro ao carregar";
+      document.getElementById("receita").textContent = "Erro";
+      document.getElementById("unidades-vendidas").textContent = "Erro";
+      document.getElementById("lucro-bruto").textContent = "Erro";
+    });
+});
+
+document.addEventListener("DOMContentLoaded", function () {
+  const empresaId = 2;
+
+  // Atualiza a data atual
+  document.getElementById('currentDate').textContent = new Date().toLocaleDateString('pt-BR', {
+    weekday: 'long', year: 'numeric', month: 'long', day: 'numeric'
+  });
+
+  // Busca o nome da empresa
+ fetch(`http://localhost:8080/empresa-em-gestao/${empresaId}`)
+  .then(response => {
+    if (!response.ok) throw new Error("Erro ao buscar empresa");
+    return response.json();
+  })
+  .then(data => {
+    const nome = data.nomeEmpresa || "Empresa";
+    document.getElementById("nomeEmpresa").textContent = nome;
+  })
+  .catch(error => {
+    console.error("Erro ao buscar nome da empresa:", error);
+  });
+});
+
+
+
+
+</script>
+</body>
+</html>

@@ -1,0 +1,620 @@
+
+
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Formulário para cadastro de empresas com geração automática de perfil">
+  <meta name="theme-color" content="#4285f4">
+  <meta name="color-scheme" content="light dark">
+  <title>Business Strategy - Criação de Jogo</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/lucide/1.0.0/lucide.min.css">
+
+  <link rel="stylesheet" href="../css/gameCreation.css">
+</head>
+<body>
+  <div id="app" class="flex">
+    <!-- Sidebar will be injected by JavaScript -->
+    <div id="main-content" class="p-8 overflow-auto">
+      <div class="accessibility-bar">
+        <button onclick="aumentarFonte()" aria-label="Aumentar tamanho da fonte">A+</button>
+        <button onclick="diminuirFonte()" aria-label="Diminuir tamanho da fonte">A-</button>
+        <button onclick="modoAltoContraste()" aria-label="Ativar modo escuro">🌙 Modo Escuro</button>
+        <button onclick="modoNormal()" aria-label="Desativar modo escuro">☀️ Modo Claro</button>
+      </div>
+      
+      <h1 class="main-title">Criação de Jogo de Simulação</h1>
+      
+      <form id="game-creation-form">
+        <div class="grid gap-6">
+          <div class="card">
+            <div class="card-header">
+              <div class="card-title">Configurações Gerais</div>
+              <div class="card-description">
+                Configure os parâmetros gerais do jogo de simulação empresarial
+              </div>
+            </div>
+            <div class="card-content grid gap-4">
+              <div class="grid gap-2">
+                <label for="companyCount">Número de Empresas</label>
+                <input 
+                  type="number" 
+                  id="companyCount" 
+                  min="2" 
+                  max="6" 
+                  value="4"
+                  placeholder="Número de empresas (2-6)"
+                />
+              </div>
+              
+              <div class="grid gap-2">
+                <label for="duration">Duração (meses)</label>
+                <div class="select">
+                  <div class="select-trigger">
+                    <span id="duration-value">3 meses</span>
+                    <i class="lucide lucide-chevron-down"></i>
+                  </div>
+                  <div class="select-content hidden">
+                    <div class="select-item" data-value="3">3 meses</div>
+                    <div class="select-item" data-value="6">6 meses</div>
+                    <div class="select-item" data-value="9">9 meses</div>
+                    <div class="select-item" data-value="12">12 meses</div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          
+          <div class="card">
+            <div class="card-header">
+              <div class="card-title">Empresa Modelo</div>
+              <div class="card-description">
+                Configure o modelo de empresa que será utilizado como base para as simulações
+              </div>
+            </div>
+            <div class="card-content">
+              <div class="tabs">
+                <div class="tabs-list">
+                  <div class="tabs-trigger active" data-tab="company-profile">Perfil da Empresa</div>
+                  <div class="tabs-trigger" data-tab="financial-details">Detalhes Financeiros</div>
+                </div>
+                
+                <div id="company-profile" class="tabs-content space-y-4 mt-4">
+                  <div class="grid gap-2">
+                    <label for="nomeEmpresa">Nome da Empresa:</label>
+                    <input 
+                      type="text" 
+                      id="nomeEmpresa" 
+                      required 
+                      placeholder="Ex: Tech Solutions"
+                    />
+                  </div>
+                  
+                  <div class="grid gap-2">
+                    <label for="setor">Setor de Atuação:</label>
+                    <select id="setor" required class="select-trigger">
+                      <option value="">Selecione um setor</option>
+                      <option value="Tecnologia">Tecnologia + imposto</option>
+                      <option value="Comércio">Comércio + imposto</option>
+                      <option value="Serviços">Serviços + imposto</option>
+                      <option value="Indústria">Indústria + imposto</option>
+                    </select>
+                  </div>
+                  
+                  <div class="grid gap-2">
+                    <label for="tamanho">Tamanho da Empresa:</label>
+                    <select id="tamanho" required class="select-trigger">
+                      <option value="">Selecione o tamanho</option>
+                      <option value="Pequena">Pequena</option>
+                      <option value="Média">Média</option>
+                      <option value="Grande">Grande</option>
+                    </select>
+                  </div>
+                  
+                  <div class="grid gap-2">
+                    <label for="tipoProdutoServico">Tipo de Produto/Serviço:</label>
+                    <input 
+                      type="text" 
+                      id="tipoProdutoServico" 
+                      required 
+                      placeholder="Ex: Software de gestão"
+                    />
+                  </div>
+                </div>
+                
+                <div id="financial-details" class="tabs-content space-y-4 mt-4 hidden">
+                  <div class="grid gap-2">
+                    <label for="valorProduto">Preço Sugerido do Produto (R$):</label>
+                    <input 
+                      type="number" 
+                      id="valorProduto" 
+                      required 
+                      placeholder="Ex: 10.00" 
+                      step="0.01"
+                    />
+                  </div>
+                  
+                  <div class="grid gap-2">
+                    <label for="recursoFinanceiro">Recurso financeiros (R$):</label>
+                    <input 
+                      type="number" 
+                      id="recursoFinanceiro" 
+                      required 
+                      placeholder="Ex: 50000"
+                    />
+                  </div>
+
+                    <div class="grid gap-2">
+                    <label for="quantidadeDeVenda">Quantidade de vendas:</label>
+                    <input 
+                      type="number" 
+                      id="quantidadeDeVenda" 
+                      required 
+                      placeholder="Ex: 10"
+                    />
+                  </div>
+
+                  <div class="grid gap-2">
+                    <label for="despesaAdministrativa">Despesa administrativa (R$):</label>
+                    <input 
+                      type="number" 
+                      id="despesaAdministrativa" 
+                      required 
+                      placeholder="Ex: 10"
+                    />
+                  </div>
+                  
+                  <div class="grid gap-2">
+                    <label for="numeroFuncionarios">Quantidade de Funcionários:</label>
+                    <input 
+                      type="number" 
+                      id="numeroFuncionarios" 
+                      required 
+                      placeholder="Ex: 10"
+                    />
+                  </div>
+                  
+                  <div class="grid gap-2">
+                    <label for="salarioFuncionario">Salário Médio dos Funcionários (R$):</label>
+                    <input 
+                      type="number" 
+                      id="salarioFuncionario" 
+                      required 
+                      placeholder="Ex: 3500" 
+                      step="0.01"
+                    />
+                  </div>
+                </div>
+              </div>
+              
+              <div class="mt-4">
+                <button 
+                  type="button" 
+                  id="generate-history"
+                  class="button button-outline w-full"
+                  onclick="cadastrarEmpresa()"
+                >
+                  Gerar História da Empresa
+                </button>
+              </div>
+              
+              <div id="mensagem" class="hidden"></div>
+              
+              <div id="historia" class="card mt-4 border-l-business-navy hidden">
+                <div class="card-header">
+                  <div class="card-title">História da Empresa</div>
+                </div>
+                <div class="card-content">
+                  <div id="historia-content" class="prose max-w-none"></div>
+                </div>
+              </div>
+              
+              <button 
+                id="botaoEnviar" 
+                type="button" 
+                class="hidden" 
+                onclick="enviarParaBackend()"
+              >
+                Criar Empresa
+              </button>
+            </div>
+          </div>
+          
+         
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <div id="toast-container"></div>
+
+  <script>
+    // JavaScript will be placed here
+    document.addEventListener('DOMContentLoaded', function() {
+      // Initialize sidebar
+      const sidebar = document.createElement('div');
+      sidebar.className = 'sidebar';
+      sidebar.innerHTML = `
+        <div class="sidebar-items">
+          <div class="sidebar-item active" data-view="gameCreation">
+            <i class="lucide lucide-plus"></i>
+            <span>Criação de Jogos</span>
+          </div>
+          <div class="sidebar-item" data-view="monitoringDashboard">
+            <i class="lucide lucide-layout-dashboard"></i>
+            <span>Monitoramento</span>
+          </div>
+          <div class="sidebar-item" data-view="scenarioCreation">
+            <i class="lucide lucide-file-text"></i>
+            <span>Criação de Cenários</span>
+          </div>
+          <div class="sidebar-item" data-view="reports">
+            <i class="lucide lucide-file-text"></i>
+            <span>Relatórios</span>
+          </div>
+        </div>
+        <div class="sidebar-footer">
+          <div class="sidebar-item" id="settings-button">
+            <i class="lucide lucide-settings"></i>
+            <span>Configurações</span>
+          </div>
+          <div class="sidebar-item" id="logout-button">
+            <i class="lucide lucide-log-out"></i>
+            <span>Sair</span>
+          </div>
+        </div>
+      `;
+      document.getElementById('app').insertBefore(sidebar, document.getElementById('main-content'));
+
+      // Tab functionality
+      const tabTriggers = document.querySelectorAll('.tabs-trigger');
+      tabTriggers.forEach(trigger => {
+        trigger.addEventListener('click', () => {
+          // Remove active class from all triggers
+          document.querySelectorAll('.tabs-trigger').forEach(t => t.classList.remove('active'));
+          // Add active class to clicked trigger
+          trigger.classList.add('active');
+          
+          // Hide all tab contents
+          document.querySelectorAll('.tabs-content').forEach(content => content.classList.add('hidden'));
+          // Show selected tab content
+          const tabId = trigger.getAttribute('data-tab');
+          document.getElementById(tabId).classList.remove('hidden');
+        });
+      });
+
+      // Select functionality
+      const selectTriggers = document.querySelectorAll('.select-trigger');
+      selectTriggers.forEach(trigger => {
+        trigger.addEventListener('click', (e) => {
+          e.stopPropagation();
+          const selectContent = trigger.nextElementSibling;
+          if (selectContent) {
+            selectContent.classList.toggle('hidden');
+          }
+        });
+      });
+
+      // Select item functionality
+      document.addEventListener('click', function(e) {
+        // Close all select menus when clicking outside
+        if (!e.target.closest('.select-trigger') && !e.target.closest('.select-item')) {
+          document.querySelectorAll('.select-content').forEach(content => content.classList.add('hidden'));
+        }
+      });
+
+      // Form submission
+      document.getElementById('game-creation-form').addEventListener('submit', function(e) {
+        e.preventDefault();
+        const companyCount = document.getElementById('companyCount').value;
+        showToast('Jogo criado com sucesso!', `Um novo jogo com ${companyCount} empresas foi configurado.`);
+      });
+
+      // Sidebar navigation
+      document.querySelectorAll('.sidebar-item[data-view]').forEach(item => {
+        item.addEventListener('click', function() {
+          document.querySelectorAll('.sidebar-item').forEach(i => i.classList.remove('active'));
+          this.classList.add('active');
+          // In a real app, you would navigate to the selected view
+        });
+      });
+
+      // Settings button
+      document.getElementById('settings-button').addEventListener('click', function() {
+        showToast('Configurações', 'Abrindo painel de configurações...');
+      });
+
+      // Logout button
+      document.getElementById('logout-button').addEventListener('click', function() {
+        showToast('Logout', 'Você foi desconectado com sucesso.');
+        // In a real app, you would redirect to login page
+      });
+
+      // Toast function
+      function showToast(title, description, variant = 'default') {
+        const toastContainer = document.getElementById('toast-container');
+        const toast = document.createElement('div');
+        toast.className = `toast ${variant === 'destructive' ? 'toast-destructive' : ''}`;
+        toast.innerHTML = `
+          <div class="toast-title">${title}</div>
+          <div class="toast-description">${description}</div>
+        `;
+        
+        toastContainer.appendChild(toast);
+        
+        // Remove toast after 5 seconds
+        setTimeout(() => {
+          toast.remove();
+        }, 5000);
+      }
+    });
+
+    // Variável para armazenar a história gerada
+    let historiaGerada = '';
+    
+    async function cadastrarEmpresa() {
+        const nomeEmpresa = document.getElementById("nomeEmpresa").value;
+        const setor = document.getElementById("setor").value;
+        const tamanho = document.getElementById("tamanho").value;
+        const tipoProdutoServico = document.getElementById("tipoProdutoServico").value;
+        const valorProduto = document.getElementById("valorProduto").value;
+        const recursoFinanceiro = document.getElementById("recursoFinanceiro").value;
+        const quantidadeDeVenda = document.getElementById("quantidadeDeVenda").value;
+        const despesaAdministrativa = document.getElementById("despesaAdministrativa").value;
+        const numeroFuncionarios = document.getElementById("numeroFuncionarios").value;
+        const salarioFuncionario = document.getElementById("salarioFuncionario").value;
+        
+        const mensagem = document.getElementById("mensagem");
+        const historia = document.getElementById("historia");
+        const historiaContent = document.getElementById("historia-content");
+        
+        // Validação
+        if (!nomeEmpresa || !setor || !tamanho || !tipoProdutoServico || !valorProduto || !recursoFinanceiro || !quantidadeDeVenda || !despesaAdministrativa || !numeroFuncionarios || !salarioFuncionario) {
+            mensagem.innerText = "Por favor, preencha todos os campos.";
+            mensagem.style.color = "red";
+            mensagem.classList.remove('hidden');
+            return;
+        }
+
+        mensagem.innerText = "Gerando história da empresa...";
+        mensagem.style.color = "blue";
+        mensagem.classList.remove('hidden');
+        historiaContent.innerHTML = '<div class="loading">⏳ Criando conteúdo personalizado...</div>';
+        historia.classList.remove('hidden');
+
+        try {
+            const resposta = await fetch("https://api.groq.com/openai/v1/chat/completions", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                    "Authorization": "Bearer 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"
+                },
+                body: JSON.stringify({
+                    model: "llama3-70b-8192",
+                    messages: [
+                        {
+                            "role": "system",
+                            "content": "Você é um redator profissional de perfis empresariais. Escreva uma história de 200-250 palavras em português, destacando os aspectos financeiros, operacionais e humanos da empresa."
+                        },
+                        {
+                            "role": "user",
+                            "content": `Crie um perfil completo para a empresa ${nomeEmpresa} do setor de ${setor}. 
+                            Dados importantes:
+                            - Tamanho: ${tamanho}
+                            - Tipo de produto/serviço: ${tipoProdutoServico}
+                            - Preço sugerido do produto: R$ ${Number(valorProduto).toLocaleString('pt-BR', {minimumFractionDigits: 2})}
+                            - Recurso Finaceiro: R$ ${Number(recursoFinanceiro).toLocaleString('pt-BR')}
+                            - Volume de Vendas: ${quantidadeDeVenda} unidades/mês
+                            - Despesas Administrativas: R$ ${Number(despesaAdministrativa).toLocaleString('pt-BR', {minimumFractionDigits: 2})}
+                            - Equipe: ${numeroFuncionarios} funcionários
+                            - Salário médio: R$ ${Number(salarioFuncionario).toLocaleString('pt-BR', {minimumFractionDigits: 2})}
+                            
+                            Estrutura do texto:
+                            1. Visão geral da empresa (nome, setor, tamanho e produto principal)
+                            2. Estrutura financeira (capital, preço do produto, volume de vendas, despesas administrativas, política de salários)
+                            3. Recursos humanos (tamanho da equipe, cultura organizacional)
+                            4. Posicionamento no mercado (público-alvo, concorrência)
+                            5. Perspectivas de crescimento`
+                        }
+                    ],
+                    temperature: 0.7,
+                    max_tokens: 500
+                })
+            });
+
+            const dados = await resposta.json();
+            console.log("Resposta da API:", dados);
+
+            if (!resposta.ok) {
+                    throw new Error(dados.error?.message || `Erro ${resposta.status} na API`);
+                }
+
+                if (dados.choices?.[0]?.message?.content) {
+                    historiaGerada = dados.choices[0].message.content;
+                    historia.innerHTML = formatarTexto(historiaGerada);
+                    mensagem.innerText = "Perfil da empresa gerado com sucesso!";
+                    mensagem.style.color = "green";
+                    
+                    // Mostrar o botão de envio
+                    document.getElementById("botaoEnviar").style.display = "block";
+                    
+                    // Rolagem suave para a história gerada
+                    historia.scrollIntoView({ behavior: 'smooth' });
+                } else {
+                    throw new Error("Resposta inesperada da API");
+                }
+
+            } catch (error) {
+                console.error("Erro:", error);
+                
+                // Fallback manual
+                historiaGerada = `
+                    <h4>${nomeEmpresa}</h4>
+                    <p><strong>Setor:</strong> ${setor}</p>
+                    <p><strong>Tamanho:</strong> ${tamanho}</p>
+                    <p><strong>Produto/Serviço:</strong> ${tipoProdutoServico}</p>
+                    <p><strong>Preço do Produto:</strong> R$ ${Number(valorProduto).toLocaleString('pt-BR', {minimumFractionDigits: 2})}</p>
+                    <p><strong>Recurso Finaceiro:</strong> R$ ${Number(recursoFinanceiro).toLocaleString('pt-BR')}</p>
+                    <p><strong>Equipe:</strong> ${numeroFuncionarios} colaboradores</p>
+                    <p><strong>Salário Médio:</strong> R$ ${Number(salarioFuncionario).toLocaleString('pt-BR', {minimumFractionDigits: 2})}</p>
+                `;
+                historia.innerHTML = historiaGerada + '<p><em>Não foi possível gerar o conteúdo completo. Recarregue a página ou tente novamente.</em></p>';
+                mensagem.innerText = `Erro: ${error.message.split('.')[0]}`;
+                mensagem.style.color = "red";
+                
+                // Mostrar o botão de envio mesmo em caso de erro
+                document.getElementById("botaoEnviar").style.display = "block";
+                
+                // Rolagem suave para a mensagem de erro
+                historia.scrollIntoView({ behavior: 'smooth' });
+            }
+        }
+
+        function formatarTexto(texto) {
+            return texto.replace(/\n\n/g, '<br><br>')
+            .replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>')
+            .replace(/\*(.*?)\*/g, '<em>$1</em>');
+        }
+
+        // Função para enviar dados para o backend - adicionada sem alterar o restante
+    async function enviarParaBackend() {
+        const mensagem = document.getElementById("mensagem");
+        mensagem.innerText = "Enviando dados para o backend...";
+        mensagem.style.color = "blue";
+        
+        // Pegando os dados dos inputs do formulário
+        const dados = {
+            nomeEmpresa: document.getElementById("nomeEmpresa").value,
+            setor: document.getElementById("setor").value,
+            tamanho: document.getElementById("tamanho").value,
+            tipoProdutoServico: document.getElementById("tipoProdutoServico").value,
+            valorProduto: parseFloat(document.getElementById("valorProduto").value),
+            recursoFinanceiro: parseFloat(document.getElementById("recursoFinanceiro").value),
+            quantidadeDeVenda: parseFloat(document.getElementById("quantidadeDeVenda").value),
+            despesaAdministrativa: parseFloat(document.getElementById("despesaAdministrativa").value),
+            numeroFuncionarios: parseInt(document.getElementById("numeroFuncionarios").value),
+            salarioFuncionario: parseFloat(document.getElementById("salarioFuncionario").value),
+            historia: historiaGerada // Adicionando a história
+        };
+
+        try {
+            const resposta = await fetch("http://localhost:8080/empresa-modelo", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify(dados) // <-- isso aqui precisa ser um objeto real
+        });
+
+            if (!resposta.ok) {
+                const erro = await resposta.json();
+                throw new Error(erro.message || "Erro ao cadastrar empresa");
+            }
+
+            // Sucesso
+            mensagem.innerText = "Dados enviados com sucesso!";
+            mensagem.style.color = "green";
+        } catch (erro) {
+            // Erro
+            console.error("Erro ao enviar para o backend:", erro);
+            mensagem.innerText = `Erro: ${erro.message}`;
+            mensagem.style.color = "red";
+        }
+    }
+
+
+
+
+
+
+// Acessibilidade - Modo Claro Padrão
+// Acessibilidade - Controle de Fonte
+// Acessibilidade - Controle de Fonte
+let tamanhoFonte = 100; // Valor padrão
+
+function alterarFonte(tamanho) {
+    tamanhoFonte = tamanho;
+    document.documentElement.style.fontSize = tamanho + "%";
+    
+    // Só salva se for diferente do padrão
+    if (tamanho !== 100) {
+        localStorage.setItem('tamanhoFonte', tamanho);
+    } else {
+        localStorage.removeItem('tamanhoFonte');
+    }
+}
+
+function aumentarFonte() {
+    if (tamanhoFonte < 150) {
+        alterarFonte(tamanhoFonte + 10);
+    }
+}
+
+function diminuirFonte() {
+    if (tamanhoFonte > 70) {
+        alterarFonte(tamanhoFonte - 10);
+    }
+}
+
+function resetarFonte() {
+    alterarFonte(100); // Volta ao padrão
+}
+
+// Carregar preferências ao iniciar
+document.addEventListener('DOMContentLoaded', function() {
+    // Começa sempre com o tamanho padrão
+    resetarFonte();
+    
+    // Depois de 50ms, verifica se há preferência salva
+    setTimeout(() => {
+        const tamanhoSalvo = localStorage.getItem('tamanhoFonte');
+        if (tamanhoSalvo) {
+            tamanhoFonte = parseInt(tamanhoSalvo);
+            alterarFonte(tamanhoFonte);
+        }
+    }, 50);
+    
+    // Restante do seu código de carregamento...
+});
+
+// Funções do Modo Escuro
+function modoAltoContraste() {
+    document.body.classList.add('dark-mode');
+    localStorage.setItem('modoEscuro', 'ativado');
+    
+    // Feedback visual
+    const mensagem = document.getElementById("mensagem");
+    mensagem.innerText = "Modo escuro ativado";
+    mensagem.style.color = "#69f0ae";
+    setTimeout(() => mensagem.innerText = "", 2000);
+}
+
+function modoNormal() {
+    document.body.classList.remove('dark-mode');
+    localStorage.removeItem('modoEscuro');
+    
+    // Feedback visual
+    const mensagem = document.getElementById("mensagem");
+    mensagem.innerText = "Modo claro ativado";
+    mensagem.style.color = "#1971c2";
+    setTimeout(() => mensagem.innerText = "", 2000);
+}
+
+// Carregar preferências
+document.addEventListener('DOMContentLoaded', function() {
+    // Garante que começa no modo claro
+    document.body.classList.remove('dark-mode');
+    
+    // Só aplica o modo escuro se estiver ativado E após um pequeno delay
+    setTimeout(() => {
+        if (localStorage.getItem('modoEscuro') === 'ativado') {
+            modoAltoContraste();
+        }
+    }, 50);
+});
+
+    </script>
+</body>
+</html>

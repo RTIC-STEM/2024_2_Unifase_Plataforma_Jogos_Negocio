@@ -1,0 +1,75 @@
+
+
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Jogo de Negócios - Dashboard</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link rel="stylesheet" href="../css/dashboard.css">
+</head>
+<body class="bg-gray-50 dark:bg-gray-900 font-sans transition-colors duration-300 h-screen overflow-hidden">
+
+    <div class="flex h-screen">
+        <!-- Menu Lateral -->
+        <div id="sideMenu" class="flex flex-col h-screen w-64 bg-white dark:bg-gray-800 border-r border-gray-200 dark:border-gray-700 transition-all duration-300 ease-in-out transform -translate-x-full md:translate-x-0 fixed md:relative z-40">
+            <div class="p-4 flex items-center justify-between">
+                <div class="text-xl font-bold text-gray-800 dark:text-white">Jogo de Negócios</div>
+                <button id="toggleSidebar" class="text-gray-500 dark:text-gray-400">
+                    <i class="fas fa-chevron-left"></i>
+                </button>
+            </div>
+            <div class="border-t border-gray-200 dark:border-gray-700 my-2"></div>
+            <nav class="flex-1 overflow-y-auto p-2 space-y-1">
+                <a href="./dashboard.html" class="menu-item active">
+                    <i class="fas fa-home mr-3"></i>
+                    <span>Dashboard</span>
+                </a>
+                 <a href="./gameCreation-aluno.html" class="menu-item">
+                    <i class="fas fa-box-open mr-3"></i>
+                    <span>Dados da Empresa</span>
+                </a>
+                <a href="./financial.html" class="menu-item">
+                    <i class="fas fa-chart-bar mr-3"></i>
+                    <span>Financeiro</span>
+                </a>
+                <a href="./marketing.html" class="menu-item">
+                    <i class="fas fa-box-open mr-3"></i>
+                    <span>Marketing</span>
+                </a>
+                <a href="./humanResources.html" class="menu-item">
+                    <i class="fas fa-users mr-3"></i>
+                    <span>Recursos Humanos</span>
+                </a>
+                <a href="./production.html" class="menu-item">
+                    <i class="fas fa-industry mr-3"></i>
+                    <span>Produção</span>
+                </a>
+                <a href="./strategicDecisions.html" class="menu-item">
+                    <i class="fas fa-brain mr-3"></i>
+                    <span>Tomar Decisões</span>
+                </a>
+                <a href="./roundResults.html" class="menu-item">
+                    <i class="fas fa-award mr-3"></i>
+                    <span>Resultados da Rodada</span>
+                </a>
+            </nav>
+            <div class="border-t border-gray-200 dark:border-gray-700 p-2 space-y-1">
+                <a href="./notifications.html" class="menu-item">
+                    <i class="fas fa-bell mr-3"></i>
+                    <span>Notificações</span>
+                </a>
+                <button id="settingsButton" class="menu-item w-full text-left">
+                    <i class="fas fa-cog mr-3"></i>
+                    <span>Configurações</span>
+                </button>
+                <button id="logoutButton" class="menu-item w-full text-left">
+                    <i class="fas fa-sign-out-alt mr-3"></i>
+                    <span>Sair</span>
+                </button>
+            </div>
+        </div>
