@@ -211,542 +211,351 @@
 </body>
 </html>
 
-    <script>
-document.addEventListener('DOMContentLoaded', function() {
-  // Exibe a data atual formatada
-  document.getElementById('currentDate').textContent = new Date().toLocaleDateString('pt-BR', { 
-    weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' 
-  });
-
-  const empresaId = 2;
-  
-  // Função para obter os últimos 6 meses
-  function getLastSixMonths() {
-    const monthNames = ['Jan', 'Fev', 'Mar', 'Abr', 'Mai', 'Jun', 'Jul', 'Ago', 'Set', 'Out', 'Nov', 'Dez'];
-    const today = new Date();
-    const months = [];
-    
-    for (let i = 5; i >= 0; i--) {
-      const date = new Date(today.getFullYear(), today.getMonth() - i, 1);
-      months.push(monthNames[date.getMonth()]);
-    }
-    
-    return months;
-  }
-
-  const meses = getLastSixMonths(); // Agora dinâmico
-
-  // Função para formatar valores monetários
-  function formatMoney(value) {
-    if (value === 0) return 'R$ 0';
-    
-    return new Intl.NumberFormat('pt-BR', {
-      style: 'currency',
-      currency: 'BRL',
-      minimumFractionDigits: 2,
-      maximumFractionDigits: 2
-    }).format(value);
-  }
-
-  // Dados fictícios para os primeiros 5 meses
-  const receitaMock = [15000, 18000, 22000, 19000, 21000]; 
-  const custoMock = [8000, 9500, 12000, 10500, 11000];
-  const lucroMock = [7000, 8500, 10000, 8500, 10000];
-
-  fetch(`http://localhost:8080/empresa-em-gestao/${empresaId}`)
-    .then(response => {
-      if (!response.ok) throw new Error("Erro ao buscar empresa");
-      return response.json();
-    })
-    .then(data => {
-      // Extrair os valores do backend para o mês atual
-      const receitaReal = data.dreMaisRecente?.receitaLiquida || 0;
-      const custoReal = data.dreMaisRecente?.custoMercadoriaVendida || 0;
-      const lucroReal = data.dreMaisRecente?.lucroBruto || 0;
-
-      // Montar arrays finais (5 meses mock + 1 real)
-      const receitaFinal = [...receitaMock, receitaReal];
-      const custoFinal = [...custoMock, custoReal];
-      const lucroFinal = [...lucroMock, lucroReal];
-
-      // Criar o gráfico
-      const ctx = document.getElementById('financialChart').getContext('2d');
-      new Chart(ctx, {
-        type: 'line',
-        data: {
-          labels: meses,
-          datasets: [
-            {
-              label: 'Receita',
-              data: receitaFinal,
-              borderColor: '#36A2EB',
-              backgroundColor: 'rgba(54, 162, 235, 0.1)',
-              fill: true,
-              tension: 0.4,
-              borderWidth: 2
-            },
-            {
-              label: 'Custos',
-              data: custoFinal,
-              borderColor: '#FF6384',
-              backgroundColor: 'rgba(255, 99, 132, 0.1)',
-              fill: true,
-              tension: 0.4,
-              borderWidth: 2
-            },
-            {
-              label: 'Lucro',
-              data: lucroFinal,
-              borderColor: '#4BC0C0',
-              backgroundColor: 'rgba(75, 192, 192, 0.1)',
-              fill: true,
-              tension: 0.4,
-              borderWidth: 2
-            }
-          ]
-        },
-        options: {
-          responsive: true,
-          maintainAspectRatio: false,
-          plugins: {
-            title: {
-              display: true,
-              text: 'Desempenho Financeiro - Últimos 6 Meses',
-              font: {
-                size: 16
-              }
-            },
-            tooltip: {
-              callbacks: {
-                label: function(context) {
-                  return `${context.dataset.label}: ${formatMoney(context.raw)}`;
-                }
-              }
-            }
-          },
-          scales: {
-            y: {
-              beginAtZero: true,
-              ticks: {
-                callback: function(value) {
-                  return formatMoney(value);
-                }
-              }
-            }
-          }
+<script>
+// Função para recarregar o Swagger UI
+// Modifique a função recarregarSwagger para verificar se está na página do Swagger
+function recarregarSwagger() {
+    // Verifica se estamos na página do Swagger (swagger-ui/index.html)
+    if (window.location.pathname.includes('swagger-ui')) {
+        const swaggerFrame = document.querySelector('iframe');
+        if (swaggerFrame) {
+            swaggerFrame.src = swaggerFrame.src;
+            console.log('Swagger UI recarregado');
+        } else {
+            console.log('Iframe do Swagger não encontrado - Pode não ser a página do Swagger');
         }
-      });
-    })
-    .catch(error => {
-      console.error("Erro ao buscar dados:", error);
-      // Fallback com dados completos mockados
-      renderChartWithMockData();
-    });
+    }
+}
 
-  function renderChartWithMockData() {
+// No seu código principal, adicione uma verificação antes de chamar recarregarSwagger
+async function carregarDados() {
+    try {
+        atualizarData();
+        
+        const empresaId = await buscarMaiorIdEmpresa();
+        console.log(`Buscando dados da empresa ID: ${empresaId}`);
+
+        const response = await fetch(`http://localhost:8080/empresa-em-gestao/${empresaId}`);
+        if (!response.ok) throw new Error(`Erro HTTP: ${response.status}`);
+        
+        const data = await response.json();
+        
+        atualizarDadosDaEmpresa(data);
+        processarDadosParaGraficos(data);
+        
+        // Só tenta recarregar o Swagger se estivermos na página dele
+        if (window.location.pathname.includes('swagger-ui')) {
+            recarregarSwagger();
+        }
+
+    } catch (error) {
+        console.error("Erro ao carregar dados:", error);
+        mostrarDadosMockados();
+        mostrarErrosNaPagina();
+    }
+}
+
+document.addEventListener('DOMContentLoaded', async function() {
+    // Versão otimizada da função para buscar o maior ID
+    async function buscarMaiorIdEmpresa() {
+        try {
+            let tentativas = 0;
+            const maxTentativas = 5;
+            const delay = 1000;
+
+            while (tentativas < maxTentativas) {
+                try {
+                    // 1. Tenta buscar a lista completa primeiro
+                    const responseLista = await fetch('http://localhost:8080/empresa-em-gestao');
+                    if (responseLista.ok) {
+                        const empresas = await responseLista.json();
+                        if (empresas.length > 0) {
+                            const empresaMaiorId = empresas.reduce((max, empresa) => 
+                                empresa.id > max.id ? empresa : max
+                            );
+                            
+                            // Verificação extra
+                            const verifyResponse = await fetch(`http://localhost:8080/empresa-em-gestao/${empresaMaiorId.id}`);
+                            if (verifyResponse.ok) {
+                                console.log(`ID confirmado: ${empresaMaiorId.id}`);
+                                return empresaMaiorId.id;
+                            }
+                        }
+                    }
+
+                    // 2. Fallback: busca iterativa
+                    for (let id = 100; id >= 1; id--) {
+                        try {
+                            const testResponse = await fetch(`http://localhost:8080/empresa-em-gestao/${id}`);
+                            if (testResponse.ok) {
+                                console.log(`ID válido encontrado: ${id}`);
+                                return id;
+                            }
+                        } catch (error) {
+                            console.warn(`Teste com ID ${id} falhou:`, error);
+                        }
+                    }
+
+                } catch (error) {
+                    console.error(`Tentativa ${tentativas + 1} falhou:`, error);
+                }
+
+                tentativas++;
+                if (tentativas < maxTentativas) {
+                    await new Promise(resolve => setTimeout(resolve, delay));
+                }
+            }
+
+            throw new Error(`Nenhuma empresa válida encontrada após ${maxTentativas} tentativas`);
+            
+        } catch (error) {
+            console.error("Erro ao buscar maior ID:", error);
+            throw error;
+        }
+    }
+
+    // Exibe a data atual formatada
+    function atualizarData() {
+        document.getElementById('currentDate').textContent = new Date().toLocaleDateString('pt-BR', { 
+            weekday: 'long', 
+            year: 'numeric', 
+            month: 'long', 
+            day: 'numeric' 
+        });
+    }
+
+    // Função para obter os últimos 6 meses
+    function getLastSixMonths() {
+        const monthNames = ['Jan', 'Fev', 'Mar', 'Abr', 'Mai', 'Jun', 'Jul', 'Ago', 'Set', 'Out', 'Nov', 'Dez'];
+        const today = new Date();
+        const months = [];
+        
+        for (let i = 5; i >= 0; i--) {
+            const date = new Date(today.getFullYear(), today.getMonth() - i, 1);
+            months.push(monthNames[date.getMonth()]);
+        }
+        
+        return months;
+    }
+
+    // Função para formatar valores monetários
+    function formatMoney(value) {
+        return new Intl.NumberFormat('pt-BR', {
+            style: 'currency',
+            currency: 'BRL',
+            minimumFractionDigits: 2,
+            maximumFractionDigits: 2
+        }).format(value || 0);
+    }
+
+    // Dados mockados
     const meses = getLastSixMonths();
-    const receitaComplete = [...receitaMock, 23000];
-    const custoComplete = [...custoMock, 12500];
-    const lucroComplete = [...lucroMock, 10500];
-    
-    const ctx = document.getElementById('financialChart').getContext('2d');
-    new Chart(ctx, {
-      // ... mesma configuração do gráfico principal ...
-    });
-  }
-});
+    const receitaMock = [15000, 18000, 22000, 19000, 21000]; 
+    const custoMock = [8000, 9500, 12000, 10500, 11000];
+    const lucroMock = [7000, 8500, 10000, 8500, 10000];
 
-    // Gráfico Distribuição de Custos
+    // Função principal para carregar dados
+    async function carregarDados() {
+        try {
+            atualizarData();
+            
+            const empresaId = await buscarMaiorIdEmpresa();
+            console.log(`Buscando dados da empresa ID: ${empresaId}`);
 
-  document.addEventListener('DOMContentLoaded', function () {
-    const empresaId = 2;
+            const response = await fetch(`http://localhost:8080/empresa-em-gestao/${empresaId}`);
+            if (!response.ok) throw new Error(`Erro HTTP: ${response.status}`);
+            
+            const data = await response.json();
+            
+            // Atualiza os dados na página
+            atualizarDadosDaEmpresa(data);
+            
+            // Processa os dados para os gráficos
+            processarDadosParaGraficos(data);
+            
+            // Recarrega o Swagger após carregar os dados
+            recarregarSwagger();
 
-    fetch(`http://localhost:8080/empresa-em-gestao/${empresaId}`)
-      .then(response => {
-        if (!response.ok) throw new Error("Erro ao buscar empresa");
-        return response.json();
-      })
-      .then(data => {
-        // Pegando os valores do backend
+        } catch (error) {
+            console.error("Erro ao carregar dados:", error);
+            mostrarDadosMockados();
+            mostrarErrosNaPagina();
+        }
+    }
+
+    function atualizarDadosDaEmpresa(data) {
+        const elementos = [
+            { id: "lucro-liquido", valor: data.dreMaisRecente?.lucroLiquido, formatar: formatMoney },
+            { id: "receita", valor: data.dreMaisRecente?.receitaLiquida, formatar: formatMoney },
+            { id: "unidades-vendidas", valor: data.dreMaisRecente?.quantidadeDeVendas, formatar: (v) => v?.toLocaleString('pt-BR') || '0' },
+            { id: "lucro-bruto", valor: data.dreMaisRecente?.lucroBruto, formatar: formatMoney },
+            { id: "nome-empresa", valor: data.nomeEmpresa, formatar: (v) => v || "Empresa" },
+            { id: "nomeEmpresa", valor: data.nomeEmpresa, formatar: (v) => v || "Empresa" }
+        ];
+
+        elementos.forEach(item => {
+            const elemento = document.getElementById(item.id);
+            if (elemento) {
+                elemento.textContent = item.formatar(item.valor);
+                if (item.id === "nomeEmpresa" || item.id === "nome-empresa") {
+                    elemento.dataset.empresaId = data.id || "0";
+                }
+            }
+        });
+    }
+
+    function processarDadosParaGraficos(data) {
+        // Dados reais + mockados
+        const receitaFinal = [...receitaMock, data.dreMaisRecente?.receitaLiquida || 0];
+        const custoFinal = [...custoMock, data.dreMaisRecente?.custoMercadoriaVendida || 0];
+        const lucroFinal = [...lucroMock, data.dreMaisRecente?.lucroBruto || 0];
+
+        criarGraficoFinanceiro(receitaFinal, custoFinal, lucroFinal);
+
+        // Dados de distribuição de custos
         const salario = Number(data.dreMaisRecente?.salarioFuncionario) || 0;
         const despesaAdm = Number(data.dreMaisRecente?.despesaAdministrativa) || 0;
         const despesaOper = Number(data.dreMaisRecente?.despesaOperacional) || 0;
         const despesaComercial = Number(data.dreMaisRecente?.despesaComercial) || 0;
 
-        console.log({ salario, despesaAdm, despesaOper, despesaComercial });
+        criarGraficoDistribuicaoCustos(salario, despesaAdm, despesaOper, despesaComercial);
+    }
 
+    function criarGraficoFinanceiro(receita, custo, lucro) {
+        const ctx = document.getElementById('financialChart')?.getContext('2d');
+        if (!ctx) return;
+
+        new Chart(ctx, {
+            type: 'line',
+            data: {
+                labels: meses,
+                datasets: [
+                    {
+                        label: 'Receita',
+                        data: receita,
+                        borderColor: '#36A2EB',
+                        backgroundColor: 'rgba(54, 162, 235, 0.1)',
+                        fill: true,
+                        tension: 0.4,
+                        borderWidth: 2
+                    },
+                    {
+                        label: 'Custos',
+                        data: custo,
+                        borderColor: '#FF6384',
+                        backgroundColor: 'rgba(255, 99, 132, 0.1)',
+                        fill: true,
+                        tension: 0.4,
+                        borderWidth: 2
+                    },
+                    {
+                        label: 'Lucro',
+                        data: lucro,
+                        borderColor: '#4BC0C0',
+                        backgroundColor: 'rgba(75, 192, 192, 0.1)',
+                        fill: true,
+                        tension: 0.4,
+                        borderWidth: 2
+                    }
+                ]
+            },
+            options: getChartOptions('Desempenho Financeiro - Últimos 6 Meses')
+        });
+    }
+
+    function criarGraficoDistribuicaoCustos(salario, despesaAdm, despesaOper, despesaComercial) {
         const total = salario + despesaAdm + despesaOper + despesaComercial;
         if (total === 0) {
-          alert("Dados insuficientes para montar gráfico.");
-          return;
+            console.warn("Dados insuficientes para gráfico de distribuição de custos");
+            return;
         }
 
-        const ctx2 = document.getElementById('expensesChart').getContext('2d');
+        const ctx2 = document.getElementById('expensesChart')?.getContext('2d');
+        if (!ctx2) return;
+
         new Chart(ctx2, {
-          type: 'doughnut',
-          data: {
-            labels: ['Salários', 'Administrativa', 'Operacional', 'Comercial'],
-            datasets: [{
-              data: [salario, despesaAdm, despesaOper, despesaComercial],
-              backgroundColor: [
-                '#FF6384',
-                '#36A2EB',
-                '#FFCE56',
-                '#4BC0C0'
-              ],
-              borderWidth: 1
-            }]
-          },
-          options: {
+            type: 'doughnut',
+            data: {
+                labels: ['Salários', 'Administrativa', 'Operacional', 'Comercial'],
+                datasets: [{
+                    data: [salario, despesaAdm, despesaOper, despesaComercial],
+                    backgroundColor: ['#FF6384', '#36A2EB', '#FFCE56', '#4BC0C0'],
+                    borderWidth: 1
+                }]
+            },
+            options: getChartOptions('Distribuição de Custos', true)
+        });
+    }
+
+    function getChartOptions(title, isDoughnut = false) {
+        const options = {
             responsive: true,
             maintainAspectRatio: false,
             plugins: {
-              title: {
-                display: true,
-                text: 'Distribuição de Custos'
-              },
-              legend: {
-                position: 'right'
-              },
-              tooltip: {
-                callbacks: {
-                  label: function(context) {
-                    const valor = context.raw;
-                    const percentual = ((valor / total) * 100).toFixed(2);
-                    return `${context.label}: R$ ${(valor / 1e6).toFixed(1)} mi (${percentual}%)`;
-                  }
+                title: {
+                    display: true,
+                    text: title,
+                    font: { size: 16 }
+                },
+                tooltip: {
+                    callbacks: {
+                        label: function(context) {
+                            let label = `${context.dataset.label}: ${formatMoney(context.raw)}`;
+                            if (isDoughnut) {
+                                const total = context.dataset.data.reduce((a, b) => a + b, 0);
+                                const percent = ((context.raw / total) * 100).toFixed(2);
+                                label += ` (${percent}%)`;
+                            }
+                            return label;
+                        }
+                    }
                 }
-              }
             }
-          }
-        });
-      })
-      .catch(error => {
-        console.error("Erro ao buscar dados da empresa:", error);
-      });
-  });
-
-
-
-    
-    function setupCurrentDate() {
-        const options = { 
-            weekday: 'long', 
-            year: 'numeric', 
-            month: 'long', 
-            day: 'numeric',
-            timeZone: 'America/Sao_Paulo'
         };
-        const today = new Date().toLocaleDateString('pt-BR', options);
-        document.getElementById('currentDate').textContent = today;
-    }
-    
-    function setupSideMenu() {
-        const sideMenu = document.getElementById('sideMenu');
-        const toggleSidebar = document.getElementById('toggleSidebar');
-        const mobileMenuToggle = document.getElementById('mobileMenuToggle');
-        
-        // Toggle sidebar em desktop
-        toggleSidebar.addEventListener('click', function() {
-            sideMenu.classList.toggle('w-16');
-            sideMenu.classList.toggle('w-64');
-            
-            // Alterna ícone
-            const icon = this.querySelector('i');
-            if (sideMenu.classList.contains('w-16')) {
-                icon.classList.replace('fa-chevron-left', 'fa-bars');
-            } else {
-                icon.classList.replace('fa-bars', 'fa-chevron-left');
-            }
-            
-            // Salva estado no localStorage
-            localStorage.setItem('sidebarCollapsed', sideMenu.classList.contains('w-16'));
-        });
-        
-        // Toggle sidebar em mobile
-        mobileMenuToggle.addEventListener('click', function() {
-            sideMenu.classList.toggle('-translate-x-full');
-        });
-        
-        // Verifica estado salvo
-        if (localStorage.getItem('sidebarCollapsed') === 'true') {
-            sideMenu.classList.add('w-16');
-            sideMenu.classList.remove('w-64');
-            toggleSidebar.querySelector('i').classList.replace('fa-chevron-left', 'fa-bars');
-        }
-        
-        // Fecha menu ao clicar em um item (mobile)
-        const menuItems = sideMenu.querySelectorAll('nav button');
-        menuItems.forEach(item => {
-            item.addEventListener('click', function() {
-                if (window.innerWidth < 768) {
-                    sideMenu.classList.add('-translate-x-full');
+
+        if (!isDoughnut) {
+            options.scales = {
+                y: {
+                    beginAtZero: true,
+                    ticks: {
+                        callback: function(value) {
+                            return formatMoney(value);
+                        }
+                    }
                 }
-            });
-        });
-    }
-    
-    function setupDarkModeToggle() {
-        const darkModeToggle = document.createElement('button');
-        darkModeToggle.id = 'darkModeToggle';
-        darkModeToggle.className = 'p-2 rounded-full ml-4';
-        darkModeToggle.innerHTML = '<i class="fas fa-moon"></i>';
-        darkModeToggle.title = 'Alternar modo escuro';
-        
-        document.querySelector('header > div > div:last-child').prepend(darkModeToggle);
-        
-        darkModeToggle.addEventListener('click', function() {
-            document.body.classList.toggle('dark');
-            const icon = this.querySelector('i');
-            if (document.body.classList.contains('dark')) {
-                icon.classList.replace('fa-moon', 'fa-sun');
-            } else {
-                icon.classList.replace('fa-sun', 'fa-moon');
-            }
-            
-            // Atualiza gráficos quando o modo escuro é alterado
-            Chart.getChart('financialChart').update();
-            Chart.getChart('expensesChart').update();
-        });
-        
-        // Verifica se o modo escuro está ativado
-        if (document.body.classList.contains('dark')) {
-            darkModeToggle.innerHTML = '<i class="fas fa-sun"></i>';
+            };
         }
+
+        return options;
     }
-    
-    function setupNotifications() {
-        const notifications = [
-            {
-                id: 1,
-                type: "warning",
-                message: "Estoque do produto A está abaixo do limite mínimo.",
-                time: "Há 2 horas"
-            },
-            {
-                id: 2,
-                type: "info",
-                message: "Nova rodada de decisões disponível.",
-                time: "Há 5 horas"
-            },
-            {
-                id: 3,
-                type: "success",
-                message: "Relatório financeiro do trimestre disponível.",
-                time: "Há 1 dia"
-            }
+
+    function mostrarDadosMockados() {
+        const receitaComplete = [...receitaMock, 23000];
+        const custoComplete = [...custoMock, 12500];
+        const lucroComplete = [...lucroMock, 10500];
+        
+        criarGraficoFinanceiro(receitaComplete, custoComplete, lucroComplete);
+        criarGraficoDistribuicaoCustos(5000, 3000, 2000, 2500);
+    }
+
+    function mostrarErrosNaPagina() {
+        const elementosErro = [
+            "lucro-liquido", "receita", "unidades-vendidas", 
+            "lucro-bruto", "nome-empresa", "nomeEmpresa"
         ];
         
-        // Esta função seria chamada quando o componente de notificações fosse renderizado
-        // No exemplo, estamos apenas simulando os dados
-    }
-
-    document.addEventListener('DOMContentLoaded', function() {
-    // Elementos do DOM
-    const sideMenu = document.getElementById('sideMenu');
-    const toggleSidebar = document.getElementById('toggleSidebar');
-    const mobileMenuToggle = document.getElementById('mobileMenuToggle');
-    const settingsButton = document.getElementById('settingsButton');
-    const logoutButton = document.getElementById('logoutButton');
-    const settingsModal = document.getElementById('settingsModal');
-    const closeSettings = document.getElementById('closeSettings');
-    
-    // Estado do menu
-    let isCollapsed = localStorage.getItem('sidebarCollapsed') === 'true';
-    let isMobile = window.innerWidth < 768;
-    
-    // Inicialização
-    initMenu();
-    setupEventListeners();
-    highlightCurrentMenuItem();
-    
-    // Verifica o modo escuro do sistema
-    if (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {
-        document.body.classList.add('dark');
-    }
-    
-    // Atualiza quando a janela é redimensionada
-    window.addEventListener('resize', function() {
-        const newIsMobile = window.innerWidth < 768;
-        if (newIsMobile !== isMobile) {
-            isMobile = newIsMobile;
-            updateMenuState();
-        }
-    });
-    
-    function initMenu() {
-        // Verifica estado salvo
-        if (isCollapsed) {
-            sideMenu.classList.add('w-16');
-            sideMenu.classList.remove('w-64');
-            const icon = toggleSidebar.querySelector('i');
-            icon.classList.replace('fa-chevron-left', 'fa-bars');
-            
-            // Esconde textos dos itens quando colapsado
-            document.querySelectorAll('.menu-item span').forEach(span => {
-                span.classList.add('hidden');
-            });
-        }
-        
-        // Atualiza estado inicial
-        updateMenuState();
-    }
-    
-    function updateMenuState() {
-        if (isMobile) {
-            sideMenu.classList.add('-translate-x-full');
-        } else {
-            sideMenu.classList.remove('-translate-x-full');
-        }
-    }
-    
-    function setupEventListeners() {
-        // Toggle sidebar em desktop
-        toggleSidebar.addEventListener('click', function() {
-            isCollapsed = !isCollapsed;
-            sideMenu.classList.toggle('w-16');
-            sideMenu.classList.toggle('w-64');
-            
-            // Alterna ícone
-            const icon = this.querySelector('i');
-            if (isCollapsed) {
-                icon.classList.replace('fa-chevron-left', 'fa-bars');
-            } else {
-                icon.classList.replace('fa-bars', 'fa-chevron-left');
-            }
-            
-            // Mostra/esconde textos dos itens
-            document.querySelectorAll('.menu-item span').forEach(span => {
-                span.classList.toggle('hidden');
-            });
-            
-            // Salva estado no localStorage
-            localStorage.setItem('sidebarCollapsed', isCollapsed);
-        });
-        
-        // Toggle sidebar em mobile
-        mobileMenuToggle.addEventListener('click', function() {
-            sideMenu.classList.toggle('-translate-x-full');
-        });
-        
-        // Configurações
-        settingsButton.addEventListener('click', function() {
-            settingsModal.classList.remove('hidden');
-            settingsModal.classList.add('flex');
-        });
-        
-        closeSettings.addEventListener('click', function() {
-            settingsModal.classList.add('hidden');
-            settingsModal.classList.remove('flex');
-        });
-        
-        // Logout
-        logoutButton.addEventListener('click', function() {
-            if (confirm('Tem certeza que deseja sair?')) {
-                window.location.href = '/';
-            }
-        });
-        
-        // Fecha menu ao clicar em um item (mobile)
-        const menuItems = sideMenu.querySelectorAll('.menu-item');
-        menuItems.forEach(item => {
-            item.addEventListener('click', function() {
-                if (isMobile) {
-                    sideMenu.classList.add('-translate-x-full');
-                }
-                
-                // Atualiza item ativo
-                menuItems.forEach(i => i.classList.remove('active'));
-                this.classList.add('active');
-            });
-        });
-    }
-    
-    function highlightCurrentMenuItem() {
-        const path = window.location.pathname;
-        const menuItems = sideMenu.querySelectorAll('.menu-item');
-        
-        menuItems.forEach(item => {
-            const href = item.getAttribute('href');
-            if (href && path.startsWith(href)) {
-                item.classList.add('active');
-            } else {
-                item.classList.remove('active');
+        elementosErro.forEach(id => {
+            const elemento = document.getElementById(id);
+            if (elemento) {
+                elemento.textContent = id.includes("nome") ? "Empresa (não encontrada)" : "Dados não disponíveis";
+                elemento.classList.add(id.includes("nome") ? "erro-texto" : "erro-dados");
             }
         });
     }
+
+    // Inicia o carregamento dos dados
+    carregarDados();
 });
-
-
-document.addEventListener("DOMContentLoaded", function () {
-  const empresaId = 2; // ID fixo da empresa
-
-  fetch(`http://localhost:8080/empresa-em-gestao/${empresaId}`)
-    .then(response => {
-      if (!response.ok) throw new Error("Erro ao buscar empresa");
-      return response.json();
-    })
-    .then(data => {
-      // Lucro Líquido
-      const lucroLiquido = data.dreMaisRecente?.lucroLiquido || 0;
-      const lucroFormatado = lucroLiquido.toLocaleString('pt-BR', {
-        style: 'currency',
-        currency: 'BRL'
-      });
-      document.getElementById("lucro-liquido").textContent = lucroFormatado;
-
-      // Receita
-      const receitaLiquida = data.dreMaisRecente?.receitaLiquida || 0;
-      document.getElementById("receita").textContent = receitaLiquida.toLocaleString('pt-BR', {
-        style: 'currency',
-        currency: 'BRL'
-      });
-
-      // Unidades Vendidas
-      const unidadesVendidas = data.dreMaisRecente?.quantidadeDeVendas || 0;
-      document.getElementById("unidades-vendidas").textContent = unidadesVendidas.toLocaleString('pt-BR');
-
-      const lucroBruto = data.dreMaisRecente?.lucroBruto || 0;
-        const el = document.getElementById("lucro-bruto");
-        if (el) el.textContent = lucroBruto.toLocaleString('pt-BR', {
-        style: 'currency',
-        currency: 'BRL'
-        });
-
-    })
-    .catch(error => {
-      console.error("Erro ao buscar dados da empresa:", error);
-      document.getElementById("lucro-liquido").textContent = "Erro ao carregar";
-      document.getElementById("receita").textContent = "Erro";
-      document.getElementById("unidades-vendidas").textContent = "Erro";
-      document.getElementById("lucro-bruto").textContent = "Erro";
-    });
-});
-
-document.addEventListener("DOMContentLoaded", function () {
-  const empresaId = 2;
-
-  // Atualiza a data atual
-  document.getElementById('currentDate').textContent = new Date().toLocaleDateString('pt-BR', {
-    weekday: 'long', year: 'numeric', month: 'long', day: 'numeric'
-  });
-
-  // Busca o nome da empresa
- fetch(`http://localhost:8080/empresa-em-gestao/${empresaId}`)
-  .then(response => {
-    if (!response.ok) throw new Error("Erro ao buscar empresa");
-    return response.json();
-  })
-  .then(data => {
-    const nome = data.nomeEmpresa || "Empresa";
-    document.getElementById("nomeEmpresa").textContent = nome;
-  })
-  .catch(error => {
-    console.error("Erro ao buscar nome da empresa:", error);
-  });
-});
-
-
 
 
 </script>
